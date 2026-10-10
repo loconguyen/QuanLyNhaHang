@@ -1,8 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <ItemGroup>
-        <Compile Update="Form1.cs">
-            <SubType>Form</SubType>
-        </Compile>
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Controls\Admin\ucTaiKhoan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Bep\ucCheBien.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Bep\ucNguyenLieu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Bep\ucThucDon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Bep\ucTongQuan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\PhucVu\ucMonChoPhucVu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\PhucVu\ucQuanLyBan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\PhucVu\ucTaoDon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\ThuNgan\ucHoaDon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\ThuNgan\ucThanhToan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DangNhap\DangNhapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Main\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>
