@@ -2,6 +2,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using QLNhaHang.Controls;
+using QLNhaHang.Controls.Admin;
 
 namespace QLNhaHang.Forms.Main
 {
@@ -56,7 +58,6 @@ namespace QLNhaHang.Forms.Main
         {
             string r = Session.Role;
             bool admin = r == "ADMIN";
-
             btnTongQuan.Visible =
                 btnCheBien.Visible =
                 btnThucDon.Visible =
@@ -92,6 +93,7 @@ namespace QLNhaHang.Forms.Main
             }
 
             btnActive = btn;
+            //giao dien
             btnActive.BackColor = Color.FromArgb(220, 230, 245);
 
             lblScreen.Text = title;
@@ -122,7 +124,7 @@ namespace QLNhaHang.Forms.Main
         }
 
         // ===== CÁC NÚT MENU =====
-        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "Tổng quan"); }
+        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "Tổng quan"); FrmAdmin frm = new FrmAdmin(); frm.Show(); }
         private void btnCheBien_Click(object sender, EventArgs e) { Open(btnCheBien, "Chế biến"); }
         private void btnThucDon_Click(object sender, EventArgs e) { Open(btnThucDon, "Thực đơn"); }
         private void btnNguyenLieu_Click(object sender, EventArgs e) { Open(btnNguyenLieu, "Nguyên liệu"); }

@@ -9,7 +9,7 @@ namespace QLNhaHang.Classes
 {
     internal class DataProcesser
     {
-        string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =ln;Integrated Security =True;TrustServercertificate=True";
+        string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
         SqlConnection sqlConnect = null;
         // mo ket noi
         private void KetNoiCSDL()

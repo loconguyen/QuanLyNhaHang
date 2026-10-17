@@ -12,85 +12,191 @@
 
         private void InitializeComponent()
         {
-            this.pnlHeader = new System.Windows.Forms.Panel();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.pnlFooter = new System.Windows.Forms.Panel();
-            this.lblFooter = new System.Windows.Forms.Label();
-            this.pnlContent = new System.Windows.Forms.Panel();
-            this.pnlHeader.SuspendLayout();
-            this.pnlFooter.SuspendLayout();
-            this.SuspendLayout();
-            //
-            // pnlHeader
-            //
-            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
-            this.pnlHeader.Controls.Add(this.lblTitle);
-            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHeader.Location = new System.Drawing.Point(0, 0);
-            this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1280, 60);
-            this.pnlHeader.TabIndex = 0;
-            //
-            // lblTitle
-            //
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(15, 16);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Text = "Restaurant Management";
-            //
-            // pnlFooter
-            //
-            this.pnlFooter.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
-            this.pnlFooter.Controls.Add(this.lblFooter);
-            this.pnlFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlFooter.Location = new System.Drawing.Point(0, 690);
-            this.pnlFooter.Name = "pnlFooter";
-            this.pnlFooter.Size = new System.Drawing.Size(1280, 30);
-            this.pnlFooter.TabIndex = 1;
-            //
-            // lblFooter
-            //
-            this.lblFooter.AutoSize = true;
-            this.lblFooter.ForeColor = System.Drawing.Color.LightGray;
-            this.lblFooter.Location = new System.Drawing.Point(15, 6);
-            this.lblFooter.Name = "lblFooter";
-            this.lblFooter.Text = "© 2026 Restaurant Management";
-            //
-            // pnlContent (vùng trống giữa, để vẽ khung đăng nhập sau)
-            //
-            this.pnlContent.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlContent.Location = new System.Drawing.Point(0, 60);
-            this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(1280, 630);
-            this.pnlContent.TabIndex = 2;
-            //
-            // LoginForm (thứ tự add: Fill -> Bottom -> Top)
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1280, 720);
-            this.Controls.Add(this.pnlContent);
-            this.Controls.Add(this.pnlFooter);
-            this.Controls.Add(this.pnlHeader);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "LoginForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Đăng nhập - Restaurant Management";
-            this.pnlHeader.ResumeLayout(false);
-            this.pnlHeader.PerformLayout();
-            this.pnlFooter.ResumeLayout(false);
-            this.pnlFooter.PerformLayout();
-            this.ResumeLayout(false);
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            cbRole = new ComboBox();
+            btnDangNhap = new Button();
+            linkMatKhau = new LinkLabel();
+            linkDK = new LinkLabel();
+            txtDangNhap = new TextBox();
+            txtMaNhanVien = new TextBox();
+            txtMatKhau = new TextBox();
+            heading = new Label();
+            pnlDangNhap = new Panel();
+            pnlDangNhap.SuspendLayout();
+            SuspendLayout();
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(73, 203);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(206, 38);
+            label1.TabIndex = 0;
+            label1.Text = "Tên đăng nhập:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(73, 286);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(191, 38);
+            label2.TabIndex = 1;
+            label2.Text = "Mã nhân viên:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(73, 369);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(139, 38);
+            label3.TabIndex = 2;
+            label3.Text = "Mật khẩu:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(73, 452);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(234, 38);
+            label4.TabIndex = 3;
+            label4.Text = "Bộ phận làm việc:";
+            // 
+            // cbRole
+            // 
+            cbRole.FormattingEnabled = true;
+            cbRole.Items.AddRange(new object[] { "Quản lý", "Bếp", "Kho ", "Thu ngân" });
+            cbRole.Location = new Point(340, 452);
+            cbRole.Margin = new Padding(4, 5, 4, 5);
+            cbRole.Name = "cbRole";
+            cbRole.Size = new Size(448, 46);
+            cbRole.TabIndex = 7;
+            // 
+            // btnDangNhap
+            // 
+            btnDangNhap.Location = new Point(188, 575);
+            btnDangNhap.Margin = new Padding(4, 5, 4, 5);
+            btnDangNhap.Name = "btnDangNhap";
+            btnDangNhap.Size = new Size(450, 85);
+            btnDangNhap.TabIndex = 8;
+            btnDangNhap.Text = "Đăng nhập";
+            btnDangNhap.UseVisualStyleBackColor = true;
+            btnDangNhap.Click += btnDangNhap_Click;
+            // 
+            // linkMatKhau
+            // 
+            linkMatKhau.AutoSize = true;
+            linkMatKhau.Location = new Point(482, 715);
+            linkMatKhau.Margin = new Padding(4, 0, 4, 0);
+            linkMatKhau.Name = "linkMatKhau";
+            linkMatKhau.Size = new Size(278, 38);
+            linkMatKhau.TabIndex = 10;
+            linkMatKhau.TabStop = true;
+            linkMatKhau.Text = "Bạn quên mật khẩu ?";
+            // 
+            // linkDK
+            // 
+            linkDK.AutoSize = true;
+            linkDK.Location = new Point(73, 715);
+            linkDK.Margin = new Padding(4, 0, 4, 0);
+            linkDK.Name = "linkDK";
+            linkDK.Size = new Size(241, 38);
+            linkDK.TabIndex = 11;
+            linkDK.TabStop = true;
+            linkDK.Text = "Đăng ký tài khoản";
+            // 
+            // txtDangNhap
+            // 
+            txtDangNhap.Location = new Point(340, 203);
+            txtDangNhap.Margin = new Padding(4, 5, 4, 5);
+            txtDangNhap.Name = "txtDangNhap";
+            txtDangNhap.Size = new Size(448, 45);
+            txtDangNhap.TabIndex = 13;
+            // 
+            // txtMaNhanVien
+            // 
+            txtMaNhanVien.Location = new Point(340, 286);
+            txtMaNhanVien.Margin = new Padding(4, 5, 4, 5);
+            txtMaNhanVien.Name = "txtMaNhanVien";
+            txtMaNhanVien.Size = new Size(448, 45);
+            txtMaNhanVien.TabIndex = 14;
+            // 
+            // txtMatKhau
+            // 
+            txtMatKhau.Location = new Point(340, 369);
+            txtMatKhau.Margin = new Padding(4, 5, 4, 5);
+            txtMatKhau.Name = "txtMatKhau";
+            txtMatKhau.Size = new Size(448, 45);
+            txtMatKhau.TabIndex = 15;
+            // 
+            // heading
+            // 
+            heading.AutoSize = true;
+            heading.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            heading.Location = new Point(130, 41);
+            heading.Margin = new Padding(4, 0, 4, 0);
+            heading.Name = "heading";
+            heading.Size = new Size(630, 70);
+            heading.TabIndex = 16;
+            heading.Text = "ĐĂNG NHẬP HỆ THỐNG";
+            heading.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // pnlDangNhap
+            // 
+            pnlDangNhap.Controls.Add(linkMatKhau);
+            pnlDangNhap.Controls.Add(linkDK);
+            pnlDangNhap.Controls.Add(heading);
+            pnlDangNhap.Controls.Add(txtMatKhau);
+            pnlDangNhap.Controls.Add(btnDangNhap);
+            pnlDangNhap.Controls.Add(txtMaNhanVien);
+            pnlDangNhap.Controls.Add(txtDangNhap);
+            pnlDangNhap.Controls.Add(cbRole);
+            pnlDangNhap.Controls.Add(label4);
+            pnlDangNhap.Controls.Add(label3);
+            pnlDangNhap.Controls.Add(label2);
+            pnlDangNhap.Controls.Add(label1);
+            pnlDangNhap.Location = new Point(229, 90);
+            pnlDangNhap.Name = "pnlDangNhap";
+            pnlDangNhap.Size = new Size(852, 848);
+            pnlDangNhap.TabIndex = 17;
+            // 
+            // DangNhapForm
+            // 
+            AutoScaleDimensions = new SizeF(15F, 38F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1303, 968);
+            Controls.Add(pnlDangNhap);
+            Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(6, 8, 6, 8);
+            MaximizeBox = false;
+            Name = "DangNhapForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Đăng nhập ";
+            pnlDangNhap.ResumeLayout(false);
+            pnlDangNhap.PerformLayout();
+            ResumeLayout(false);
         }
 
-        private System.Windows.Forms.Panel pnlHeader;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Panel pnlFooter;
-        private System.Windows.Forms.Label lblFooter;
-        private System.Windows.Forms.Panel pnlContent;
+        private Label label1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private ComboBox cbRole;
+        private Button btnDangNhap;
+        private LinkLabel linkMatKhau;
+        private LinkLabel linkDK;
+        private TextBox txtDangNhap;
+        private TextBox txtMaNhanVien;
+        private TextBox txtMatKhau;
+        private Label heading;
+        private Panel pnlDangNhap;
     }
 }

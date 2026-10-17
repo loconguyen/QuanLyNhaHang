@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\QuanLyNhaHang\\QLNhaHang\\QLNhaHang.csproj": {}
+    "C:\\LapTrinhTrucQuan\\QuanLyNhaHang\\QLNhaHang\\QLNhaHang.csproj": {}
   },
   "projects": {
-    "D:\\QuanLyNhaHang\\QLNhaHang\\QLNhaHang.csproj": {
+    "C:\\LapTrinhTrucQuan\\QuanLyNhaHang\\QLNhaHang\\QLNhaHang.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\QuanLyNhaHang\\QLNhaHang\\QLNhaHang.csproj",
+        "projectUniqueName": "C:\\LapTrinhTrucQuan\\QuanLyNhaHang\\QLNhaHang\\QLNhaHang.csproj",
         "projectName": "QLNhaHang",
-        "projectPath": "D:\\QuanLyNhaHang\\QLNhaHang\\QLNhaHang.csproj",
-        "packagesPath": "C:\\Users\\AAA\\.nuget\\packages\\",
-        "outputPath": "D:\\QuanLyNhaHang\\QLNhaHang\\obj\\",
+        "projectPath": "C:\\LapTrinhTrucQuan\\QuanLyNhaHang\\QLNhaHang\\QLNhaHang.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "C:\\LapTrinhTrucQuan\\QuanLyNhaHang\\QLNhaHang\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\AAA\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -80,7 +80,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
