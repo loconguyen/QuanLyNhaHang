@@ -137,13 +137,13 @@
             lblGiamGIa.AutoSize = true;
             lblGiamGIa.Location = new Point(230, 307);
             lblGiamGIa.Name = "lblGiamGIa";
-            lblGiamGIa.Size = new Size(75, 15);
+            lblGiamGIa.Size = new Size(57, 15);
             lblGiamGIa.TabIndex = 9;
-            lblGiamGIa.Text = "Giảm giá(%):";
+            lblGiamGIa.Text = "Giảm giá:";
             // 
             // txtGiamGia
             // 
-            txtGiamGia.Location = new Point(311, 304);
+            txtGiamGia.Location = new Point(293, 304);
             txtGiamGia.Name = "txtGiamGia";
             txtGiamGia.Size = new Size(100, 23);
             txtGiamGia.TabIndex = 10;
