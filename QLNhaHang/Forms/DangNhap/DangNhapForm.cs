@@ -103,16 +103,9 @@ namespace QLNhaHang.Forms.DangNhap
 
                     Session.HoTen = account["HoTen"].ToString()!;
 
-                    Session.Role = role switch
-                    {
-                        "ADMIN" => "ADMIN",
-                        "BEP" => "BEP",
-                        "PHUCVU" => "PHUC_VU",
-                        "THUNGAN" => "THU_NGAN",
-                        _ => role
-                    };
+                Session.Role = role;
 
-                    MessageBox.Show("Đăng nhập thành công!");
+                MessageBox.Show("Đăng nhập thành công!");
 
                     DialogResult = DialogResult.OK;
                     Close();
