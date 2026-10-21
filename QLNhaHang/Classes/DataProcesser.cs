@@ -7,9 +7,9 @@ using Microsoft.Data.SqlClient;
 
 namespace QLNhaHang.Classes
 {
-    internal class DataProcesser
+    public class DataProcesser
     {
-        string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
+        public static readonly string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
         SqlConnection sqlConnect = null;
         // mo ket noi
         private void KetNoiCSDL()
