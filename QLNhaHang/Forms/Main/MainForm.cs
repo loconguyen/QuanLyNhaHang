@@ -1,15 +1,15 @@
 ﻿using QLNhaHang.Classes;
+using QLNhaHang.Controls.PhucVu;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
-using QLNhaHang.Controls;
-using QLNhaHang.Controls.Admin;
 
 namespace QLNhaHang.Forms.Main
 {
     public partial class MainForm : Form
     {
-        private Button btnActive;
+        private Button? btnActive;
 
         // true khi người dùng bấm Đăng xuất (Program.cs đọc để mở lại LoginForm)
         public bool DangXuat { get; private set; }
@@ -20,19 +20,18 @@ namespace QLNhaHang.Forms.Main
         }
 
         // ===== KHỞI ĐỘNG: Session đã được LoginForm gán sẵn =====
-        private void MainForm_Load(object sender, EventArgs e)
+        private void MainForm_Load(object? sender, EventArgs e)
         {
             lblUser.Text = Session.HoTen + " - " + Session.Role;
 
             ApplyRole();   // ẩn các menu không thuộc quyền
 
-            // Mở màn hình đầu tiên mà role được phép
+            // Mở màn hình đầu tiên mà role được phép (theo thứ tự trên sidebar)
             Button[] thuTu =
             {
-                btnTongQuan,
-                btnQuanLyBan,
-                btnHoaDon,
-                btnTaiKhoan
+                btnTongQuan, btnCheBien, btnThucDon, btnNguyenLieu,
+                btnQuanLyBan, btnTaoDon, btnMonChoPhucVu,
+                btnHoaDon, btnThanhToan, btnTaiKhoan
             };
 
             foreach (Button b in thuTu)
@@ -46,7 +45,7 @@ namespace QLNhaHang.Forms.Main
         }
 
         // ===== ĐĂNG XUẤT =====
-        private void btnDangXuat_Click(object sender, EventArgs e)
+        private void btnDangXuat_Click(object? sender, EventArgs e)
         {
             DangXuat = true;
             Session.Clear();
@@ -54,10 +53,12 @@ namespace QLNhaHang.Forms.Main
         }
 
         // ===== PHÂN QUYỀN MENU =====
+        // Tên role phải khớp cột TenVaiTro trong bảng VAI_TRO: ADMIN, BEP, KHO, PHUCVU, THUNGAN
         private void ApplyRole()
         {
-            string r = Session.Role;
+            string r = Session.Role ?? "";
             bool admin = r == "ADMIN";
+
             btnTongQuan.Visible =
                 btnCheBien.Visible =
                 btnThucDon.Visible =
@@ -67,11 +68,11 @@ namespace QLNhaHang.Forms.Main
             btnQuanLyBan.Visible =
                 btnTaoDon.Visible =
                 btnMonChoPhucVu.Visible =
-                (r == "PHUC_VU" || admin);
+                (r == "PHUCVU" || admin);
 
             btnHoaDon.Visible =
                 btnThanhToan.Visible =
-                (r == "THU_NGAN" || admin);
+                (r == "THUNGAN" || admin);
 
             btnTaiKhoan.Visible = admin;
         }
@@ -79,13 +80,19 @@ namespace QLNhaHang.Forms.Main
         // ===== HIỂN THỊ NỘI DUNG =====
         private void SetContent(UserControl uc)
         {
-            pnlContent.Controls.Clear();
+            // Giải phóng màn cũ (dừng timer, đóng kết nối...) trước khi hiện màn mới
+            foreach (Control c in pnlContent.Controls.Cast<Control>().ToList())
+            {
+                pnlContent.Controls.Remove(c);
+                c.Dispose();
+            }
+
             uc.Dock = DockStyle.Fill;
             pnlContent.Controls.Add(uc);
         }
 
         // ===== MỞ MÀN HÌNH =====
-        private void Open(Button btn, string title, UserControl uc = null)
+        private void Open(Button btn, string title, UserControl? uc = null)
         {
             if (btnActive != null)
             {
@@ -93,20 +100,16 @@ namespace QLNhaHang.Forms.Main
             }
 
             btnActive = btn;
-            //giao dien
             btnActive.BackColor = Color.FromArgb(220, 230, 245);
 
             lblScreen.Text = title;
 
-            if (uc == null)
-            {
-                uc = Placeholder(title);
-            }
+            uc ??= Placeholder(title);
 
             SetContent(uc);
         }
 
-        // ===== GIAO DIỆN TẠM THỜI =====
+        // ===== GIAO DIỆN TẠM THỜI (cho các màn chưa làm) =====
         private UserControl Placeholder(string text)
         {
             UserControl uc = new UserControl();
@@ -123,16 +126,40 @@ namespace QLNhaHang.Forms.Main
             return uc;
         }
 
+        // ===== QUẢN LÝ BÀN -> TẠO ĐƠN =====
+        // ucQuanLyBan báo (banId, donId) khi bấm bàn Trống / "Thêm món" -> mở thẳng đơn đó ở màn Tạo đơn
+        private void MoTaoDon(int banId, int donId)
+        {
+            // Hoãn lại sau khi sự kiện Click của ucQuanLyBan chạy xong, vì màn Quản lý bàn sắp bị giải phóng
+            BeginInvoke(new Action(() =>
+                Open(btnTaoDon, "Tạo đơn", new ucTaoDon(banId, donId))));
+        }
+
         // ===== CÁC NÚT MENU =====
-        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "Tổng quan"); FrmAdmin frm = new FrmAdmin(); frm.Show(); }
-        private void btnCheBien_Click(object sender, EventArgs e) { Open(btnCheBien, "Chế biến"); }
-        private void btnThucDon_Click(object sender, EventArgs e) { Open(btnThucDon, "Thực đơn"); }
-        private void btnNguyenLieu_Click(object sender, EventArgs e) { Open(btnNguyenLieu, "Nguyên liệu"); }
-        private void btnQuanLyBan_Click(object sender, EventArgs e) { Open(btnQuanLyBan, "Quản lý bàn"); }
-        private void btnTaoDon_Click(object sender, EventArgs e) { Open(btnTaoDon, "Tạo đơn"); }
-        private void btnMonChoPhucVu_Click(object sender, EventArgs e) { Open(btnMonChoPhucVu, "Món chờ phục vụ"); }
-        private void btnHoaDon_Click(object sender, EventArgs e) { Open(btnHoaDon, "Hóa đơn"); }
-        private void btnThanhToan_Click(object sender, EventArgs e) { Open(btnThanhToan, "Thanh toán"); }
-        private void btnTaiKhoan_Click(object sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản"); }
+        private void btnTongQuan_Click(object? sender, EventArgs e) { Open(btnTongQuan, "Tổng quan"); }
+        private void btnCheBien_Click(object? sender, EventArgs e) { Open(btnCheBien, "Chế biến"); }
+        private void btnThucDon_Click(object? sender, EventArgs e) { Open(btnThucDon, "Thực đơn"); }
+        private void btnNguyenLieu_Click(object? sender, EventArgs e) { Open(btnNguyenLieu, "Nguyên liệu"); }
+
+        private void btnQuanLyBan_Click(object? sender, EventArgs e)
+        {
+            var uc = new ucQuanLyBan();
+            uc.MoDon += MoTaoDon;
+            Open(btnQuanLyBan, "Quản lý bàn", uc);
+        }
+
+        private void btnTaoDon_Click(object? sender, EventArgs e)
+        {
+            Open(btnTaoDon, "Tạo đơn", new ucTaoDon());
+        }
+
+        private void btnMonChoPhucVu_Click(object? sender, EventArgs e)
+        {
+            Open(btnMonChoPhucVu, "Món chờ phục vụ", new ucMonChoPhucVu());
+        }
+
+        private void btnHoaDon_Click(object? sender, EventArgs e) { Open(btnHoaDon, "Hóa đơn"); }
+        private void btnThanhToan_Click(object? sender, EventArgs e) { Open(btnThanhToan, "Thanh toán"); }
+        private void btnTaiKhoan_Click(object? sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản"); }
     }
 }
