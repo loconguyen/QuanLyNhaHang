@@ -63,22 +63,21 @@ namespace QLNhaHang.Controls.PhucVu
                 using var cmd = new SqlCommand(@"
                     SELECT BanID, SoBan, SucChua, TrangThai, ISNULL(ViTri, N'Chưa phân khu') AS ViTri,
                            CASE
-                                WHEN EXISTS (SELECT 1 FROM DON_HANG d
-                                             WHERE d.BanID = BAN_AN.BanID
-                                               AND d.TrangThaiDon = N'Đang xử lý'
-                                               AND d.YeuCauThanhToan = 1) THEN N'Chờ thanh toán'
-                                WHEN TrangThai = N'Đang phục vụ'
-                                     AND NOT EXISTS (SELECT 1 FROM DON_HANG d
-                                                     WHERE d.BanID = BAN_AN.BanID
-                                                       AND d.TrangThaiDon = N'Đang xử lý') THEN N'Đã thanh toán'
-                                ELSE N''
+                               WHEN EXISTS (SELECT 1 FROM DON_HANG d
+                                            WHERE d.BanID = BAN_AN.BanID
+                                              AND d.TrangThaiDon = N'Đang xử lý'
+                                              AND d.YeuCauThanhToan = 1) THEN N'Chờ thanh toán'
+                               WHEN TrangThai = N'Đang phục vụ'
+                                    AND NOT EXISTS (SELECT 1 FROM DON_HANG d
+                                                    WHERE d.BanID = BAN_AN.BanID
+                                                      AND d.TrangThaiDon = N'Đang xử lý') THEN N'Đã thanh toán'
+                               ELSE N''
                            END AS GhiChuBan
                     FROM BAN_AN
                     WHERE (@tt = N'Tất cả' OR TrangThai = @tt)
                     ORDER BY CASE WHEN ViTri LIKE N'Tầng%' THEN 0 ELSE 1 END, ViTri, SoBan", conn);
                 cmd.Parameters.AddWithValue("@tt", loc);
                 conn.Open();
-
                 using var rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
@@ -140,7 +139,6 @@ namespace QLNhaHang.Controls.PhucVu
                     };
                     btn.FlatAppearance.BorderSize = 0;
                     btn.Click += BtnBan_Click;
-
                     flpBan.Controls.Add(btn);
                     banCuoi = btn;
                 }
@@ -242,7 +240,6 @@ namespace QLNhaHang.Controls.PhucVu
             using var conn = new SqlConnection(ConnStr);
             conn.Open();
             using var tran = conn.BeginTransaction();
-
             try
             {
                 // 1. Bàn đã có đơn đang xử lý chưa?
@@ -300,7 +297,6 @@ namespace QLNhaHang.Controls.PhucVu
                 ORDER BY CASE WHEN TrangThaiDon = N'Đang xử lý' THEN 0 ELSE 1 END, ThoiGianTao DESC", conn);
             cmd.Parameters.AddWithValue("@b", banId);
             conn.Open();
-
             using var rd = cmd.ExecuteReader();
             if (!rd.Read()) return null;
             return (Convert.ToInt32(rd["DonHangID"]), rd["TrangThaiDon"].ToString() ?? "");
@@ -359,6 +355,7 @@ namespace QLNhaHang.Controls.PhucVu
                     MessageBox.Show("Không tìm thấy đơn của bàn này.");
                     return;
                 }
+
                 int? donId = don.Value.Id;
                 bool donDaThanhToan = don.Value.TrangThai == "Hoàn thành";
 
@@ -423,6 +420,7 @@ namespace QLNhaHang.Controls.PhucVu
                     Location = new Point(15, 12)
                 };
 
+                // Tạo grid, KHÔNG gán DataSource ở đây
                 var grid = new DataGridView
                 {
                     Location = new Point(15, 60),
@@ -435,17 +433,51 @@ namespace QLNhaHang.Controls.PhucVu
                     AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                     BackgroundColor = Color.White,
                     BorderStyle = BorderStyle.FixedSingle,
-                    DataSource = dt
+                    AutoGenerateColumns = false          // tự tạo cột bên dưới
                 };
-                grid.Columns["TenMon"]!.HeaderText = "Món";
-                grid.Columns["SoLuong"]!.HeaderText = "SL";
-                grid.Columns["SoLuong"]!.FillWeight = 30;
-                grid.Columns["DonGia"]!.HeaderText = "Đơn giá";
-                grid.Columns["DonGia"]!.DefaultCellStyle.Format = "N0";
-                grid.Columns["ThanhTien"]!.HeaderText = "Thành tiền";
-                grid.Columns["ThanhTien"]!.DefaultCellStyle.Format = "N0";
-                grid.Columns["TrangThaiMon"]!.HeaderText = "Trạng thái";
-                grid.Columns["GhiChu"]!.HeaderText = "Ghi chú";
+
+                // Tạo cột thủ công: luôn tồn tại dù đơn chưa có món nào
+                grid.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "TenMon",
+                    DataPropertyName = "TenMon",
+                    HeaderText = "Món"
+                });
+                grid.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "SoLuong",
+                    DataPropertyName = "SoLuong",
+                    HeaderText = "SL",
+                    FillWeight = 30
+                });
+                grid.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "DonGia",
+                    DataPropertyName = "DonGia",
+                    HeaderText = "Đơn giá",
+                    DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
+                });
+                grid.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "ThanhTien",
+                    DataPropertyName = "ThanhTien",
+                    HeaderText = "Thành tiền",
+                    DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
+                });
+                grid.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "TrangThaiMon",
+                    DataPropertyName = "TrangThaiMon",
+                    HeaderText = "Trạng thái"
+                });
+                grid.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "GhiChu",
+                    DataPropertyName = "GhiChu",
+                    HeaderText = "Ghi chú"
+                });
+
+                grid.DataSource = dt;   // gán sau khi đã có cột
 
                 var lblTong = new Label
                 {
@@ -472,6 +504,7 @@ namespace QLNhaHang.Controls.PhucVu
                 };
 
                 f.Controls.AddRange(new Control[] { lblInfo, grid, lblTong, nutDong });
+
                 if (laPhucVu)
                 {
                     if (!donDaThanhToan)
@@ -483,8 +516,8 @@ namespace QLNhaHang.Controls.PhucVu
                     }
                     f.Controls.Add(TaoNut("Xác nhận dọn bàn", 400, "donban", 150));
                 }
-                f.CancelButton = nutDong;
 
+                f.CancelButton = nutDong;
                 f.ShowDialog();
 
                 switch (hanhDong)
@@ -572,7 +605,6 @@ namespace QLNhaHang.Controls.PhucVu
         void ChuyenBanDialog(BanInfo banCu)
         {
             var trong = new List<BanInfo>();
-
             try
             {
                 using var conn = new SqlConnection(ConnStr);
@@ -583,7 +615,6 @@ namespace QLNhaHang.Controls.PhucVu
                     ORDER BY SoBan", conn);
                 cmd.Parameters.AddWithValue("@sc", banCu.SucChua);
                 conn.Open();
-
                 using var rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
@@ -617,6 +648,7 @@ namespace QLNhaHang.Controls.PhucVu
                 MinimizeBox = false,
                 ClientSize = new Size(320, 120)
             };
+
             var cbo = new ComboBox
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
@@ -628,6 +660,7 @@ namespace QLNhaHang.Controls.PhucVu
 
             var ok = new Button { Text = "Chuyển", DialogResult = DialogResult.OK, Location = new Point(135, 70), Size = new Size(80, 30) };
             var huy = new Button { Text = "Hủy", DialogResult = DialogResult.Cancel, Location = new Point(225, 70), Size = new Size(80, 30) };
+
             f.Controls.AddRange(new Control[] { cbo, ok, huy });
             f.AcceptButton = ok;
             f.CancelButton = huy;
@@ -653,7 +686,6 @@ namespace QLNhaHang.Controls.PhucVu
             using var conn = new SqlConnection(ConnStr);
             conn.Open();
             using var tran = conn.BeginTransaction();
-
             try
             {
                 // 1. Giữ chỗ bàn mới: phải còn Trống và cùng sức chứa với bàn cũ
