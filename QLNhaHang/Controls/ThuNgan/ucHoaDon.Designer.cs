@@ -36,6 +36,11 @@
             btnTaiLai = new Button();
             dgvHoaDon = new DataGridView();
             dgvChiTietHD = new DataGridView();
+            btnThem = new Button();
+            btnSua = new Button();
+            btnXuatExcel = new Button();
+            lblDonHang = new Label();
+            cbDonHang = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvHoaDon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvChiTietHD).BeginInit();
             SuspendLayout();
@@ -62,7 +67,7 @@
             // lblChiTiet
             // 
             lblChiTiet.AutoSize = true;
-            lblChiTiet.Location = new Point(3, 270);
+            lblChiTiet.Location = new Point(3, 301);
             lblChiTiet.Name = "lblChiTiet";
             lblChiTiet.Size = new Size(89, 15);
             lblChiTiet.TabIndex = 2;
@@ -113,7 +118,7 @@
             dgvChiTietHD.AllowUserToAddRows = false;
             dgvChiTietHD.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvChiTietHD.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvChiTietHD.Location = new Point(3, 288);
+            dgvChiTietHD.Location = new Point(3, 319);
             dgvChiTietHD.MultiSelect = false;
             dgvChiTietHD.Name = "dgvChiTietHD";
             dgvChiTietHD.ReadOnly = true;
@@ -121,10 +126,63 @@
             dgvChiTietHD.Size = new Size(939, 150);
             dgvChiTietHD.TabIndex = 7;
             // 
+            // btnThem
+            // 
+            btnThem.Location = new Point(266, 248);
+            btnThem.Name = "btnThem";
+            btnThem.Size = new Size(75, 23);
+            btnThem.TabIndex = 8;
+            btnThem.Text = "Thêm";
+            btnThem.UseVisualStyleBackColor = true;
+            btnThem.Click += btnThem_Click;
+            // 
+            // btnSua
+            // 
+            btnSua.Location = new Point(418, 248);
+            btnSua.Name = "btnSua";
+            btnSua.Size = new Size(75, 23);
+            btnSua.TabIndex = 9;
+            btnSua.Text = "Sửa";
+            btnSua.UseVisualStyleBackColor = true;
+            btnSua.Click += btnSua_Click;
+            // 
+            // btnXuatExcel
+            // 
+            btnXuatExcel.Location = new Point(576, 248);
+            btnXuatExcel.Name = "btnXuatExcel";
+            btnXuatExcel.Size = new Size(75, 23);
+            btnXuatExcel.TabIndex = 11;
+            btnXuatExcel.Text = "Xuất Excel";
+            btnXuatExcel.UseVisualStyleBackColor = true;
+            btnXuatExcel.Click += btnXuatExcel_Click;
+            // 
+            // lblDonHang
+            // 
+            lblDonHang.AutoSize = true;
+            lblDonHang.Location = new Point(407, 66);
+            lblDonHang.Name = "lblDonHang";
+            lblDonHang.Size = new Size(59, 15);
+            lblDonHang.TabIndex = 12;
+            lblDonHang.Text = "Đơn hàng";
+            // 
+            // cbDonHang
+            // 
+            cbDonHang.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbDonHang.FormattingEnabled = true;
+            cbDonHang.Location = new Point(472, 63);
+            cbDonHang.Name = "cbDonHang";
+            cbDonHang.Size = new Size(121, 23);
+            cbDonHang.TabIndex = 13;
+            // 
             // ucHoaDon
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(cbDonHang);
+            Controls.Add(lblDonHang);
+            Controls.Add(btnXuatExcel);
+            Controls.Add(btnSua);
+            Controls.Add(btnThem);
             Controls.Add(dgvChiTietHD);
             Controls.Add(dgvHoaDon);
             Controls.Add(btnTaiLai);
@@ -153,5 +211,10 @@
         private Button btnTaiLai;
         private DataGridView dgvHoaDon;
         private DataGridView dgvChiTietHD;
+        private Button btnThem;
+        private Button btnSua;
+        private Button btnXuatExcel;
+        private Label lblDonHang;
+        private ComboBox cbDonHang;
     }
 }
