@@ -220,5 +220,11 @@ INSERT dbo.PHIEU_XUAT (NhanVienKhoID,NgayXuat,LyDo,GhiChu) VALUES
 (3,'2026-10-09T16:30:00',N'Cấp nguyên liệu cho quầy',N'Pha chế');
 INSERT dbo.CHI_TIET_PHIEU_XUAT (PhieuXuatID,NguyenLieuID,SoLuong) VALUES
 (1,1,2),(2,2,5),(3,3,2),(4,4,3),(5,5,4);
+ALTER TABLE dbo.CHI_TIET_DON_HANG DROP CONSTRAINT CK_CTDH_TrangThai;
+ALTER TABLE dbo.CHI_TIET_DON_HANG ADD CONSTRAINT CK_CTDH_TrangThai
+    CHECK (TrangThaiMon IN (N'Chưa gửi bếp', N'Chờ chế biến', N'Đang chế biến',
+                            N'Hoàn thành', N'Đã phục vụ', N'Đã hủy'));
+ALTER TABLE dbo.DON_HANG ADD YeuCauThanhToan BIT NOT NULL DEFAULT 0,
+                             ThoiGianYeuCau DATETIME2(0) NULL;
 
 select * from NHAN_VIEN
