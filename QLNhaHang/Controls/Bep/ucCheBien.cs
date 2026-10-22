@@ -18,9 +18,18 @@ namespace QLNhaHang.Controls.Bep
         private int _soChoTruoc = -1;
         private string _selKey;     // "DonHangID|MonID" của dòng đang chọn
         private bool _dangNap;
+        private static bool CoQuyen
+        {
+            get { return Session.Role == "BEP" || Session.Role == "ADMIN"; }
+        }
         public ucCheBien()
         {
             InitializeComponent();
+            dgvMon.AutoGenerateColumns = false;
+            cboLoc.SelectedIndexChanged -= cboLoc_SelectedIndexChanged;
+            cboLoc.Items.AddRange(new object[] { "Tất cả", "Chờ chế biến", "Đang chế biến", "Đã hoàn thành" });
+            cboLoc.SelectedIndex = 0;
+            cboLoc.SelectedIndexChanged += cboLoc_SelectedIndexChanged;
         }
 
         private bool DangThietKe
@@ -30,18 +39,11 @@ namespace QLNhaHang.Controls.Bep
 
         private void ucCheBien_Load(object sender, EventArgs e)
         {
-            if (DangThietKe || !_daLoad)
+            if (DangThietKe)
                 return;
-            if (Visible)
-            {
-                LamMoiMon(false);
-                timer1.Start();
-            }
-            else
-            {
-                timer1.Stop();
-            }
-
+            _daLoad = true;
+            LamMoiMon(false);
+            timer1.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -99,9 +101,9 @@ namespace QLNhaHang.Controls.Bep
 
         private void btnLuuGhiChu_Click(object sender, EventArgs e)
         {
+            if (!CoQuyen) { MessageBox.Show("Bạn không có quyền thực hiện thao tác này."); return; }   
             var r = Chon();
-            if (r == null)
-                return;
+            if (r == null) return;
             try
             {
                 bool ok = BepRepository.CapNhatGhiChu(Convert.ToInt32(r["DonHangID"]), Convert.ToInt32(r["MonID"]), txtGhiChu.Text.Trim());
@@ -141,6 +143,7 @@ namespace QLNhaHang.Controls.Bep
 
         private void LamMoiMon(bool baoMonMoi)
         {
+            lblThongBao.ForeColor = Color.DimGray;
             DataTable dt;
             try
             {
@@ -197,16 +200,16 @@ namespace QLNhaHang.Controls.Bep
                 txtGhiChu.Text = r == null ? "" : Convert.ToString(r["GhiChu"]);
             }
             string tt = r == null ? "" : Convert.ToString(r["TrangThaiMon"]);
-            btnBatDau.Enabled = tt == TrangThaiMon.ChoCheBien;
-            btnHoanThanh.Enabled = tt == TrangThaiMon.DangCheBien;
-            btnLuuGhiChu.Enabled = tt == TrangThaiMon.ChoCheBien || tt == TrangThaiMon.DangCheBien;
+            btnBatDau.Enabled = CoQuyen && tt == TrangThaiMon.ChoCheBien;
+            btnHoanThanh.Enabled = CoQuyen && tt == TrangThaiMon.DangCheBien;
+            btnLuuGhiChu.Enabled = CoQuyen && (tt == TrangThaiMon.ChoCheBien || tt == TrangThaiMon.DangCheBien);
         }
 
         private void ChuyenTrangThai(bool batDau)
         {
+            if (!CoQuyen) { MessageBox.Show("Bạn không có quyền thực hiện thao tác này."); return; }   
             var r = Chon();
-            if (r == null)
-                return;
+            if (r == null) return;
             int dh = Convert.ToInt32(r["DonHangID"]);
             int mon = Convert.ToInt32(r["MonID"]);
             try
@@ -216,7 +219,10 @@ namespace QLNhaHang.Controls.Bep
                     MessageBox.Show(batDau ? "Món này không còn ở trạng thái 'Chờ chế biến' (có thể đã được xử lý hoặc bị hủy)."
                         : "Món này không còn ở trạng thái 'Đang chế biến'.",
                         "Không thể cập nhật", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                lblThongBao.Text = (batDau ? "Đã bắt đầu chế biến: " : "Đã hoàn thành: ") + r["TenMon"];
+                else
+                {
+                    lblThongBao.Text = (batDau ? "Đã bắt đầu chế biến: " : "Đã hoàn thành: ") + r["TenMon"];
+                }
             }
             catch (Exception ex)
             {

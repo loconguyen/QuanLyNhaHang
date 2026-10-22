@@ -1,5 +1,6 @@
 ﻿using QLNhaHang.Classes;
 using QLNhaHang.Controls.PhucVu;
+using QLNhaHang.Controls.Bep;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -136,10 +137,22 @@ namespace QLNhaHang.Forms.Main
         }
 
         // ===== CÁC NÚT MENU =====
-        private void btnTongQuan_Click(object? sender, EventArgs e) { Open(btnTongQuan, "Tổng quan"); }
-        private void btnCheBien_Click(object? sender, EventArgs e) { Open(btnCheBien, "Chế biến"); }
-        private void btnThucDon_Click(object? sender, EventArgs e) { Open(btnThucDon, "Thực đơn"); }
-        private void btnNguyenLieu_Click(object? sender, EventArgs e) { Open(btnNguyenLieu, "Nguyên liệu"); }
+        private void btnTongQuan_Click(object? sender, EventArgs e) 
+        { 
+            Open(btnTongQuan, "Tổng quan", new ucTongQuan()); 
+        }
+        private void btnCheBien_Click(object? sender, EventArgs e) 
+        { 
+            Open(btnCheBien, "Chế biến", new ucCheBien()); 
+        }
+        private void btnThucDon_Click(object? sender, EventArgs e) 
+        { 
+            Open(btnThucDon, "Thực đơn", new ucThucDon()); 
+        }
+        private void btnNguyenLieu_Click(object? sender, EventArgs e) 
+        { 
+            Open(btnNguyenLieu, "Nguyên liệu", new ucNguyenLieu()); 
+        }
 
         private void btnQuanLyBan_Click(object? sender, EventArgs e)
         {
