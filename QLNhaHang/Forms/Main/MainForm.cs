@@ -9,7 +9,7 @@ namespace QLNhaHang.Forms.Main
 {
     public partial class MainForm : Form
     {
-        private Button btnActive;
+        private Button? btnActive;
 
         // true khi người dùng bấm Đăng xuất (Program.cs đọc để mở lại LoginForm)
         public bool DangXuat { get; private set; }
@@ -79,13 +79,15 @@ namespace QLNhaHang.Forms.Main
         // ===== HIỂN THỊ NỘI DUNG =====
         private void SetContent(UserControl uc)
         {
+            foreach (Control noiDungCu in pnlContent.Controls.Cast<Control>().ToArray())
+                noiDungCu.Dispose();
             pnlContent.Controls.Clear();
             uc.Dock = DockStyle.Fill;
             pnlContent.Controls.Add(uc);
         }
 
         // ===== MỞ MÀN HÌNH =====
-        private void Open(Button btn, string title, UserControl uc = null)
+        private void Open(Button btn, string title, UserControl? uc = null)
         {
             if (btnActive != null)
             {
@@ -124,7 +126,7 @@ namespace QLNhaHang.Forms.Main
         }
 
         // ===== CÁC NÚT MENU =====
-        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "Tổng quan"); FrmAdmin frm = new FrmAdmin(); frm.Show(); }
+        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "Tổng quan"); }
         private void btnCheBien_Click(object sender, EventArgs e) { Open(btnCheBien, "Chế biến"); }
         private void btnThucDon_Click(object sender, EventArgs e) { Open(btnThucDon, "Thực đơn"); }
         private void btnNguyenLieu_Click(object sender, EventArgs e) { Open(btnNguyenLieu, "Nguyên liệu"); }
@@ -133,6 +135,10 @@ namespace QLNhaHang.Forms.Main
         private void btnMonChoPhucVu_Click(object sender, EventArgs e) { Open(btnMonChoPhucVu, "Món chờ phục vụ"); }
         private void btnHoaDon_Click(object sender, EventArgs e) { Open(btnHoaDon, "Hóa đơn"); }
         private void btnThanhToan_Click(object sender, EventArgs e) { Open(btnThanhToan, "Thanh toán"); }
-        private void btnTaiKhoan_Click(object sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản"); }
+        private void btnTaiKhoan_Click(object sender, EventArgs e)
+        {
+            if (Session.Role != "ADMIN") return;
+            Open(btnTaiKhoan, "Quản lý tài khoản", new ucTaiKhoan());
+        }
     }
 }

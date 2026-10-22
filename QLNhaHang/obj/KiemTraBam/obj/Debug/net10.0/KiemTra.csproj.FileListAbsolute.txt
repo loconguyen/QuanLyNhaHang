@@ -1,0 +1,15 @@
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\bin\Debug\net10.0\KiemTra.exe
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\bin\Debug\net10.0\KiemTra.deps.json
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\bin\Debug\net10.0\KiemTra.runtimeconfig.json
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\bin\Debug\net10.0\KiemTra.dll
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\bin\Debug\net10.0\KiemTra.pdb
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\KiemTra.GeneratedMSBuildEditorConfig.editorconfig
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\KiemTra.AssemblyInfoInputs.cache
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\KiemTra.AssemblyInfo.cs
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\KiemTra.csproj.CoreCompileInputs.cache
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\KiemTra.sourcelink.json
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\KiemTra.dll
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\refint\KiemTra.dll
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\KiemTra.pdb
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\KiemTra.genruntimeconfig.cache
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\KiemTraBam\obj\Debug\net10.0\ref\KiemTra.dll

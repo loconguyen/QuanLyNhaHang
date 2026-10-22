@@ -11,10 +11,24 @@ namespace QLNhaHang
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new DangNhapForm());
+            while (true)
+            {
+                using (var login = new DangNhapForm())
+                {
+                    if (login.ShowDialog() != DialogResult.OK)
+                        break;
+                }
+
+                using (var main = new MainForm())
+                {
+                    Application.Run(main);
+
+                    if (!main.DangXuat)
+                        break;
+                }
+            }
         }
     }
 }

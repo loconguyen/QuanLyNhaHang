@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace QLNhaHang.Controls.Admin
 {
-    public partial class FrmAdmin : Form
+    public partial class ucAdmin : UserControl
     {
-        public FrmAdmin()
+        public ucAdmin()
         {
             InitializeComponent();
         }

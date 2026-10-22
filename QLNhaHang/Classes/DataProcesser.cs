@@ -1,61 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using System.Data;
+﻿using System.Data;
 using Microsoft.Data.SqlClient;
 
 namespace QLNhaHang.Classes
 {
     internal class DataProcesser
     {
-        string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
-        SqlConnection sqlConnect = null;
-        // mo ket noi
+        private readonly string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
+        private SqlConnection? sqlConnect;
+
+        internal SqlConnection TaoKetNoi() => new SqlConnection(strConnect);
+
+        // Mo ket noi
         private void KetNoiCSDL()
         {
-            sqlConnect = new SqlConnection(strConnect);
+            sqlConnect ??= new SqlConnection(strConnect);
             if (sqlConnect.State != ConnectionState.Open)
             {
                 sqlConnect.Open();
             }
-
         }
 
-        // dong ket noi
+        // Dong ket noi
         private void DongCSDL()
         {
-            if (sqlConnect.State != ConnectionState.Closed)
-            {
-                sqlConnect.Close();
-            }
-            sqlConnect.Dispose();
+            sqlConnect?.Dispose();
+            sqlConnect = null;
         }
-        // lay 1 bang tu csdl
+
+        // Lay mot bang tu CSDL
         public DataTable DocBang(string sql)
         {
-            DataTable dulieu = new DataTable();
-            KetNoiCSDL();
-            SqlDataAdapter adapter = new SqlDataAdapter(sql, strConnect);
-            adapter.Fill(dulieu);
-            DongCSDL();
-            return dulieu;
-
+            try
+            {
+                KetNoiCSDL();
+                DataTable dulieu = new DataTable();
+                using SqlDataAdapter adapter = new SqlDataAdapter(sql, sqlConnect);
+                adapter.Fill(dulieu);
+                return dulieu;
+            }
+            finally
+            {
+                DongCSDL();
+            }
         }
-        // ham thuc hien insert/update/delete- cap nhap du lieu
+
+        // Thuc hien INSERT/UPDATE/DELETE
         public int CapNhapDuLieu(string sql)
         {
-            KetNoiCSDL();
-            SqlCommand sqlCommand = new SqlCommand();
-            sqlCommand.Connection = sqlConnect;
-            sqlCommand.CommandText = sql;
-            int result = sqlCommand.ExecuteNonQuery();
-            if (result > 0)
+            try
             {
-                return 1;
+                KetNoiCSDL();
+                using SqlCommand sqlCommand = new SqlCommand(sql, sqlConnect);
+                int result = sqlCommand.ExecuteNonQuery();
+                return result > 0 ? 1 : 0;
             }
-            else return 0;
-
+            finally
+            {
+                DongCSDL();
+            }
         }
     }
 }

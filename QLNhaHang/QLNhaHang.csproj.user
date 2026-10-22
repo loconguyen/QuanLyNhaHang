@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="Controls\Admin\FrmAdmin.cs">
-      <SubType>Form</SubType>
+    <Compile Update="Controls\Admin\ucAdmin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\Admin\ucTaiKhoan.BoCuc.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Controls\Admin\ucTaiKhoan.cs">
       <SubType>UserControl</SubType>
@@ -37,10 +40,16 @@
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\DangKy\frmDangKy.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\DangNhap\DangNhapForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\Main\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\TaiKhoan\frmTaoTaiKhoan.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
