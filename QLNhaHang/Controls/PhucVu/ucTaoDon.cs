@@ -24,6 +24,8 @@ namespace QLNhaHang.Controls.PhucVu
         public ucTaoDon()
         {
             InitializeComponent();
+            KhoiTaoCot();   // tạo cột thủ công, luôn có dù chưa có dữ liệu
+
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
             HienDanhSach();
         }
@@ -33,6 +35,58 @@ namespace QLNhaHang.Controls.PhucVu
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
             MoChiTiet(donId);
+        }
+
+        // =====================================================================
+        //  TẠO CỘT THỦ CÔNG CHO 3 LƯỚI
+        // =====================================================================
+        static DataGridViewTextBoxColumn Cot(string ten, string tieuDe, float rong = 100,
+                                             string? dinhDang = null, bool an = false)
+        {
+            var c = new DataGridViewTextBoxColumn
+            {
+                Name = ten,
+                DataPropertyName = ten,
+                HeaderText = tieuDe,
+                FillWeight = rong,
+                Visible = !an
+            };
+            if (dinhDang != null) c.DefaultCellStyle.Format = dinhDang;
+            return c;
+        }
+
+        void KhoiTaoCot()
+        {
+            // Danh sách đơn đang xử lý
+            dgvDon.AutoGenerateColumns = false;
+            dgvDon.Columns.AddRange(
+                Cot("DonHangID", "Mã đơn", 50),
+                Cot("SoBan", "Bàn", 50),
+                Cot("ViTri", "Khu vực", 80),
+                Cot("HoTen", "Nhân viên phục vụ", 120),
+                Cot("ThoiGianTao", "Tạo lúc", 100, "dd/MM/yyyy HH:mm"),
+                Cot("SoMon", "Số món", 50),
+                Cot("TongTien", "Tổng tiền (đ)", 90, "N0"));
+
+            // Thực đơn
+            dgvMon.AutoGenerateColumns = false;
+            dgvMon.Columns.AddRange(
+                Cot("MonID", "", 10, null, true),
+                Cot("TenMon", "Món", 120),
+                Cot("DonViTinh", "ĐVT", 40),
+                Cot("DonGia", "Đơn giá", 70, "N0"),
+                Cot("TenDanhMuc", "Danh mục", 80));
+
+            // Món trong đơn
+            dgvCT.AutoGenerateColumns = false;
+            dgvCT.Columns.AddRange(
+                Cot("MonID", "", 10, null, true),
+                Cot("TenMon", "Món", 110),
+                Cot("SoLuong", "SL", 30),
+                Cot("DonGia", "Đơn giá", 70, "N0"),
+                Cot("ThanhTien", "Thành tiền", 80, "N0"),
+                Cot("TrangThaiMon", "Trạng thái", 80),
+                Cot("GhiChu", "Ghi chú", 90));
         }
 
         // =====================================================================
@@ -49,37 +103,27 @@ namespace QLNhaHang.Controls.PhucVu
         {
             try
             {
-                bool tatCa = Session.Role == "ADMIN";   // Admin thấy hết, Phục vụ chỉ thấy đơn của mình
                 var dt = new DataTable();
 
+                // Hiện mọi đơn đang xử lý (khớp với số bàn Đang phục vụ ở Quản lý bàn)
                 using (var conn = new SqlConnection(ConnStr))
                 using (var da = new SqlDataAdapter(@"
-                    SELECT dh.DonHangID, b.SoBan, ISNULL(b.ViTri, N'') AS ViTri, dh.ThoiGianTao,
+                    SELECT dh.DonHangID, b.SoBan, ISNULL(b.ViTri, N'') AS ViTri, nv.HoTen, dh.ThoiGianTao,
                            COUNT(CASE WHEN c.TrangThaiMon <> N'Đã hủy' THEN 1 END) AS SoMon,
                            ISNULL(SUM(CASE WHEN c.TrangThaiMon <> N'Đã hủy'
                                            THEN c.SoLuong * c.DonGia END), 0) AS TongTien
                     FROM DON_HANG dh
                     JOIN BAN_AN b ON b.BanID = dh.BanID
+                    JOIN NHAN_VIEN nv ON nv.NhanVienID = dh.NhanVienPhucVuID
                     LEFT JOIN CHI_TIET_DON_HANG c ON c.DonHangID = dh.DonHangID
                     WHERE dh.TrangThaiDon = N'Đang xử lý'
-                      AND (@all = 1 OR dh.NhanVienPhucVuID = @nv)
-                    GROUP BY dh.DonHangID, b.SoBan, b.ViTri, dh.ThoiGianTao
-                    ORDER BY dh.ThoiGianTao DESC", conn))
+                    GROUP BY dh.DonHangID, b.SoBan, b.ViTri, nv.HoTen, dh.ThoiGianTao
+                    ORDER BY b.SoBan", conn))
                 {
-                    da.SelectCommand.Parameters.AddWithValue("@all", tatCa ? 1 : 0);
-                    da.SelectCommand.Parameters.AddWithValue("@nv", Session.NhanVienID);
                     da.Fill(dt);
                 }
 
                 dgvDon.DataSource = dt;
-                dgvDon.Columns["DonHangID"]!.HeaderText = "Mã đơn";
-                dgvDon.Columns["SoBan"]!.HeaderText = "Bàn";
-                dgvDon.Columns["ViTri"]!.HeaderText = "Khu vực";
-                dgvDon.Columns["ThoiGianTao"]!.HeaderText = "Tạo lúc";
-                dgvDon.Columns["ThoiGianTao"]!.DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
-                dgvDon.Columns["SoMon"]!.HeaderText = "Số món";
-                dgvDon.Columns["TongTien"]!.HeaderText = "Tổng tiền (đ)";
-                dgvDon.Columns["TongTien"]!.DefaultCellStyle.Format = "N0";
 
                 lblHuongDan.Text = dt.Rows.Count == 0
                     ? "Chưa có đơn nào. Muốn tạo đơn mới: sang Quản lý bàn, bấm vào bàn Trống."
@@ -111,9 +155,12 @@ namespace QLNhaHang.Controls.PhucVu
         void MoChiTiet(int donId)
         {
             _donId = donId;
-            TaiThucDon();
+
+            // Hiện màn chi tiết trước rồi mới nạp dữ liệu cho các lưới
             pnlDanhSach.Visible = false;
             pnlChiTiet.Visible = true;
+
+            TaiThucDon();
             LoadChiTiet();
         }
 
@@ -156,13 +203,6 @@ namespace QLNhaHang.Controls.PhucVu
             _dangNap = false;
 
             dgvMon.DataSource = _dtMon.DefaultView;
-            dgvMon.Columns["MonID"]!.Visible = false;
-            dgvMon.Columns["TenMon"]!.HeaderText = "Món";
-            dgvMon.Columns["DonViTinh"]!.HeaderText = "ĐVT";
-            dgvMon.Columns["DonViTinh"]!.FillWeight = 40;
-            dgvMon.Columns["DonGia"]!.HeaderText = "Đơn giá";
-            dgvMon.Columns["DonGia"]!.DefaultCellStyle.Format = "N0";
-            dgvMon.Columns["TenDanhMuc"]!.HeaderText = "Danh mục";
         }
 
         static string EscEq(string s) => s.Replace("'", "''");
@@ -248,16 +288,6 @@ namespace QLNhaHang.Controls.PhucVu
                     : "";
 
                 dgvCT.DataSource = dt;
-                dgvCT.Columns["MonID"]!.Visible = false;
-                dgvCT.Columns["TenMon"]!.HeaderText = "Món";
-                dgvCT.Columns["SoLuong"]!.HeaderText = "SL";
-                dgvCT.Columns["SoLuong"]!.FillWeight = 30;
-                dgvCT.Columns["DonGia"]!.HeaderText = "Đơn giá";
-                dgvCT.Columns["DonGia"]!.DefaultCellStyle.Format = "N0";
-                dgvCT.Columns["ThanhTien"]!.HeaderText = "Thành tiền";
-                dgvCT.Columns["ThanhTien"]!.DefaultCellStyle.Format = "N0";
-                dgvCT.Columns["TrangThaiMon"]!.HeaderText = "Trạng thái";
-                dgvCT.Columns["GhiChu"]!.HeaderText = "Ghi chú";
 
                 // Tô vàng món chưa gửi bếp
                 foreach (DataGridViewRow r in dgvCT.Rows)

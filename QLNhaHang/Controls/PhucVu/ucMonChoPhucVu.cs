@@ -67,10 +67,7 @@ namespace QLNhaHang.Controls.PhucVu
                     JOIN MON_AN m    ON m.MonID = c.MonID
                     WHERE c.TrangThaiMon = N'Hoàn thành'
                       AND dh.TrangThaiDon = N'Đang xử lý'
-                      AND (@all = 1 OR dh.NhanVienPhucVuID = @nv)
                     ORDER BY dh.ThoiGianTao, b.SoBan, m.TenMon", conn);
-                da.SelectCommand.Parameters.AddWithValue("@all", XemTatCa ? 1 : 0);
-                da.SelectCommand.Parameters.AddWithValue("@nv", Session.NhanVienID);
                 da.Fill(dt);
             }
             catch (Exception ex)
@@ -198,12 +195,9 @@ namespace QLNhaHang.Controls.PhucVu
                         JOIN DON_HANG dh ON dh.DonHangID = c.DonHangID
                         WHERE c.DonHangID = @d AND c.MonID = @m
                           AND c.TrangThaiMon = N'Hoàn thành'
-                          AND dh.TrangThaiDon = N'Đang xử lý'
-                          AND (@all = 1 OR dh.NhanVienPhucVuID = @nv)", conn, tran);
+                          AND dh.TrangThaiDon = N'Đang xử lý'", conn, tran);
                     cmd.Parameters.AddWithValue("@d", d.DonId);
                     cmd.Parameters.AddWithValue("@m", d.MonId);
-                    cmd.Parameters.AddWithValue("@all", XemTatCa ? 1 : 0);
-                    cmd.Parameters.AddWithValue("@nv", Session.NhanVienID);
                     ok += cmd.ExecuteNonQuery();
                 }
                 tran.Commit();
