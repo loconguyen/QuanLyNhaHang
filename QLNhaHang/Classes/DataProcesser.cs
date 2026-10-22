@@ -3,14 +3,16 @@ using Microsoft.Data.SqlClient;
 
 namespace QLNhaHang.Classes
 {
-    internal class DataProcesser
+    public class DataProcesser
     {
-        private readonly string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
-        private SqlConnection? sqlConnect;
+        internal static readonly string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
+        SqlConnection sqlConnect = null;
+        // mo ket noi
+        public SqlConnection TaoKetNoi()
+        {
+            return new SqlConnection(strConnect);
+        }
 
-        internal SqlConnection TaoKetNoi() => new SqlConnection(strConnect);
-
-        // Mo ket noi
         private void KetNoiCSDL()
         {
             sqlConnect ??= new SqlConnection(strConnect);

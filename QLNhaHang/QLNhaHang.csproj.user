@@ -4,7 +4,7 @@
     <Compile Update="Controls\Admin\ucAdmin.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Controls\Admin\ucTaiKhoan.BoCuc.cs">
+    <Compile Update="Controls\Admin\ucDuyetNhanVien.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Controls\Admin\ucTaiKhoan.cs">

@@ -1,107 +1,142 @@
+﻿
 using System;
 using System.Windows.Forms;
+using QLNhaHang.Classes;
 
 namespace QLNhaHang.Forms.DangKy
 {
     public partial class frmDangKy : Form
     {
-        private bool dangGui;
+        // Đối tượng xử lý nghiệp vụ tài khoản
+        private readonly QuanLyTaiKhoan qlTaiKhoan =
+            new QuanLyTaiKhoan();
+
         public frmDangKy()
         {
             InitializeComponent();
-            FormClosing += (_, e) => { if (dangGui) e.Cancel = true; };
+
+            // Gắn sự kiện nếu chưa gắn trong Designer
+            btnDangKy.Click -= btnDangKy_Click;
+            btnDangKy.Click += btnDangKy_Click;
+
+            linkDangNhap.LinkClicked -= linkDangNhap_LinkClicked;
+            linkDangNhap.LinkClicked += linkDangNhap_LinkClicked;
+
+            txtMatKhau.UseSystemPasswordChar = true;
+            txtXacNhanMatKhau.UseSystemPasswordChar = true;
         }
 
-        private void chkHienMatKhau_CheckedChanged(object sender, EventArgs e)
+   
+        private void btnDangKy_Click(object sender, EventArgs e)
         {
-            txtMatKhau.UseSystemPasswordChar = !chkHienMatKhau.Checked;
-            txtNhapLaiMatKhau.UseSystemPasswordChar = !chkHienMatKhau.Checked;
-        }
+            //  Lấy dữ liệu
+            string hoTen = txtHoTen.Text.Trim();
+            string sdt = txtSDT.Text.Trim();
+            string tenDangNhap = txtTenDangNhap.Text.Trim();
+            string matKhau = txtMatKhau.Text;
+            string xacNhanMatKhau = txtXacNhanMatKhau.Text;
 
-        private void lnkDangNhap_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Close();
-        }
-
-        private async void btnDangKy_Click(object sender, EventArgs e)
-        {
-            if (dangGui) return;
-            lblThongBao.Text = "";
-            foreach (TextBox oNhap in new[] { txtHoTen, txtSoDienThoai, txtTenDangNhap, txtMatKhau, txtNhapLaiMatKhau })
+            // Kiểm tra họ tên
+            if (string.IsNullOrWhiteSpace(hoTen))
             {
-                if (string.IsNullOrWhiteSpace(oNhap.Text))
-                {
-                    lblThongBao.Text = "Vui lòng nhập đầy đủ thông tin.";
-                    oNhap.Focus();
-                    return;
-                }
-            }
-            string soDienThoai = txtSoDienThoai.Text.Trim();
-            if (soDienThoai.Length != 10 || soDienThoai[0] != '0' ||
-                !System.Linq.Enumerable.All(soDienThoai, c => c >= '0' && c <= '9'))
-            {
-                lblThongBao.Text = "Số điện thoại cần có 10 chữ số và bắt đầu bằng 0.";
-                txtSoDienThoai.Focus();
+                MessageBox.Show("Vui lòng nhập họ tên!");
+                txtHoTen.Focus();
                 return;
             }
-            if (txtMatKhau.Text.Length < 8)
+
+            // Kiểm tra số điện thoại
+            if (string.IsNullOrWhiteSpace(sdt))
             {
-                lblThongBao.Text = "Mật khẩu cần có ít nhất 8 ký tự.";
+                MessageBox.Show("Vui lòng nhập số điện thoại!");
+                txtSDT.Focus();
+                return;
+            }
+
+            // Kiểm tra tên đăng nhập
+            if (string.IsNullOrWhiteSpace(tenDangNhap))
+            {
+                MessageBox.Show("Vui lòng nhập tên đăng nhập!");
+                txtTenDangNhap.Focus();
+                return;
+            }
+
+            //  Kiểm tra mật khẩu
+            if (string.IsNullOrWhiteSpace(matKhau))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu!");
                 txtMatKhau.Focus();
                 return;
             }
-            if (txtMatKhau.Text != txtNhapLaiMatKhau.Text)
+
+            //Kiểm tra xác nhận mật khẩu
+            if (string.IsNullOrWhiteSpace(xacNhanMatKhau))
             {
-                lblThongBao.Text = "Mật khẩu nhập lại chưa khớp.";
-                txtNhapLaiMatKhau.Focus();
+                MessageBox.Show("Vui lòng xác nhận mật khẩu!");
+                txtXacNhanMatKhau.Focus();
                 return;
             }
-            btnDangKy.Enabled = false;
-            dangGui = true;
-            string hoTen = txtHoTen.Text.Trim();
-            string tenDangNhap = txtTenDangNhap.Text.Trim();
-            string matKhau = txtMatKhau.Text;
-            UseWaitCursor = true;
+
+            if (matKhau != xacNhanMatKhau)
+            {
+                MessageBox.Show(
+                    "Mật khẩu xác nhận không khớp!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                txtXacNhanMatKhau.Clear();
+                txtXacNhanMatKhau.Focus();
+                return;
+            }
+
+            //  Lưu thông tin đăng ký
             try
             {
-                await System.Threading.Tasks.Task.Run(() =>
-                    new Classes.QuanLyTaiKhoan().GuiYeuCau(hoTen, soDienThoai, tenDangNhap, matKhau));
-                if (IsDisposed) return;
-                dangGui = false;
-                MessageBox.Show("Đã gửi yêu cầu đăng ký. Vui lòng chờ Admin duyệt và cấp mã nhân viên.",
-                    "Đăng ký", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnDangKy.Enabled = false;
+
+                qlTaiKhoan.GuiYeuCau(
+                    hoTen,
+                    sdt,
+                    tenDangNhap,
+                    matKhau
+                );
+
+                MessageBox.Show(
+                    "Đăng ký thành công!\n" +
+                    "Tài khoản đang chờ quản lý phê duyệt.",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                // Đóng Form đăng ký
+                DialogResult = DialogResult.OK;
                 Close();
             }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
-                lblThongBao.Text = ex.Message;
-            }
-            catch (Microsoft.Data.SqlClient.SqlException ex)
-            {
-                lblThongBao.Text = ex.Number >= 50000 ? ex.Message
-                    : ex.Number == 2601 || ex.Number == 2627
-                    ? "Tên đăng nhập hoặc số điện thoại đã có yêu cầu chờ duyệt."
-                    : "Không gửi được yêu cầu. Kiểm tra kết nối và chạy Database/DangKyTaiKhoan.sql.";
+                MessageBox.Show(
+                    "Đăng ký thất bại!\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             finally
             {
-                dangGui = false;
-                if (!IsDisposed)
-                {
-                    btnDangKy.Enabled = true;
-                    UseWaitCursor = false;
-                }
+                btnDangKy.Enabled = true;
             }
         }
 
-        private void lblTieuDe_Click(object sender, EventArgs e)
+        // QUAY LẠI ĐĂNG NHẬP
+        
+        private void linkDangNhap_LinkClicked(
+            object sender,
+            LinkLabelLinkClickedEventArgs e)
         {
-
-        }
-
-        private void txtHoTen_TextChanged(object sender, EventArgs e)
-        {
-            lblThongBao.Text = "";
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

@@ -1,4 +1,9 @@
-﻿namespace QLNhaHang.Forms.DangNhap
+﻿
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace QLNhaHang.Forms.DangNhap
 {
     partial class DangNhapForm
     {
@@ -6,197 +11,319 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && components != null)
+                components.Dispose();
+
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
+
         private void InitializeComponent()
         {
+            pnlDangNhap = new Panel();
+            pnlThanhTrangTri = new Panel();
+
+            heading = new Label();
+            lblMoTa = new Label();
+
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
-            cbRole = new ComboBox();
-            btnDangNhap = new Button();
-            linkMatKhau = new LinkLabel();
-            linkDK = new LinkLabel();
+
             txtDangNhap = new TextBox();
             txtMaNhanVien = new TextBox();
             txtMatKhau = new TextBox();
-            heading = new Label();
-            pnlDangNhap = new Panel();
+
+            cbRole = new ComboBox();
+            btnDangNhap = new Button();
+
+            linkDK = new LinkLabel();
+            linkMatKhau = new LinkLabel();
+
             pnlDangNhap.SuspendLayout();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(73, 203);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(206, 38);
-            label1.TabIndex = 0;
-            label1.Text = "Tên đăng nhập:";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(73, 286);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(191, 38);
-            label2.TabIndex = 1;
-            label2.Text = "Mã nhân viên:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(73, 369);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(139, 38);
-            label3.TabIndex = 2;
-            label3.Text = "Mật khẩu:";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(73, 452);
-            label4.Margin = new Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(234, 38);
-            label4.TabIndex = 3;
-            label4.Text = "Bộ phận làm việc:";
-            // 
-            // cbRole
-            // 
-            cbRole.FormattingEnabled = true;
-            cbRole.Items.AddRange(new object[] { "Quản lý", "Bếp", "Kho ", "Thu ngân" });
-            cbRole.Location = new Point(340, 452);
-            cbRole.Margin = new Padding(4, 5, 4, 5);
-            cbRole.Name = "cbRole";
-            cbRole.Size = new Size(448, 46);
-            cbRole.TabIndex = 7;
-            // 
-            // btnDangNhap
-            // 
-            btnDangNhap.Location = new Point(188, 575);
-            btnDangNhap.Margin = new Padding(4, 5, 4, 5);
-            btnDangNhap.Name = "btnDangNhap";
-            btnDangNhap.Size = new Size(450, 85);
-            btnDangNhap.TabIndex = 8;
-            btnDangNhap.Text = "Đăng nhập";
-            btnDangNhap.UseVisualStyleBackColor = true;
-            btnDangNhap.Click += btnDangNhap_Click;
-            // 
-            // linkMatKhau
-            // 
-            linkMatKhau.AutoSize = true;
-            linkMatKhau.Location = new Point(482, 715);
-            linkMatKhau.Margin = new Padding(4, 0, 4, 0);
-            linkMatKhau.Name = "linkMatKhau";
-            linkMatKhau.Size = new Size(278, 38);
-            linkMatKhau.TabIndex = 10;
-            linkMatKhau.TabStop = true;
-            linkMatKhau.Text = "Bạn quên mật khẩu ?";
-            // 
-            // linkDK
-            // 
-            linkDK.AutoSize = true;
-            linkDK.Location = new Point(73, 715);
-            linkDK.Margin = new Padding(4, 0, 4, 0);
-            linkDK.Name = "linkDK";
-            linkDK.Size = new Size(241, 38);
-            linkDK.TabIndex = 11;
-            linkDK.TabStop = true;
-            linkDK.Text = "Đăng ký tài khoản";
-            // 
-            // txtDangNhap
-            // 
-            txtDangNhap.Location = new Point(340, 203);
-            txtDangNhap.Margin = new Padding(4, 5, 4, 5);
-            txtDangNhap.Name = "txtDangNhap";
-            txtDangNhap.Size = new Size(448, 45);
-            txtDangNhap.TabIndex = 13;
-            // 
-            // txtMaNhanVien
-            // 
-            txtMaNhanVien.Location = new Point(340, 286);
-            txtMaNhanVien.Margin = new Padding(4, 5, 4, 5);
-            txtMaNhanVien.Name = "txtMaNhanVien";
-            txtMaNhanVien.Size = new Size(448, 45);
-            txtMaNhanVien.TabIndex = 14;
-            // 
-            // txtMatKhau
-            // 
-            txtMatKhau.Location = new Point(340, 369);
-            txtMatKhau.Margin = new Padding(4, 5, 4, 5);
-            txtMatKhau.Name = "txtMatKhau";
-            txtMatKhau.Size = new Size(448, 45);
-            txtMatKhau.TabIndex = 15;
-            // 
-            // heading
-            // 
-            heading.AutoSize = true;
-            heading.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            heading.Location = new Point(130, 41);
-            heading.Margin = new Padding(4, 0, 4, 0);
-            heading.Name = "heading";
-            heading.Size = new Size(630, 70);
-            heading.TabIndex = 16;
-            heading.Text = "ĐĂNG NHẬP HỆ THỐNG";
-            heading.TextAlign = ContentAlignment.TopCenter;
-            // 
-            // pnlDangNhap
-            // 
-            pnlDangNhap.Controls.Add(linkMatKhau);
-            pnlDangNhap.Controls.Add(linkDK);
-            pnlDangNhap.Controls.Add(heading);
-            pnlDangNhap.Controls.Add(txtMatKhau);
-            pnlDangNhap.Controls.Add(btnDangNhap);
-            pnlDangNhap.Controls.Add(txtMaNhanVien);
-            pnlDangNhap.Controls.Add(txtDangNhap);
-            pnlDangNhap.Controls.Add(cbRole);
-            pnlDangNhap.Controls.Add(label4);
-            pnlDangNhap.Controls.Add(label3);
-            pnlDangNhap.Controls.Add(label2);
-            pnlDangNhap.Controls.Add(label1);
-            pnlDangNhap.Location = new Point(229, 90);
-            pnlDangNhap.Name = "pnlDangNhap";
-            pnlDangNhap.Size = new Size(852, 848);
-            pnlDangNhap.TabIndex = 17;
-            // 
-            // DangNhapForm
-            // 
-            AutoScaleDimensions = new SizeF(15F, 38F);
+
+            // =====================================
+            // FORM ĐĂNG NHẬP
+            // =====================================
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1303, 968);
-            Controls.Add(pnlDangNhap);
-            Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            Margin = new Padding(6, 8, 6, 8);
+
+            ClientSize = new Size(1100, 790);
+            BackColor = Color.FromArgb(241, 245, 249);
+            Font = new Font("Segoe UI", 11F);
+
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "DangNhapForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Đăng nhập ";
+
+            Name = "DangNhapForm";
+            Text = "Đăng nhập - Quản lý nhà hàng";
+
+            // =====================================
+            // PANEL CHÍNH
+            // =====================================
+            pnlDangNhap.Location = new Point(130, 40);
+            pnlDangNhap.Size = new Size(840, 700);
+            pnlDangNhap.BackColor = Color.White;
+            pnlDangNhap.BorderStyle = BorderStyle.FixedSingle;
+            pnlDangNhap.Name = "pnlDangNhap";
+
+            // Thanh trang trí phía trên
+            pnlThanhTrangTri.Location = new Point(0, 0);
+            pnlThanhTrangTri.Size = new Size(840, 7);
+            pnlThanhTrangTri.BackColor =
+                Color.FromArgb(23, 38, 62);
+            pnlThanhTrangTri.Name = "pnlThanhTrangTri";
+
+            // =====================================
+            // TIÊU ĐỀ
+            // =====================================
+            heading.AutoSize = false;
+            heading.Location = new Point(40, 35);
+            heading.Size = new Size(760, 50);
+            heading.Text = "ĐĂNG NHẬP HỆ THỐNG";
+            heading.Font = new Font(
+                "Segoe UI", 23F, FontStyle.Bold);
+            heading.ForeColor =
+                Color.FromArgb(23, 38, 62);
+            heading.TextAlign =
+                ContentAlignment.MiddleCenter;
+            heading.Name = "heading";
+
+            // Mô tả
+            lblMoTa.AutoSize = false;
+            lblMoTa.Location = new Point(40, 88);
+            lblMoTa.Size = new Size(760, 30);
+            lblMoTa.Text =
+                "Đăng nhập để truy cập hệ thống quản lý nhà hàng";
+            lblMoTa.Font = new Font("Segoe UI", 10.5F);
+            lblMoTa.ForeColor = Color.Gray;
+            lblMoTa.TextAlign =
+                ContentAlignment.MiddleCenter;
+            lblMoTa.Name = "lblMoTa";
+
+            // =====================================
+            // TÊN ĐĂNG NHẬP
+            // =====================================
+            label1.AutoSize = true;
+            label1.Location = new Point(50, 145);
+            label1.Text = "Tên đăng nhập";
+            label1.Font = new Font(
+                "Segoe UI", 11F, FontStyle.Bold);
+            label1.ForeColor =
+                Color.FromArgb(23, 38, 62);
+            label1.Name = "label1";
+
+            txtDangNhap.Location = new Point(50, 178);
+            txtDangNhap.Size = new Size(345, 37);
+            txtDangNhap.Font =
+                new Font("Segoe UI", 12F);
+            txtDangNhap.BackColor =
+                Color.FromArgb(248, 250, 252);
+            txtDangNhap.ForeColor =
+                Color.FromArgb(16, 18, 15);
+            txtDangNhap.BorderStyle =
+                BorderStyle.FixedSingle;
+            txtDangNhap.Name = "txtDangNhap";
+            txtDangNhap.TabIndex = 0;
+
+            // =====================================
+            // MÃ NHÂN VIÊN
+            // =====================================
+            label2.AutoSize = true;
+            label2.Location = new Point(445, 145);
+            label2.Text = "Mã nhân viên";
+            label2.Font = new Font(
+                "Segoe UI", 11F, FontStyle.Bold);
+            label2.ForeColor =
+                Color.FromArgb(23, 38, 62);
+            label2.Name = "label2";
+
+            txtMaNhanVien.Location =
+                new Point(445, 178);
+            txtMaNhanVien.Size = new Size(345, 37);
+            txtMaNhanVien.Font =
+                new Font("Segoe UI", 12F);
+            txtMaNhanVien.BackColor =
+                Color.FromArgb(248, 250, 252);
+            txtMaNhanVien.BorderStyle =
+                BorderStyle.FixedSingle;
+            txtMaNhanVien.Name = "txtMaNhanVien";
+            txtMaNhanVien.TabIndex = 1;
+
+            // =====================================
+            // MẬT KHẨU
+            // =====================================
+            label3.AutoSize = true;
+            label3.Location = new Point(50, 242);
+            label3.Text = "Mật khẩu";
+            label3.Font = new Font(
+                "Segoe UI", 11F, FontStyle.Bold);
+            label3.ForeColor =
+                Color.FromArgb(23, 38, 62);
+            label3.Name = "label3";
+
+            txtMatKhau.Location = new Point(50, 275);
+            txtMatKhau.Size = new Size(740, 37);
+            txtMatKhau.Font =
+                new Font("Segoe UI", 12F);
+            txtMatKhau.BackColor =
+                Color.FromArgb(248, 250, 252);
+            txtMatKhau.BorderStyle =
+                BorderStyle.FixedSingle;
+            txtMatKhau.UseSystemPasswordChar = true;
+            txtMatKhau.Name = "txtMatKhau";
+            txtMatKhau.TabIndex = 2;
+
+            // =====================================
+            // BỘ PHẬN LÀM VIỆC
+            // =====================================
+            label4.AutoSize = true;
+            label4.Location = new Point(50, 337);
+            label4.Text = "Bộ phận làm việc";
+            label4.Font = new Font(
+                "Segoe UI", 11F, FontStyle.Bold);
+            label4.ForeColor =
+                Color.FromArgb(23, 38, 62);
+            label4.Name = "label4";
+
+            cbRole.Location = new Point(50, 370);
+            cbRole.Size = new Size(740, 40);
+            cbRole.Font = new Font("Segoe UI", 12F);
+            cbRole.BackColor = Color.White;
+            cbRole.ForeColor =
+                Color.FromArgb(16, 18, 15);
+            cbRole.FlatStyle = FlatStyle.Standard;
+            cbRole.DropDownStyle =
+                ComboBoxStyle.DropDownList;
+            cbRole.FormattingEnabled = true;
+            cbRole.Name = "cbRole";
+            cbRole.TabIndex = 3;
+
+            // Danh sách bộ phận được nạp trong
+            // phương thức LoadBoPhan() của DangNhapForm.cs
+
+            // =====================================
+            // NÚT ĐĂNG NHẬP
+            // =====================================
+            btnDangNhap.Location =
+                new Point(235, 480);
+            btnDangNhap.Size = new Size(370, 56);
+            btnDangNhap.Name = "btnDangNhap";
+            btnDangNhap.Text = "ĐĂNG NHẬP";
+            btnDangNhap.Font = new Font(
+                "Segoe UI", 12F, FontStyle.Bold);
+
+            btnDangNhap.BackColor =
+                Color.FromArgb(23, 38, 62);
+            btnDangNhap.ForeColor = Color.White;
+            btnDangNhap.FlatStyle = FlatStyle.Flat;
+            btnDangNhap.FlatAppearance.BorderSize = 0;
+            btnDangNhap.Cursor = Cursors.Hand;
+            btnDangNhap.UseVisualStyleBackColor = false;
+            btnDangNhap.TabIndex = 4;
+
+            // Giữ nguyên sự kiện đăng nhập
+            btnDangNhap.Click += btnDangNhap_Click;
+
+            // =====================================
+            // LINK ĐĂNG KÝ
+            // =====================================
+            linkDK.AutoSize = true;
+            linkDK.Location = new Point(125, 585);
+            linkDK.Text = "Đăng ký tài khoản";
+            linkDK.Font = new Font(
+                "Segoe UI", 11F, FontStyle.Bold);
+            linkDK.LinkColor =
+                Color.FromArgb(60, 115, 201);
+            linkDK.ActiveLinkColor =
+                Color.FromArgb(23, 38, 62);
+            linkDK.LinkBehavior =
+                LinkBehavior.HoverUnderline;
+            linkDK.Cursor = Cursors.Hand;
+            linkDK.Name = "linkDK";
+            linkDK.TabIndex = 5;
+
+            // Sự kiện linkDK.LinkClicked đã được
+            // đăng ký trong DangNhapForm.cs
+
+            // =====================================
+            // LINK QUÊN MẬT KHẨU
+            // =====================================
+            linkMatKhau.AutoSize = true;
+            linkMatKhau.Location =
+                new Point(520, 585);
+            linkMatKhau.Text = "Bạn quên mật khẩu?";
+            linkMatKhau.Font = new Font(
+                "Segoe UI", 11F, FontStyle.Bold);
+            linkMatKhau.LinkColor =
+                Color.FromArgb(60, 115, 201);
+            linkMatKhau.ActiveLinkColor =
+                Color.FromArgb(23, 38, 62);
+            linkMatKhau.LinkBehavior =
+                LinkBehavior.HoverUnderline;
+            linkMatKhau.Cursor = Cursors.Hand;
+            linkMatKhau.Name = "linkMatKhau";
+            linkMatKhau.TabIndex = 6;
+
+            // =====================================
+            // THÊM CONTROL VÀO PANEL
+            // =====================================
+            pnlDangNhap.Controls.Add(
+                pnlThanhTrangTri);
+
+            pnlDangNhap.Controls.Add(heading);
+            pnlDangNhap.Controls.Add(lblMoTa);
+
+            pnlDangNhap.Controls.Add(label1);
+            pnlDangNhap.Controls.Add(txtDangNhap);
+
+            pnlDangNhap.Controls.Add(label2);
+            pnlDangNhap.Controls.Add(txtMaNhanVien);
+
+            pnlDangNhap.Controls.Add(label3);
+            pnlDangNhap.Controls.Add(txtMatKhau);
+
+            pnlDangNhap.Controls.Add(label4);
+            pnlDangNhap.Controls.Add(cbRole);
+
+            pnlDangNhap.Controls.Add(btnDangNhap);
+            pnlDangNhap.Controls.Add(linkDK);
+            pnlDangNhap.Controls.Add(linkMatKhau);
+
+            Controls.Add(pnlDangNhap);
+
+            AcceptButton = btnDangNhap;
+
             pnlDangNhap.ResumeLayout(false);
             pnlDangNhap.PerformLayout();
             ResumeLayout(false);
         }
 
+        #endregion
+
+        private Panel pnlDangNhap;
+        private Panel pnlThanhTrangTri;
+
+        private Label heading;
+        private Label lblMoTa;
+
         private Label label1;
         private Label label2;
         private Label label3;
         private Label label4;
-        private ComboBox cbRole;
-        private Button btnDangNhap;
-        private LinkLabel linkMatKhau;
-        private LinkLabel linkDK;
+
         private TextBox txtDangNhap;
         private TextBox txtMaNhanVien;
         private TextBox txtMatKhau;
-        private Label heading;
-        private Panel pnlDangNhap;
+
+        private ComboBox cbRole;
+        private Button btnDangNhap;
+
+        private LinkLabel linkDK;
+        private LinkLabel linkMatKhau;
     }
 }

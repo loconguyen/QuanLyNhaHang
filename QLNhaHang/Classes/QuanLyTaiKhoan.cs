@@ -3,7 +3,7 @@ using Microsoft.Data.SqlClient;
 
 namespace QLNhaHang.Classes
 {
-    // Mọi thao tác SQL dùng tham số. Các thay đổi quản trị kiểm tra quyền lại trong database.
+   
     internal sealed class QuanLyTaiKhoan
     {
         private readonly DataProcesser db = new DataProcesser();
@@ -279,6 +279,236 @@ namespace QLNhaHang.Classes
                 return lenh.ExecuteNonQuery();
             });
         }
+
+        // duyet tai khoan nhan vien co 2 truong hop
+        // th1: nhan vien da co trong he thong
+
+        public void DuyetNhanVienDaCo(
+            int taiKhoanID,
+            int nhanVienID,
+            int roleID)
+        {
+            ThayDoi(
+                taiKhoanID,
+                KiemTraVaiTro + @"
+            -- Kiểm tra tài khoản chờ duyệt
+            IF NOT EXISTS (
+                SELECT 1
+                FROM dbo.TAI_KHOAN WITH (UPDLOCK, HOLDLOCK)
+                WHERE TaiKhoanID = @id
+                  AND TrangThai = N'Chờ duyệt'
+                  AND NhanVienID IS NULL
+            )
+                THROW 50001,
+                    N'Tài khoản không ở trạng thái chờ duyệt.', 1;
+
+            -- Kiểm tra nhân viên hợp lệ
+            IF NOT EXISTS (
+                SELECT 1
+                FROM dbo.NHAN_VIEN WITH (UPDLOCK, HOLDLOCK)
+                WHERE NhanVienID = @nv
+                  AND TrangThai = N'Đang làm'
+            )
+                THROW 50001,
+                    N'Nhân viên không tồn tại hoặc đã nghỉ việc.', 1;
+
+            -- Kiểm tra nhân viên chưa có tài khoản
+            IF EXISTS (
+                SELECT 1
+                FROM dbo.TAI_KHOAN WITH (UPDLOCK, HOLDLOCK)
+                WHERE NhanVienID = @nv
+            )
+                THROW 50001,
+                    N'Nhân viên đã có tài khoản.', 1;
+
+            -- Liên kết tài khoản với nhân viên
+            UPDATE dbo.TAI_KHOAN
+            SET NhanVienID = @nv,
+                RoleID = @role,
+                TrangThai = N'Hoạt động'
+            WHERE TaiKhoanID = @id
+              AND TrangThai = N'Chờ duyệt';
+
+            IF @@ROWCOUNT <> 1
+                THROW 50001,
+                    N'Không thể duyệt tài khoản.', 1;
+        ",
+                lenh =>
+                {
+                    lenh.Parameters.Add("@nv", SqlDbType.Int)
+                        .Value = nhanVienID;
+
+                    lenh.Parameters.Add("@role", SqlDbType.Int)
+                        .Value = roleID;
+                },
+                lenh => lenh.ExecuteNonQuery()
+            );
+        }
+        //th2 nhan vien moi hoan toan
+
+        public int DuyetNhanVienMoi(
+            int taiKhoanID,
+            int roleID,
+            ThongTinNhanVien thongTin)
+        {
+            if (thongTin == null)
+                throw new ArgumentNullException(nameof(thongTin));
+
+            if (string.IsNullOrWhiteSpace(thongTin.HoTen))
+                throw new InvalidOperationException(
+                    "Họ tên nhân viên không được để trống.");
+
+            if (string.IsNullOrWhiteSpace(thongTin.SDT) ||
+                thongTin.SDT.Length != 10 ||
+                thongTin.SDT[0] != '0' ||
+                !thongTin.SDT.All(char.IsDigit))
+                throw new InvalidOperationException(
+                    "Số điện thoại phải gồm 10 chữ số, bắt đầu bằng 0.");
+
+            return ThayDoi(
+                taiKhoanID,
+                KiemTraVaiTro + @"
+            DECLARE @vaiTro VARCHAR(30);
+            DECLARE @hoTenDangKy NVARCHAR(100);
+            DECLARE @sdtDangKy VARCHAR(15);
+
+            -- Kiểm tra yêu cầu đăng ký
+            SELECT
+                @hoTenDangKy = HoTenDangKy,
+                @sdtDangKy = SDTDangKy
+            FROM dbo.TAI_KHOAN WITH (UPDLOCK, HOLDLOCK)
+            WHERE TaiKhoanID = @id
+              AND TrangThai = N'Chờ duyệt'
+              AND NhanVienID IS NULL;
+
+            IF @hoTenDangKy IS NULL OR @sdtDangKy IS NULL
+                THROW 50001,
+                    N'Tài khoản không hợp lệ hoặc đã được xử lý.', 1;
+
+            -- Chống trùng số điện thoại
+            IF EXISTS (
+                SELECT 1
+                FROM dbo.NHAN_VIEN WITH (UPDLOCK, HOLDLOCK)
+                WHERE SDT = @sdt
+            )
+                THROW 50001,
+                    N'Số điện thoại đã tồn tại trong hồ sơ nhân viên.', 1;
+
+            SELECT @vaiTro = TenVaiTro
+            FROM dbo.VAI_TRO
+            WHERE RoleID = @role;
+
+            -- Tạo hồ sơ nhân viên
+            INSERT INTO dbo.NHAN_VIEN
+            (
+                HoTen,
+                SDT,
+                NgaySinh,
+                GioiTinh,
+                Email,
+                DiaChi,
+                ChucVu,
+                NgayVaoLam,
+                TrangThai
+            )
+            VALUES
+            (
+                @hoTen,
+                @sdt,
+                @ngaySinh,
+                @gioiTinh,
+                @email,
+                @diaChi,
+                CASE @vaiTro
+                    WHEN 'ADMIN' THEN N'Quản lý'
+                    WHEN 'BEP' THEN N'Đầu bếp'
+                    WHEN 'PHUCVU' THEN N'Phục vụ'
+                    WHEN 'THUNGAN' THEN N'Thu ngân'
+                END,
+                @ngayVaoLam,
+                N'Đang làm'
+            );
+
+            -- Lấy mã nhân viên tự sinh
+            DECLARE @maNV INT =
+                CAST(SCOPE_IDENTITY() AS INT);
+
+            -- Liên kết tài khoản
+            UPDATE dbo.TAI_KHOAN
+            SET NhanVienID = @maNV,
+                RoleID = @role,
+                TrangThai = N'Hoạt động'
+            WHERE TaiKhoanID = @id
+              AND TrangThai = N'Chờ duyệt'
+              AND NhanVienID IS NULL;
+
+            IF @@ROWCOUNT <> 1
+                THROW 50001,
+                    N'Không thể liên kết tài khoản.', 1;
+
+            SELECT @maNV;
+        ",
+                lenh =>
+                {
+                    lenh.Parameters.Add("@role", SqlDbType.Int)
+                        .Value = roleID;
+
+                    lenh.Parameters.Add("@hoTen", SqlDbType.NVarChar, 100)
+                        .Value = thongTin.HoTen.Trim();
+
+                    lenh.Parameters.Add("@sdt", SqlDbType.VarChar, 15)
+                        .Value = thongTin.SDT.Trim();
+
+                    lenh.Parameters.Add("@ngaySinh", SqlDbType.Date)
+                        .Value = (object?)thongTin.NgaySinh ?? DBNull.Value;
+
+                    lenh.Parameters.Add("@gioiTinh", SqlDbType.NVarChar, 10)
+                        .Value = (object?)thongTin.GioiTinh ?? DBNull.Value;
+
+                    lenh.Parameters.Add("@email", SqlDbType.VarChar, 100)
+                        .Value = (object?)thongTin.Email ?? DBNull.Value;
+
+                    lenh.Parameters.Add("@diaChi", SqlDbType.NVarChar, 255)
+                        .Value = (object?)thongTin.DiaChi ?? DBNull.Value;
+
+                    lenh.Parameters.Add("@ngayVaoLam", SqlDbType.Date)
+                        .Value = thongTin.NgayVaoLam;
+                },
+                lenh => Convert.ToInt32(lenh.ExecuteScalar())
+            );
+        }
+        // load panel thong tin dang ki
+        public DataRow? LayThongTinDangKy(int taiKhoanID)
+        {
+            return DocQuanTri((conn, tran, adminID) =>
+            {
+                const string sql = @"
+            SELECT
+                TaiKhoanID,
+                TenDangNhap,
+                HoTenDangKy,
+                SDTDangKy,
+                NgayDangKy,
+                TrangThai
+            FROM dbo.TAI_KHOAN
+            WHERE TaiKhoanID = @TaiKhoanID
+              AND TrangThai = N'Chờ duyệt'";
+
+                using SqlCommand cmd = new SqlCommand(sql, conn, tran);
+
+                cmd.Parameters.Add("@TaiKhoanID", SqlDbType.Int)
+                              .Value = taiKhoanID;
+
+                DataTable dt = DocBang(cmd);
+
+                if (dt.Rows.Count == 0)
+                    return null;
+
+                return dt.Rows[0];
+            });
+        }
+
+
     }
 }
 
