@@ -1,6 +1,7 @@
 ﻿using QLNhaHang.Classes;
 using QLNhaHang.Controls.PhucVu;
 using QLNhaHang.Controls.Bep;
+using QLNhaHang.Controls.ThuNgan;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace QLNhaHang.Forms.Main
         public MainForm()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
+
         }
 
         // ===== KHỞI ĐỘNG: Session đã được LoginForm gán sẵn =====
@@ -171,8 +174,8 @@ namespace QLNhaHang.Forms.Main
             Open(btnMonChoPhucVu, "Món chờ phục vụ", new ucMonChoPhucVu());
         }
 
-        private void btnHoaDon_Click(object? sender, EventArgs e) { Open(btnHoaDon, "Hóa đơn"); }
-        private void btnThanhToan_Click(object? sender, EventArgs e) { Open(btnThanhToan, "Thanh toán"); }
+        private void btnHoaDon_Click(object? sender, EventArgs e) { Open(btnHoaDon, "Hóa đơn", new ucHoaDon()); }
+        private void btnThanhToan_Click(object? sender, EventArgs e) { Open(btnThanhToan, "Thanh toán", new ucThanhToan()); }
         private void btnTaiKhoan_Click(object? sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản"); }
     }
 }

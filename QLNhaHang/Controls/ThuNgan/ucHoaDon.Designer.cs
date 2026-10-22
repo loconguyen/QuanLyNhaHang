@@ -103,6 +103,7 @@
             // 
             dgvHoaDon.AllowUserToAddRows = false;
             dgvHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvHoaDon.BackgroundColor = Color.DarkRed;
             dgvHoaDon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvHoaDon.Location = new Point(3, 92);
             dgvHoaDon.MultiSelect = false;
@@ -117,6 +118,7 @@
             // 
             dgvChiTietHD.AllowUserToAddRows = false;
             dgvChiTietHD.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvChiTietHD.BackgroundColor = Color.Tomato;
             dgvChiTietHD.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvChiTietHD.Location = new Point(3, 319);
             dgvChiTietHD.MultiSelect = false;

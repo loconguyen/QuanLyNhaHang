@@ -99,6 +99,7 @@
             // 
             dgvChiTiet.AllowUserToAddRows = false;
             dgvChiTiet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvChiTiet.BackgroundColor = Color.DarkRed;
             dgvChiTiet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvChiTiet.Location = new Point(3, 138);
             dgvChiTiet.Name = "dgvChiTiet";
