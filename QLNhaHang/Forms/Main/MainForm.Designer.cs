@@ -159,7 +159,6 @@
             btnThanhToan.Text = "Thanh toán";
             btnThanhToan.TextAlign = ContentAlignment.MiddleLeft;
             btnThanhToan.UseVisualStyleBackColor = false;
-            btnThanhToan.Click += btnThanhToan_Click;
             // 
             // btnHoaDon
             // 

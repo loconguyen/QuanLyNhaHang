@@ -228,3 +228,6 @@ ALTER TABLE dbo.DON_HANG ADD YeuCauThanhToan BIT NOT NULL DEFAULT 0,
                              ThoiGianYeuCau DATETIME2(0) NULL;
 
 select * from NHAN_VIEN
+INSERT dbo.TAI_KHOAN (TenDangNhap, MatKhauHash, RoleID, NhanVienID)
+SELECT 'thungan', '123456', RoleID, 5
+FROM dbo.VAI_TRO WHERE TenVaiTro = 'THUNGAN';

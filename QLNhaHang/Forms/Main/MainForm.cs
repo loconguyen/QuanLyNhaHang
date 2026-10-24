@@ -74,9 +74,9 @@ namespace QLNhaHang.Forms.Main
                 btnMonChoPhucVu.Visible =
                 (r == "PHUCVU" || admin);
 
-            btnHoaDon.Visible =
-                btnThanhToan.Visible =
-                (r == "THUNGAN" || admin);
+            // Màn Hóa đơn đã gộp cả thanh toán nên ẩn nút Thanh toán riêng
+            btnHoaDon.Visible = (r == "THUNGAN" || admin);
+            btnThanhToan.Visible = false;
 
             btnTaiKhoan.Visible = admin;
         }
@@ -175,7 +175,6 @@ namespace QLNhaHang.Forms.Main
         }
 
         private void btnHoaDon_Click(object? sender, EventArgs e) { Open(btnHoaDon, "Hóa đơn", new ucHoaDon()); }
-        private void btnThanhToan_Click(object? sender, EventArgs e) { Open(btnThanhToan, "Thanh toán", new ucThanhToan()); }
         private void btnTaiKhoan_Click(object? sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản"); }
     }
 }
