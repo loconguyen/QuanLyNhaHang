@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using System.Data;
 using Microsoft.Data.SqlClient;
 
 namespace QLNhaHang.Classes
 {
     public class DataProcesser
     {
-        public static readonly string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
+        public static readonly string strConnect = @"Data Source =localhost\MSSQLSERVER01; Database =QLNhaHang;Integrated Security =True;TrustServercertificate=True";
         SqlConnection sqlConnect = null;
         // mo ket noi
         private void KetNoiCSDL()

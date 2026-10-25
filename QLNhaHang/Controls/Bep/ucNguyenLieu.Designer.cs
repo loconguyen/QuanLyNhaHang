@@ -28,13 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             tblMain = new TableLayoutPanel();
             lblTitle = new Label();
             dgvNL = new DataGridView();
-            colNguyenLieuID = new DataGridViewTextBoxColumn();
             colTenNguyeLieu = new DataGridViewTextBoxColumn();
             colDonViTinh = new DataGridViewTextBoxColumn();
             colSoLuongTon = new DataGridViewTextBoxColumn();
@@ -43,6 +42,9 @@
             colTrangThai = new DataGridViewTextBoxColumn();
             lblChuThich = new Label();
             pnlEdit = new Panel();
+            lblDvtCanhBao = new Label();
+            lblDvtTon = new Label();
+            lblDonVi = new Label();
             btnLuuNL = new Button();
             dtpHan = new DateTimePicker();
             lblHan = new Label();
@@ -99,24 +101,24 @@
             dgvNL.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvNL.BackgroundColor = Color.White;
             dgvNL.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(241, 245, 249);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvNL.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(241, 245, 249);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgvNL.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgvNL.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvNL.Columns.AddRange(new DataGridViewColumn[] { colNguyenLieuID, colTenNguyeLieu, colDonViTinh, colSoLuongTon, colMucCanhBao, colHanSuDung, colTrangThai });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(30, 41, 59);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgvNL.DefaultCellStyle = dataGridViewCellStyle3;
+            dgvNL.Columns.AddRange(new DataGridViewColumn[] { colTenNguyeLieu, colDonViTinh, colSoLuongTon, colMucCanhBao, colHanSuDung, colTrangThai });
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(30, 41, 59);
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvNL.DefaultCellStyle = dataGridViewCellStyle6;
             dgvNL.Dock = DockStyle.Fill;
             dgvNL.EnableHeadersVisualStyles = false;
             dgvNL.Location = new Point(3, 46);
@@ -130,15 +132,6 @@
             dgvNL.TabIndex = 1;
             dgvNL.DataBindingComplete += dgvNL_DataBindingComplete;
             dgvNL.SelectionChanged += dgvNL_SelectionChanged;
-            // 
-            // colNguyenLieuID
-            // 
-            colNguyenLieuID.DataPropertyName = "NguyenLieuID";
-            colNguyenLieuID.HeaderText = "";
-            colNguyenLieuID.MinimumWidth = 6;
-            colNguyenLieuID.Name = "colNguyenLieuID";
-            colNguyenLieuID.ReadOnly = true;
-            colNguyenLieuID.Visible = false;
             // 
             // colTenNguyeLieu
             // 
@@ -179,9 +172,9 @@
             // colHanSuDung
             // 
             colHanSuDung.DataPropertyName = "HanSuDung";
-            dataGridViewCellStyle2.Format = "dd/MM/yyyy";
-            dataGridViewCellStyle2.NullValue = null;
-            colHanSuDung.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Format = "dd/MM/yyyy";
+            dataGridViewCellStyle5.NullValue = null;
+            colHanSuDung.DefaultCellStyle = dataGridViewCellStyle5;
             colHanSuDung.FillWeight = 90F;
             colHanSuDung.HeaderText = "Hạn sử dụng";
             colHanSuDung.MinimumWidth = 6;
@@ -212,6 +205,9 @@
             // pnlEdit
             // 
             pnlEdit.BackColor = SystemColors.Control;
+            pnlEdit.Controls.Add(lblDvtCanhBao);
+            pnlEdit.Controls.Add(lblDvtTon);
+            pnlEdit.Controls.Add(lblDonVi);
             pnlEdit.Controls.Add(btnLuuNL);
             pnlEdit.Controls.Add(dtpHan);
             pnlEdit.Controls.Add(lblHan);
@@ -226,6 +222,36 @@
             pnlEdit.Name = "pnlEdit";
             pnlEdit.Size = new Size(1074, 123);
             pnlEdit.TabIndex = 3;
+            // 
+            // lblDvtCanhBao
+            // 
+            lblDvtCanhBao.AutoSize = true;
+            lblDvtCanhBao.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblDvtCanhBao.Location = new Point(773, 21);
+            lblDvtCanhBao.Margin = new Padding(0, 6, 0, 0);
+            lblDvtCanhBao.Name = "lblDvtCanhBao";
+            lblDvtCanhBao.Size = new Size(44, 23);
+            lblDvtCanhBao.TabIndex = 11;
+            lblDvtCanhBao.Text = "ĐVT";
+            // 
+            // lblDvtTon
+            // 
+            lblDvtTon.AutoSize = true;
+            lblDvtTon.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblDvtTon.Location = new Point(359, 77);
+            lblDvtTon.Margin = new Padding(0, 6, 0, 0);
+            lblDvtTon.Name = "lblDvtTon";
+            lblDvtTon.Size = new Size(44, 23);
+            lblDvtTon.TabIndex = 10;
+            lblDvtTon.Text = "ĐVT";
+            // 
+            // lblDonVi
+            // 
+            lblDonVi.AutoSize = true;
+            lblDonVi.Location = new Point(363, 78);
+            lblDonVi.Name = "lblDonVi";
+            lblDonVi.Size = new Size(0, 20);
+            lblDonVi.TabIndex = 9;
             // 
             // btnLuuNL
             // 
@@ -269,7 +295,7 @@
             nudCanhBao.Location = new Point(591, 19);
             nudCanhBao.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
             nudCanhBao.Name = "nudCanhBao";
-            nudCanhBao.Size = new Size(226, 30);
+            nudCanhBao.Size = new Size(168, 30);
             nudCanhBao.TabIndex = 5;
             // 
             // lblCanhBao
@@ -290,7 +316,7 @@
             nudTon.Location = new Point(169, 74);
             nudTon.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
             nudTon.Name = "nudTon";
-            nudTon.Size = new Size(234, 30);
+            nudTon.Size = new Size(176, 30);
             nudTon.TabIndex = 3;
             // 
             // lblTon
@@ -308,11 +334,12 @@
             // 
             txtTenNL.BackColor = Color.White;
             txtTenNL.BorderStyle = BorderStyle.None;
-            txtTenNL.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            txtTenNL.Location = new Point(169, 18);
+            txtTenNL.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            txtTenNL.Location = new Point(164, 18);
+            txtTenNL.Multiline = true;
             txtTenNL.Name = "txtTenNL";
             txtTenNL.ReadOnly = true;
-            txtTenNL.Size = new Size(234, 31);
+            txtTenNL.Size = new Size(234, 30);
             txtTenNL.TabIndex = 1;
             // 
             // lblTenNL
@@ -349,13 +376,6 @@
         private TableLayoutPanel tblMain;
         private Label lblTitle;
         private DataGridView dgvNL;
-        private DataGridViewTextBoxColumn colNguyenLieuID;
-        private DataGridViewTextBoxColumn colTenNguyeLieu;
-        private DataGridViewTextBoxColumn colDonViTinh;
-        private DataGridViewTextBoxColumn colSoLuongTon;
-        private DataGridViewTextBoxColumn colMucCanhBao;
-        private DataGridViewTextBoxColumn colHanSuDung;
-        private DataGridViewTextBoxColumn colTrangThai;
         private Label lblChuThich;
         private Panel pnlEdit;
         private Label lblTenNL;
@@ -367,5 +387,14 @@
         private DateTimePicker dtpHan;
         private Label lblHan;
         private NumericUpDown nudCanhBao;
+        private DataGridViewTextBoxColumn colTenNguyeLieu;
+        private DataGridViewTextBoxColumn colDonViTinh;
+        private DataGridViewTextBoxColumn colSoLuongTon;
+        private DataGridViewTextBoxColumn colMucCanhBao;
+        private DataGridViewTextBoxColumn colHanSuDung;
+        private DataGridViewTextBoxColumn colTrangThai;
+        private Label lblDonVi;
+        private Label lblDvtCanhBao;
+        private Label lblDvtTon;
     }
 }

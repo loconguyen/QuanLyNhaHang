@@ -97,7 +97,7 @@
             tblMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 84F));
             tblMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblMain.Size = new Size(1378, 835);
+            tblMain.Size = new Size(1378, 642);
             tblMain.TabIndex = 1;
             // 
             // lblTieuDe
@@ -325,6 +325,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvCho.DefaultCellStyle = dataGridViewCellStyle2;
             dgvCho.Dock = DockStyle.Fill;
+            dgvCho.EnableHeadersVisualStyles = false;
             dgvCho.Location = new Point(8, 166);
             dgvCho.Margin = new Padding(0, 4, 6, 0);
             dgvCho.MultiSelect = false;
@@ -334,7 +335,7 @@
             dgvCho.RowHeadersWidth = 51;
             dgvCho.RowTemplate.Height = 30;
             dgvCho.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCho.Size = new Size(675, 661);
+            dgvCho.Size = new Size(675, 468);
             dgvCho.TabIndex = 5;
             dgvCho.DataBindingComplete += dgvCho_DataBindingComplete;
             // 
@@ -415,7 +416,7 @@
             dgvNL.RowHeadersVisible = false;
             dgvNL.RowHeadersWidth = 51;
             dgvNL.RowTemplate.Height = 30;
-            dgvNL.Size = new Size(675, 661);
+            dgvNL.Size = new Size(675, 468);
             dgvNL.TabIndex = 6;
             dgvNL.DataBindingComplete += dgvNL_DataBindingComplete;
             // 
@@ -488,7 +489,7 @@
             Controls.Add(tblMain);
             Font = new Font("Segoe UI", 10F);
             Name = "ucTongQuan";
-            Size = new Size(1378, 835);
+            Size = new Size(1378, 642);
             Load += ucTongQuan_Load;
             VisibleChanged += ucTongQuan_VisibleChanged;
             tblMain.ResumeLayout(false);
