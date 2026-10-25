@@ -3,7 +3,6 @@ using QLNhaHang.Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,7 +14,7 @@ namespace QLNhaHang.Controls.PhucVu
         // Chuỗi kết nối lấy chung từ DataProcesser
         static readonly string ConnStr = DataProcesser.strConnect;
 
-        // Báo cho MainForm biết cần mở đơn nào (banId, donHangId) - dùng khi làm màn hình Tạo đơn
+        // Báo cho MainForm biết cần mở đơn nào (banId, donHangId)
         public event Action<int, int>? MoDon;
 
         class BanInfo
@@ -302,19 +301,6 @@ namespace QLNhaHang.Controls.PhucVu
             return (Convert.ToInt32(rd["DonHangID"]), rd["TrangThaiDon"].ToString() ?? "");
         }
 
-        // Tổng tiền tạm tính của đơn = Số lượng x Đơn giá, bỏ món đã hủy
-        decimal TinhTongTien(int donHangId)
-        {
-            using var conn = new SqlConnection(ConnStr);
-            using var cmd = new SqlCommand(@"
-                SELECT ISNULL(SUM(SoLuong * DonGia), 0)
-                FROM CHI_TIET_DON_HANG
-                WHERE DonHangID = @d AND TrangThaiMon <> N'Đã hủy'", conn);
-            cmd.Parameters.AddWithValue("@d", donHangId);
-            conn.Open();
-            return Convert.ToDecimal(cmd.ExecuteScalar());
-        }
-
         // ===== XÁC NHẬN DỌN BÀN: Đang phục vụ -> Chờ dọn =====
         // Chỉ được khi bàn không còn đơn nào đang xử lý (đơn đã thanh toán)
         void XacNhanDonBan(BanInfo ban)
@@ -344,7 +330,7 @@ namespace QLNhaHang.Controls.PhucVu
             }
         }
 
-        // ===== CHI TIẾT ĐƠN: hiện khi bấm vào bàn Đang phục vụ =====
+        // ===== CHI TIẾT ĐƠN: mở Form riêng khi bấm vào bàn Đang phục vụ =====
         void ChiTietDonDialog(BanInfo ban)
         {
             try
@@ -356,174 +342,15 @@ namespace QLNhaHang.Controls.PhucVu
                     return;
                 }
 
-                int? donId = don.Value.Id;
-                bool donDaThanhToan = don.Value.TrangThai == "Hoàn thành";
+                int donId = don.Value.Id;
 
-                string nhanVien = "", gioTao = "";
-                bool daYeuCau = false;
-                var dt = new DataTable();
+                using var f = new frmChiTietDon(donId, ban.SoBan, ban.ViTri, ban.SucChua);
+                f.ShowDialog(this);
 
-                using (var conn = new SqlConnection(ConnStr))
+                switch (f.HanhDong)
                 {
-                    conn.Open();
-
-                    using (var cmd = new SqlCommand(@"
-                        SELECT dh.ThoiGianTao, nv.HoTen, dh.YeuCauThanhToan
-                        FROM DON_HANG dh
-                        JOIN NHAN_VIEN nv ON nv.NhanVienID = dh.NhanVienPhucVuID
-                        WHERE dh.DonHangID = @d", conn))
-                    {
-                        cmd.Parameters.AddWithValue("@d", donId.Value);
-                        using var rd = cmd.ExecuteReader();
-                        if (rd.Read())
-                        {
-                            nhanVien = rd["HoTen"].ToString() ?? "";
-                            gioTao = Convert.ToDateTime(rd["ThoiGianTao"]).ToString("dd/MM/yyyy HH:mm");
-                            daYeuCau = Convert.ToBoolean(rd["YeuCauThanhToan"]);
-                        }
-                    }
-
-                    using var da = new SqlDataAdapter(@"
-                        SELECT m.TenMon, c.SoLuong, c.DonGia,
-                               c.SoLuong * c.DonGia AS ThanhTien,
-                               c.TrangThaiMon, c.GhiChu
-                        FROM CHI_TIET_DON_HANG c
-                        JOIN MON_AN m ON m.MonID = c.MonID
-                        WHERE c.DonHangID = @d
-                        ORDER BY m.TenMon", conn);
-                    da.SelectCommand.Parameters.AddWithValue("@d", donId.Value);
-                    da.Fill(dt);
-                }
-
-                decimal tong = TinhTongTien(donId.Value);
-                bool laPhucVu = Session.Role == "PHUCVU" || Session.Role == "ADMIN";
-                string hanhDong = "";
-
-                using var f = new Form
-                {
-                    Text = $"Bàn {ban.SoBan} - Đơn #{donId}",
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    StartPosition = FormStartPosition.CenterParent,
-                    MaximizeBox = false,
-                    MinimizeBox = false,
-                    ClientSize = new Size(800, 470)
-                };
-
-                var lblInfo = new Label
-                {
-                    Text = $"Bàn {ban.SoBan}  ·  {ban.ViTri}  ·  {ban.SucChua} chỗ\n" +
-                           $"Đơn #{donId}  ·  Phục vụ: {nhanVien}  ·  Tạo lúc {gioTao}" +
-                           (donDaThanhToan ? "\nĐơn đã thanh toán"
-                            : daYeuCau ? "\nĐã gửi yêu cầu thanh toán cho Thu ngân" : ""),
-                    AutoSize = true,
-                    Font = new Font("Segoe UI", 10),
-                    Location = new Point(15, 12)
-                };
-
-                // Tạo grid, KHÔNG gán DataSource ở đây
-                var grid = new DataGridView
-                {
-                    Location = new Point(15, 60),
-                    Size = new Size(770, 300),
-                    ReadOnly = true,
-                    AllowUserToAddRows = false,
-                    AllowUserToDeleteRows = false,
-                    RowHeadersVisible = false,
-                    SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                    BackgroundColor = Color.White,
-                    BorderStyle = BorderStyle.FixedSingle,
-                    AutoGenerateColumns = false          // tự tạo cột bên dưới
-                };
-
-                // Tạo cột thủ công: luôn tồn tại dù đơn chưa có món nào
-                grid.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    Name = "TenMon",
-                    DataPropertyName = "TenMon",
-                    HeaderText = "Món"
-                });
-                grid.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    Name = "SoLuong",
-                    DataPropertyName = "SoLuong",
-                    HeaderText = "SL",
-                    FillWeight = 30
-                });
-                grid.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    Name = "DonGia",
-                    DataPropertyName = "DonGia",
-                    HeaderText = "Đơn giá",
-                    DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
-                });
-                grid.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    Name = "ThanhTien",
-                    DataPropertyName = "ThanhTien",
-                    HeaderText = "Thành tiền",
-                    DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
-                });
-                grid.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    Name = "TrangThaiMon",
-                    DataPropertyName = "TrangThaiMon",
-                    HeaderText = "Trạng thái"
-                });
-                grid.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    Name = "GhiChu",
-                    DataPropertyName = "GhiChu",
-                    HeaderText = "Ghi chú"
-                });
-
-                grid.DataSource = dt;   // gán sau khi đã có cột
-
-                var lblTong = new Label
-                {
-                    Text = $"Tổng tiền tạm tính: {tong:N0} đ",
-                    AutoSize = true,
-                    Font = new Font("Segoe UI", 11, FontStyle.Bold),
-                    ForeColor = Color.FromArgb(24, 38, 66),
-                    Location = new Point(15, 372)
-                };
-
-                Button TaoNut(string text, int x, string act, int rong = 100)
-                {
-                    var b = new Button { Text = text, Location = new Point(x, 420), Size = new Size(rong, 34) };
-                    b.Click += (s, e) => { hanhDong = act; f.Close(); };
-                    return b;
-                }
-
-                var nutDong = new Button
-                {
-                    Text = "Đóng",
-                    DialogResult = DialogResult.Cancel,
-                    Location = new Point(675, 420),
-                    Size = new Size(100, 34)
-                };
-
-                f.Controls.AddRange(new Control[] { lblInfo, grid, lblTong, nutDong });
-
-                if (laPhucVu)
-                {
-                    if (!donDaThanhToan)
-                    {
-                        if (!daYeuCau)
-                            f.Controls.Add(TaoNut("Yêu cầu thanh toán", 15, "yeucau", 165));
-                        f.Controls.Add(TaoNut("Thêm món", 190, "modon", 95));
-                        f.Controls.Add(TaoNut("Chuyển bàn", 295, "chuyen", 95));
-                    }
-                    f.Controls.Add(TaoNut("Xác nhận dọn bàn", 400, "donban", 150));
-                }
-
-                f.CancelButton = nutDong;
-                f.ShowDialog();
-
-                switch (hanhDong)
-                {
-                    case "modon": MoDonHang(ban, donId.Value); break;
-                    case "yeucau": GuiYeuCauThanhToan(ban, donId.Value); break;
+                    case "modon": MoDonHang(ban, donId); break;
+                    case "yeucau": GuiYeuCauThanhToan(ban, donId); break;
                     case "chuyen": ChuyenBanDialog(ban); break;
                     case "donban": XacNhanDonBan(ban); break;
                 }
