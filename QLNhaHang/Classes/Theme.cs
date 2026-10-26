@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Drawing.Design;
 namespace QLNhaHang.Classes
 {
     internal static class Theme
@@ -17,6 +18,7 @@ namespace QLNhaHang.Classes
         public static readonly Color Orange = Color.FromArgb(229, 100, 29);
         public static readonly Color Blue = Color.FromArgb(60, 115, 201);
         public static readonly Color Green = Color.FromArgb(17, 169, 77);
+        
 
 
         // font

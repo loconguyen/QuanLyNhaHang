@@ -35,15 +35,15 @@
             txtHoTenDK = new MaskedTextBox();
             txtTenDangNhap = new MaskedTextBox();
             label6 = new Label();
+            pnlLuaChon = new Panel();
+            radioButton2 = new RadioButton();
+            radioButton1 = new RadioButton();
+            label7 = new Label();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            pnlLuaChon = new Panel();
-            radioButton2 = new RadioButton();
-            radioButton1 = new RadioButton();
-            label7 = new Label();
             pnlThongTinNhanVien = new Panel();
             gbNhanVienMoi = new GroupBox();
             cbGioiTinh = new ComboBox();
@@ -107,9 +107,9 @@
             pnlThongTinDangKy.Controls.Add(label3);
             pnlThongTinDangKy.Controls.Add(label2);
             pnlThongTinDangKy.Controls.Add(label1);
-            pnlThongTinDangKy.Location = new Point(24, 78);
+            pnlThongTinDangKy.Location = new Point(34, 122);
             pnlThongTinDangKy.Name = "pnlThongTinDangKy";
-            pnlThongTinDangKy.Size = new Size(1184, 184);
+            pnlThongTinDangKy.Size = new Size(1402, 172);
             pnlThongTinDangKy.TabIndex = 0;
             // 
             // txtTrangThai
@@ -117,7 +117,7 @@
             txtTrangThai.BackColor = Color.FromArgb(255, 244, 232);
             txtTrangThai.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             txtTrangThai.ForeColor = Color.FromArgb(229, 100, 29);
-            txtTrangThai.Location = new Point(960, 108);
+            txtTrangThai.Location = new Point(1068, 108);
             txtTrangThai.Name = "txtTrangThai";
             txtTrangThai.Size = new Size(200, 34);
             txtTrangThai.TabIndex = 9;
@@ -125,7 +125,7 @@
             // txtThoiGianDK
             // 
             txtThoiGianDK.BackColor = Color.FromArgb(248, 249, 251);
-            txtThoiGianDK.Location = new Point(676, 112);
+            txtThoiGianDK.Location = new Point(731, 110);
             txtThoiGianDK.Name = "txtThoiGianDK";
             txtThoiGianDK.Size = new Size(252, 34);
             txtThoiGianDK.TabIndex = 8;
@@ -133,7 +133,7 @@
             // txtSDTDK
             // 
             txtSDTDK.BackColor = Color.FromArgb(248, 249, 251);
-            txtSDTDK.Location = new Point(676, 58);
+            txtSDTDK.Location = new Point(731, 56);
             txtSDTDK.Name = "txtSDTDK";
             txtSDTDK.Size = new Size(252, 34);
             txtSDTDK.TabIndex = 7;
@@ -164,10 +164,59 @@
             label6.TabIndex = 1;
             label6.Text = "Thông tin đăng ký";
             // 
+            // pnlLuaChon
+            // 
+            pnlLuaChon.BackColor = Color.FromArgb(235, 241, 250);
+            pnlLuaChon.Controls.Add(radioButton2);
+            pnlLuaChon.Controls.Add(radioButton1);
+            pnlLuaChon.Controls.Add(label7);
+            pnlLuaChon.Location = new Point(34, 311);
+            pnlLuaChon.Name = "pnlLuaChon";
+            pnlLuaChon.Size = new Size(1402, 109);
+            pnlLuaChon.TabIndex = 1;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Cursor = Cursors.Hand;
+            radioButton2.ForeColor = Color.FromArgb(23, 38, 62);
+            radioButton2.Location = new Point(730, 32);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(250, 32);
+            radioButton2.TabIndex = 3;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Tạo hồ sơ nhân viên mới";
+            radioButton2.UseVisualStyleBackColor = true;
+            radioButton2.CheckedChanged += radioButton2_CheckedChanged;
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Cursor = Cursors.Hand;
+            radioButton1.ForeColor = Color.FromArgb(23, 38, 62);
+            radioButton1.Location = new Point(320, 32);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(278, 32);
+            radioButton1.TabIndex = 2;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Liên kết với nhân viên đã có";
+            radioButton1.UseVisualStyleBackColor = true;
+            radioButton1.CheckedChanged += radioButton1_CheckedChanged;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            label7.Location = new Point(24, 14);
+            label7.Name = "label7";
+            label7.Size = new Size(237, 30);
+            label7.TabIndex = 1;
+            label7.Text = "Chọn hình thức duyệt";
+            // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(960, 62);
+            label5.Location = new Point(1068, 62);
             label5.Name = "label5";
             label5.Size = new Size(98, 28);
             label5.TabIndex = 4;
@@ -177,7 +226,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(504, 116);
+            label4.Location = new Point(559, 114);
             label4.Name = "label4";
             label4.Size = new Size(134, 28);
             label4.TabIndex = 3;
@@ -186,7 +235,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(504, 62);
+            label3.Location = new Point(559, 60);
             label3.Name = "label3";
             label3.Size = new Size(128, 28);
             label3.TabIndex = 2;
@@ -210,61 +259,14 @@
             label1.TabIndex = 0;
             label1.Text = "Tên đăng nhập";
             // 
-            // pnlLuaChon
-            // 
-            pnlLuaChon.BackColor = Color.FromArgb(235, 241, 250);
-            pnlLuaChon.Controls.Add(radioButton2);
-            pnlLuaChon.Controls.Add(radioButton1);
-            pnlLuaChon.Controls.Add(label7);
-            pnlLuaChon.Location = new Point(27, 268);
-            pnlLuaChon.Name = "pnlLuaChon";
-            pnlLuaChon.Size = new Size(1184, 88);
-            pnlLuaChon.TabIndex = 1;
-            // 
-            // radioButton2
-            // 
-            radioButton2.AutoSize = true;
-            radioButton2.Cursor = Cursors.Hand;
-            radioButton2.ForeColor = Color.FromArgb(23, 38, 62);
-            radioButton2.Location = new Point(730, 32);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(250, 32);
-            radioButton2.TabIndex = 3;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "Tạo hồ sơ nhân viên mới";
-            radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            radioButton1.AutoSize = true;
-            radioButton1.Cursor = Cursors.Hand;
-            radioButton1.ForeColor = Color.FromArgb(23, 38, 62);
-            radioButton1.Location = new Point(320, 32);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(278, 32);
-            radioButton1.TabIndex = 2;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Liên kết với nhân viên đã có";
-            radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label7.Location = new Point(24, 14);
-            label7.Name = "label7";
-            label7.Size = new Size(237, 30);
-            label7.TabIndex = 1;
-            label7.Text = "Chọn hình thức duyệt";
-            // 
             // pnlThongTinNhanVien
             // 
             pnlThongTinNhanVien.BackColor = Color.FromArgb(248, 249, 251);
             pnlThongTinNhanVien.Controls.Add(gbNhanVienMoi);
             pnlThongTinNhanVien.Controls.Add(gbNhanVienDaCo);
-            pnlThongTinNhanVien.Location = new Point(24, 362);
+            pnlThongTinNhanVien.Location = new Point(21, 435);
             pnlThongTinNhanVien.Name = "pnlThongTinNhanVien";
-            pnlThongTinNhanVien.Size = new Size(1184, 368);
+            pnlThongTinNhanVien.Size = new Size(1402, 397);
             pnlThongTinNhanVien.TabIndex = 2;
             // 
             // gbNhanVienMoi
@@ -287,9 +289,9 @@
             gbNhanVienMoi.Controls.Add(label12);
             gbNhanVienMoi.Controls.Add(label11);
             gbNhanVienMoi.Controls.Add(label10);
-            gbNhanVienMoi.Location = new Point(594, 0);
+            gbNhanVienMoi.Location = new Point(822, 3);
             gbNhanVienMoi.Name = "gbNhanVienMoi";
-            gbNhanVienMoi.Size = new Size(590, 368);
+            gbNhanVienMoi.Size = new Size(593, 397);
             gbNhanVienMoi.TabIndex = 3;
             gbNhanVienMoi.TabStop = false;
             // 
@@ -450,11 +452,12 @@
             gbNhanVienDaCo.Controls.Add(gbThongTinNhanVien);
             gbNhanVienDaCo.Controls.Add(label9);
             gbNhanVienDaCo.Controls.Add(label8);
-            gbNhanVienDaCo.Location = new Point(0, 0);
+            gbNhanVienDaCo.Location = new Point(13, 3);
             gbNhanVienDaCo.Name = "gbNhanVienDaCo";
-            gbNhanVienDaCo.Size = new Size(574, 368);
+            gbNhanVienDaCo.Size = new Size(629, 397);
             gbNhanVienDaCo.TabIndex = 2;
             gbNhanVienDaCo.TabStop = false;
+            gbNhanVienDaCo.Enter += gbNhanVienDaCo_Enter;
             // 
             // cbNhanVienDaCo
             // 
@@ -482,7 +485,7 @@
             gbThongTinNhanVien.ForeColor = Color.FromArgb(100, 112, 130);
             gbThongTinNhanVien.Location = new Point(24, 128);
             gbThongTinNhanVien.Name = "gbThongTinNhanVien";
-            gbThongTinNhanVien.Size = new Size(522, 216);
+            gbThongTinNhanVien.Size = new Size(583, 249);
             gbThongTinNhanVien.TabIndex = 3;
             gbThongTinNhanVien.TabStop = false;
             gbThongTinNhanVien.Text = "Hồ sơ nhân viên";
@@ -607,9 +610,9 @@
             pnlThaoTac.BackColor = Color.White;
             pnlThaoTac.Controls.Add(comboBox1);
             pnlThaoTac.Controls.Add(label24);
-            pnlThaoTac.Location = new Point(24, 736);
+            pnlThaoTac.Location = new Point(34, 851);
             pnlThaoTac.Name = "pnlThaoTac";
-            pnlThaoTac.Size = new Size(1184, 80);
+            pnlThaoTac.Size = new Size(1402, 90);
             pnlThaoTac.TabIndex = 3;
             // 
             // comboBox1
@@ -642,7 +645,7 @@
             btnXacNhanDuyet.FlatStyle = FlatStyle.Flat;
             btnXacNhanDuyet.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnXacNhanDuyet.ForeColor = Color.White;
-            btnXacNhanDuyet.Location = new Point(490, 835);
+            btnXacNhanDuyet.Location = new Point(652, 947);
             btnXacNhanDuyet.Name = "btnXacNhanDuyet";
             btnXacNhanDuyet.Size = new Size(266, 48);
             btnXacNhanDuyet.TabIndex = 5;
@@ -657,9 +660,9 @@
             btnQuayLai.FlatStyle = FlatStyle.Flat;
             btnQuayLai.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnQuayLai.ForeColor = Color.FromArgb(23, 38, 62);
-            btnQuayLai.Location = new Point(24, 24);
+            btnQuayLai.Location = new Point(34, 53);
             btnQuayLai.Name = "btnQuayLai";
-            btnQuayLai.Size = new Size(156, 48);
+            btnQuayLai.Size = new Size(267, 54);
             btnQuayLai.TabIndex = 4;
             btnQuayLai.Text = "Quay lại";
             btnQuayLai.UseVisualStyleBackColor = false;
@@ -669,11 +672,12 @@
             lblDuyetTaiKhoan.AutoSize = true;
             lblDuyetTaiKhoan.Font = new Font("Segoe UI", 21F, FontStyle.Bold);
             lblDuyetTaiKhoan.ForeColor = Color.FromArgb(23, 38, 62);
-            lblDuyetTaiKhoan.Location = new Point(186, 11);
+            lblDuyetTaiKhoan.Location = new Point(307, 53);
             lblDuyetTaiKhoan.Name = "lblDuyetTaiKhoan";
             lblDuyetTaiKhoan.Size = new Size(340, 57);
             lblDuyetTaiKhoan.TabIndex = 5;
             lblDuyetTaiKhoan.Text = "Duyệt tài khoản";
+            lblDuyetTaiKhoan.Click += lblDuyetTaiKhoan_Click;
             // 
             // ucDuyetNhanVien
             // 
@@ -691,7 +695,7 @@
             Font = new Font("Segoe UI", 10F);
             ForeColor = Color.FromArgb(23, 38, 62);
             Name = "ucDuyetNhanVien";
-            Size = new Size(1240, 900);
+            Size = new Size(1447, 1017);
             pnlThongTinDangKy.ResumeLayout(false);
             pnlThongTinDangKy.PerformLayout();
             pnlLuaChon.ResumeLayout(false);

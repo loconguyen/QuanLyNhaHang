@@ -208,12 +208,15 @@ namespace QLNhaHang.Controls.Admin
             }
         }
 
-        private bool LayTaiKhoan(out int ma, out byte[] phienBan)
+        private bool LayTaiKhoan(out int ma)
         {
-            ma = 0; phienBan = Array.Empty<byte>();
-            if (dongDangChon == null || dangXuLy) return false;
+            ma = 0;
+
+            if (dongDangChon == null || dangXuLy)
+                return false;
+
             ma = Convert.ToInt32(dongDangChon["TaiKhoanID"]);
-            phienBan = (byte[])dongDangChon["PhienBan"];
+
             return true;
         }
 
@@ -268,21 +271,61 @@ namespace QLNhaHang.Controls.Admin
         }
         private async void btnKhoa_Click(object? sender, EventArgs e)
         {
-            //if (!LayTaiKhoan(out int ma, out byte[] pb)) return;
-            //bool khoa = dongDangChon!["TrangThai"].ToString() == "Hoạt động";
-            //if (!XacNhan($"{(khoa ? "Khóa" : "Mở khóa")} tài khoản '{dongDangChon["TenDangNhap"]}'?")) return;
-            //await ThucHien(() => { xuLy.DoiTrangThai(ma, pb, khoa); return khoa ? "Đã khóa tài khoản." : "Đã mở khóa tài khoản."; }, ma);
+            if (!LayTaiKhoan(out int ma))
+                return;
+
+            bool khoa = dongDangChon!["TrangThai"].ToString() == "Hoạt động";
+
+            if (!XacNhan(
+                $"{(khoa ? "Khóa" : "Mở khóa")} tài khoản '{dongDangChon["TenDangNhap"]}'?"))
+                return;
+
+            await ThucHien(() =>
+            {
+                xuLy.DoiTrangThai(ma, khoa);
+
+                return khoa
+                    ? "Đã khóa tài khoản."
+                    : "Đã mở khóa tài khoản.";
+            }, ma);
         }
         private async void btnDatLaiMatKhau_Click(object? sender, EventArgs e)
         {
-            //if (!LayTaiKhoan(out int ma, out byte[] pb)) return;
-            //string matKhau = txtMatKhauMoi.Text;
-            //if (matKhau.Length < 8 || matKhau.Length > 128 || string.IsNullOrWhiteSpace(matKhau))
-            //{ lblThongBao.Text = "Mật khẩu mới cần có từ 8 đến 128 ký tự."; return; }
-            //if (matKhau != txtXacNhanMatKhau.Text)
-            //{ lblThongBao.Text = "Mật khẩu xác nhận chưa khớp."; return; }
-            //if (!XacNhan($"Đặt lại mật khẩu cho '{dongDangChon!["TenDangNhap"]}'?")) return;
-            //await ThucHien(() => { xuLy.DatLaiMatKhau(ma, pb, matKhau); return "Đã đặt lại mật khẩu."; }, ma);
+            // 1. Lấy mã tài khoản đang chọn
+            if (!LayTaiKhoan(out int ma))
+                return;
+
+            // 2. Lấy mật khẩu mới
+            string matKhau = txtMatKhauMoi.Text;
+
+            // 3. Kiểm tra mật khẩu hợp lệ
+            if (matKhau.Length < 8 ||
+                matKhau.Length > 128 ||
+                string.IsNullOrWhiteSpace(matKhau))
+            {
+                lblThongBao.Text = "Mật khẩu mới cần có từ 8 đến 128 ký tự.";
+                return;
+            }
+
+            // 4. Kiểm tra xác nhận mật khẩu
+            if (matKhau != txtXacNhanMatKhau.Text)
+            {
+                lblThongBao.Text = "Mật khẩu xác nhận chưa khớp.";
+                return;
+            }
+
+            // 5. Xác nhận thao tác
+            if (!XacNhan(
+                $"Đặt lại mật khẩu cho '{dongDangChon!["TenDangNhap"]}'?"))
+                return;
+
+            // 6. Gọi phương thức xử lý
+            await ThucHien(() =>
+            {
+                xuLy.DatLaiMatKhau(ma, matKhau);
+
+                return "Đã đặt lại mật khẩu.";
+            }, ma);
         }
         private void chkHienMatKhau_CheckedChanged(object? sender, EventArgs e)
         {

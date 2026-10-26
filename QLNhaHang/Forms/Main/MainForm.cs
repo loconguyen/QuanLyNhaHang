@@ -19,6 +19,8 @@ namespace QLNhaHang.Forms.Main
         public MainForm()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
+
         }
 
         // ===== KHỞI ĐỘNG: Session đã được LoginForm gán sẵn =====
@@ -165,8 +167,13 @@ namespace QLNhaHang.Forms.Main
             Open(btnThucDon, "Thực đơn", new ucThucDon()); }
         private void btnNguyenLieu_Click(object sender, EventArgs e) {
             Open(btnNguyenLieu, "Nguyên liệu", new ucNguyenLieu()); }
-        private void btnQuanLyBan_Click(object sender, EventArgs e) { 
-            Open(btnQuanLyBan, "Quản lý bàn",new ucQuanLyBan()); }
+        
+        private void btnQuanLyBan_Click(object? sender, EventArgs e)
+        {
+            var uc = new ucQuanLyBan();
+            uc.MoDon += MoTaoDon;
+            Open(btnQuanLyBan, "Quản lý bàn", uc);
+        }
         private void btnTaoDon_Click(object sender, EventArgs e) {
             Open(btnTaoDon, "Tạo đơn", new ucTaoDon()); }
         private void btnMonChoPhucVu_Click(object sender, EventArgs e) { 

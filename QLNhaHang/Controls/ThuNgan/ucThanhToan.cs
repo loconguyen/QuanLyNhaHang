@@ -289,9 +289,6 @@ namespace QLNhaHang.Controls.ThuNgan
             string giamGiaSql =
                 giamGiaTien.ToString(CultureInfo.InvariantCulture);
 
-            string thanhTienSql =
-                thanhTien.ToString(CultureInfo.InvariantCulture);
-
             string phuongThuc = cbPhuongThuc
                 .GetItemText(cbPhuongThuc.SelectedItem)
                 .Replace("'", "''");
@@ -311,13 +308,22 @@ namespace QLNhaHang.Controls.ThuNgan
             }
 
             string sql = $@"
+                set xact_abort on;
+                begin transaction;
                 update HOA_DON
-                set GiamGia = {giamGiaSql},
-                    ThanhTien = {thanhTienSql},
+                set GiamGia={giamGiaSql}
                     PhuongThucThanhToan = N'{phuongThuc}',
                     TrangThaiThanhToan = N'Đã thanh toán'
                 where HoaDonID = {hoaDonID}
-                    and TrangThaiThanhToan = N'Chưa thanh toán'";
+                    and TrangThaiThanhToan = N'Chưa thanh toán';
+
+                if @@ROWCOUNT > 0
+                    update DON_HANG
+                    set TrangThaiDon = N'Hoàn thành'
+                    where DonHangID = (select DonHangID from HOA_DON
+                                       where HoaDonID = {hoaDonID});
+
+                commit;";
 
             try
             {

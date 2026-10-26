@@ -67,11 +67,33 @@ namespace QLNhaHang.Controls.ThuNgan
             if (dgv.Columns[tenCot] != null) dgv.Columns[tenCot].DefaultCellStyle.Format = "N0";
         }
 
+
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            txtTimKiem.Clear();
-            LoadHoaDon("");
+            string tuKhoa = txtTimKiem.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(tuKhoa))
+            {
+                LoadHoaDon("");
+                return;
+            }
+
+            if (!int.TryParse(tuKhoa, out int ma))
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập mã hóa đơn hoặc mã đơn hàng là số!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtTimKiem.Focus();
+                txtTimKiem.SelectAll();
+                return;
+            }
+
+            LoadHoaDon(ma.ToString());
         }
+
 
         private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -113,7 +135,7 @@ namespace QLNhaHang.Controls.ThuNgan
             string sql = @"
                 select dh.DonHangID
                 from DON_HANG dh
-                where NOT EXISTS
+                where not exists
                 (
                     select 1
                     from HOA_DON hd
@@ -253,8 +275,10 @@ namespace QLNhaHang.Controls.ThuNgan
         }
 
 
+
         private void btnSua_Click(object sender, EventArgs e)
         {
+            // 1. Kiểm tra hóa đơn được chọn
             if (dgvHoaDon.CurrentRow == null ||
                 dgvHoaDon.CurrentRow.IsNewRow)
             {
@@ -262,79 +286,130 @@ namespace QLNhaHang.Controls.ThuNgan
                 return;
             }
 
-            int hoaDonID = Convert.ToInt32(
-                dgvHoaDon.CurrentRow.Cells["Mã hóa đơn"].Value);
-
-            string sqlKiemTra = $@"
-                select TongTien, TrangThaiThanhToan
-                from HOA_DON
-                where HoaDonID = {hoaDonID}";
-
-            DataTable dt = db.DocBang(sqlKiemTra);
-
-            if (dt.Rows.Count == 0)
+            if (!int.TryParse(
+                Convert.ToString(
+                    dgvHoaDon.CurrentRow.Cells["Mã hóa đơn"].Value),
+                out int hoaDonID))
             {
-                MessageBox.Show("Không tìm thấy hóa đơn!");
+                MessageBox.Show("Mã hóa đơn không hợp lệ!");
                 return;
             }
-
-            if (dt.Rows[0]["TrangThaiThanhToan"].ToString()
-                != "Chưa thanh toán")
-            {
-                MessageBox.Show("Không thể sửa hóa đơn đã thanh toán!");
-                return;
-            }
-
-            decimal tongTien = Convert.ToDecimal(dt.Rows[0]["TongTien"]);
-
-            string nhap = Interaction.InputBox(
-                "Nhập phần trăm giảm giá (0 đến 100):",
-                "Sửa hóa đơn",
-                "0");
-
-            if (string.IsNullOrWhiteSpace(nhap))
-                return;
-
-            nhap = nhap.Replace(',', '.');
-
-            if (!decimal.TryParse(
-                nhap,
-                NumberStyles.Number,
-                CultureInfo.InvariantCulture,
-                out decimal phanTram) ||
-                phanTram < 0 || phanTram > 100)
-            {
-                MessageBox.Show("Phần trăm giảm giá không hợp lệ!");
-                return;
-            }
-
-            decimal giamGia = tongTien * phanTram / 100;
-            decimal thanhTien = tongTien - giamGia;
-
-            string sql = $@"
-                update HOA_DON
-                set GiamGia = {giamGia.ToString(CultureInfo.InvariantCulture)},
-                    ThanhTien = {thanhTien.ToString(CultureInfo.InvariantCulture)}
-                where HoaDonID = {hoaDonID} and TrangThaiThanhToan = N'Chưa thanh toán'";
 
             try
             {
-                if (db.CapNhapDuLieu(sql) > 0)
+                // 2. Lấy thông tin hóa đơn từ SQL
+                string sqlKiemTra = $@"
+                    select TongTien, GiamGia, TrangThaiThanhToan
+                    from HOA_DON
+                    where HoaDonID = {hoaDonID}";
+
+                DataTable dt = db.DocBang(sqlKiemTra);
+
+                if (dt.Rows.Count == 0)
                 {
-                    MessageBox.Show("Sửa hóa đơn thành công!");
+                    MessageBox.Show("Không tìm thấy hóa đơn!");
+                    return;
+                }
+
+                DataRow hoaDon = dt.Rows[0];
+
+                // 3. Chỉ cho sửa hóa đơn chưa thanh toán
+                if (hoaDon["TrangThaiThanhToan"] == DBNull.Value ||
+                    hoaDon["TrangThaiThanhToan"].ToString()
+                        != "Chưa thanh toán")
+                {
+                    MessageBox.Show(
+                        "Không thể sửa hóa đơn đã thanh toán!");
+                    return;
+                }
+
+                decimal tongTien = Convert.ToDecimal(hoaDon["TongTien"]);
+
+                decimal giamGiaHienTai = hoaDon["GiamGia"] == DBNull.Value
+                    ? 0
+                    : Convert.ToDecimal(hoaDon["GiamGia"]);
+
+                // 4. Nhập số tiền giảm giá
+                string nhap = Interaction.InputBox(
+                    "Nhập số tiền giảm giá (VNĐ).\n"
+                    + "Tổng tiền: " + tongTien.ToString("N0") + " VNĐ",
+                    "Sửa hóa đơn",
+                    giamGiaHienTai.ToString(
+                        CultureInfo.InvariantCulture));
+
+                if (string.IsNullOrWhiteSpace(nhap))
+                    return;
+
+                // Hỗ trợ nhập số tiền có dấu chấm hoặc dấu phẩy
+                nhap = nhap.Trim()
+                           .Replace(".", "")
+                           .Replace(",", "");
+
+                if (!decimal.TryParse(
+                    nhap,
+                    NumberStyles.Number,
+                    CultureInfo.InvariantCulture,
+                    out decimal giamGia))
+                {
+                    MessageBox.Show(
+                        "Số tiền giảm giá không hợp lệ! "
+                        + "Vui lòng nhập số nguyên, ví dụ: 20000.");
+                    return;
+                }
+
+                // 5. Kiểm tra mức giảm giá
+                if (giamGia < 0 || giamGia > tongTien)
+                {
+                    MessageBox.Show(
+                        "Tiền giảm giá phải từ 0 đến tổng tiền hóa đơn!");
+                    return;
+                }
+
+                // 6. Tính thành tiền
+                decimal thanhTien = tongTien - giamGia;
+
+                string giamGiaSql =
+                    giamGia.ToString(CultureInfo.InvariantCulture);
+
+                string thanhTienSql =
+                    thanhTien.ToString(CultureInfo.InvariantCulture);
+
+                // 7. Cập nhật hóa đơn chưa thanh toán
+                string sql = $@"
+            update HOA_DON
+            set GiamGia = {giamGiaSql},
+                ThanhTien = {thanhTienSql}
+            where HoaDonID = {hoaDonID}
+                and TrangThaiThanhToan = N'Chưa thanh toán'";
+
+                int ketQua = db.CapNhapDuLieu(sql);
+
+                if (ketQua > 0)
+                {
+                    MessageBox.Show(
+                        "Sửa hóa đơn thành công!\n"
+                        + "Giảm giá: " + giamGia.ToString("N0") + " VNĐ\n"
+                        + "Thành tiền: " + thanhTien.ToString("N0") + " VNĐ");
+
                     LoadHoaDon("");
                 }
                 else
                 {
                     MessageBox.Show(
-                        "Không sửa được hóa đơn. Vui lòng kiểm tra lại trạng thái.");
+                        "Không sửa được hóa đơn. "
+                        + "Có thể hóa đơn đã được thanh toán.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi sửa hóa đơn: " + ex.Message);
+                MessageBox.Show(
+                    "Lỗi sửa hóa đơn: " + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
+
 
         private void btnXuatExcel_Click(object sender, EventArgs e)
         {

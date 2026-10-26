@@ -12,11 +12,14 @@ namespace QLNhaHang.Controls.Admin
     public partial class ucDuyetNhanVien : UserControl
     {
         private int taiKhoanID;
+
         private readonly QuanLyTaiKhoan qltk =
           new QuanLyTaiKhoan();
         public ucDuyetNhanVien()
         {
             InitializeComponent();
+            gbNhanVienDaCo.Enabled = false;
+            gbNhanVienMoi.Enabled = false;
         }
         // Constructor nhận mã tài khoản từ ucTaiKhoan
         public ucDuyetNhanVien(int taiKhoanID) : this()
@@ -72,7 +75,7 @@ namespace QLNhaHang.Controls.Admin
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-        
+
         }
 
         private void label9_Click(object sender, EventArgs e)
@@ -81,6 +84,28 @@ namespace QLNhaHang.Controls.Admin
         }
 
         private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            gbNhanVienDaCo.Enabled = radioButton1.Checked;
+            gbNhanVienMoi.Enabled = radioButton2.Checked;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            gbNhanVienDaCo.Enabled = radioButton1.Checked;
+            gbNhanVienMoi.Enabled = radioButton2.Checked;
+        }
+
+        private void gbNhanVienDaCo_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblDuyetTaiKhoan_Click(object sender, EventArgs e)
         {
 
         }
