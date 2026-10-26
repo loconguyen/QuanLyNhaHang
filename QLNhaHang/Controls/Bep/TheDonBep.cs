@@ -125,7 +125,7 @@ namespace QLNhaHang.Controls.Bep
             return b;
         }
 
-        // ----- Tiêu đề thẻ -----
+        // Tiêu đề thẻ
         private Control TaoDau(string maDon, string soBan, DateTime gui, int lan, int cho, int dang)
         {
             bool goiThem = lan > 1;
@@ -166,7 +166,7 @@ namespace QLNhaHang.Controls.Bep
             return p;
         }
 
-        // ----- Một dòng món -----
+        // Một dòng món
         private Control TaoDong(DataRow r, bool coQuyen)
         {
             int dongId = Convert.ToInt32(r["DongID"]);
@@ -245,7 +245,7 @@ namespace QLNhaHang.Controls.Bep
             return p;
         }
 
-        // ----- Chân thẻ: thao tác cả thẻ (chỉ các món thuộc thẻ này) -----
+        //Chân thẻ: thao tác cả thẻ (chỉ các món thuộc thẻ này)
         private Control TaoChan(List<int> idCho, List<int> idDang)
         {
             var p = new Panel { Size = new Size(Rong - 2, 48), Dock = DockStyle.Top, BackColor = Color.FromArgb(248, 250, 252) };
@@ -387,7 +387,6 @@ namespace QLNhaHang.Controls.Bep
                 {
                     _danhSach.Controls.Add(TaoDongThongBao(c));
                 }
-
                 // Đặt lại vị trí cuộn khi danh sách thay đổi
                 _vungCuon.AutoScrollPosition = new Point(0, 0);
 
