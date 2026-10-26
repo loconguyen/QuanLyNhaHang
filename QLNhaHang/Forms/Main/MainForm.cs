@@ -149,16 +149,6 @@ namespace QLNhaHang.Forms.Main
 
         // --- Phục vụ ---
         private void btnQuanLyBan_Click(object sender, EventArgs e)
-        private void btnTongQuan_Click(object sender, EventArgs e) { 
-            Open(btnTongQuan, "Tổng quan"); }
-        private void btnCheBien_Click(object sender, EventArgs e) { 
-            Open(btnCheBien, "Chế biến", new ucCheBien()); }
-        private void btnThucDon_Click(object sender, EventArgs e) { 
-            Open(btnThucDon, "Thực đơn", new ucThucDon()); }
-        private void btnNguyenLieu_Click(object sender, EventArgs e) {
-            Open(btnNguyenLieu, "Nguyên liệu", new ucNguyenLieu()); }
-        
-        private void btnQuanLyBan_Click(object? sender, EventArgs e)
         {
             var uc = new ucQuanLyBan();
 
@@ -182,16 +172,7 @@ namespace QLNhaHang.Forms.Main
         }
 
         // --- Admin ---
-        private void btnTaiKhoan_Click(object sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản"); }
-        private void btnTaoDon_Click(object sender, EventArgs e) {
-            Open(btnTaoDon, "Tạo đơn", new ucTaoDon()); }
-        private void btnMonChoPhucVu_Click(object sender, EventArgs e) { 
-            Open(btnMonChoPhucVu, "Món chờ phục vụ",new ucMonChoPhucVu()); }
-        private void btnHoaDon_Click(object sender, EventArgs e) { 
-            Open(btnHoaDon, "Hóa đơn", new ucHoaDon()); }
-        private void btnThanhToan_Click(object sender, EventArgs e) { 
-            Open(btnThanhToan, "Thanh toán", new ucThanhToan()); }
-        private void btnTaiKhoan_Click(object sender, EventArgs e) { 
-            Open(btnTaiKhoan, "Tài khoản", new ucTaiKhoan()); }
+        private void btnTaiKhoan_Click(object sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản"); new ucTaiKhoan(); }
+
     }
 }

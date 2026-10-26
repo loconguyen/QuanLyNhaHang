@@ -35,9 +35,9 @@ namespace QLNhaHang.Controls.Bep
         public ucCheBien()
         {
             InitializeComponent();
-            // Thông báo: món chờ chế biến quá 15 phút, nguyên liệu sắp hết, nguyên liệu sắp hết hạn
-            if (!DangThietKe)
-                Controls.Add(new BangThongBaoBep(CanhBaoBep.ChoLau, CanhBaoBep.NguyenLieuSapHet, CanhBaoBep.NguyenLieuHetHan));
+            //Thông báo: món chờ chế biến quá 15 phút, nguyên liệu sắp hết, nguyên liệu sắp hết hạn
+            //if (!DangThietKe)
+            //    Controls.Add(new BangThongBaoBep(CanhBaoBep.ChoLau, CanhBaoBep.NguyenLieuSapHet, CanhBaoBep.NguyenLieuHetHan));
         }
         private bool DangThietKe
         {
@@ -161,19 +161,19 @@ namespace QLNhaHang.Controls.Bep
                     .ThenBy(d => d.DonId)
                     .ThenBy(d => d.Lan);
 
-                foreach (var d in cacThe)
-                {
-                    var mon = d.Rows.Where(HienThi).OrderBy(ThuTu).ThenBy(r => Convert.ToString(r["TenMon"])).ToList();
-                    var the = new TheDonBep(
-                        d.DonId,
-                        Convert.ToString(mon[0]["MaDon"]),
-                        Convert.ToString(mon[0]["SoBan"]),
-                        d.Gio, d.Lan, mon, CoQuyen);
-                    the.DoiMon += TheDoiMon;
-                    the.DoiTatCa += TheDoiTatCa;
-                    the.SuaGhiChu += TheSuaGhiChu;
-                    flpDon.Controls.Add(the);
-                }
+                //foreach (var d in cacThe)
+                //{
+                //    var mon = d.Rows.Where(HienThi).OrderBy(ThuTu).ThenBy(r => Convert.ToString(r["TenMon"])).ToList();
+                //    var the = new TheDonBep(
+                //        d.DonId,
+                //        Convert.ToString(mon[0]["MaDon"]),
+                //        Convert.ToString(mon[0]["SoBan"]),
+                //        d.Gio, d.Lan, mon, CoQuyen);
+                //    the.DoiMon += TheDoiMon;
+                //    the.DoiTatCa += TheDoiTatCa;
+                //    the.SuaGhiChu += TheSuaGhiChu;
+                //    flpDon.Controls.Add(the);
+                //}
             }
             finally
             {

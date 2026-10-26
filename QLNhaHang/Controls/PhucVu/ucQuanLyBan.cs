@@ -61,17 +61,22 @@ namespace QLNhaHang.Controls.PhucVu
                 using var conn = new SqlConnection(ConnStr);
                 using var cmd = new SqlCommand(@"
                     SELECT BanID, SoBan, SucChua, TrangThai, ISNULL(ViTri, N'Chưa phân khu') AS ViTri,
-                           CASE
-                               WHEN EXISTS (SELECT 1 FROM DON_HANG d
-                                            WHERE d.BanID = BAN_AN.BanID
-                                              AND d.TrangThaiDon = N'Đang xử lý'
-                                              AND d.YeuCauThanhToan = 1) THEN N'Chờ thanh toán'
-                               WHEN TrangThai = N'Đang phục vụ'
-                                    AND NOT EXISTS (SELECT 1 FROM DON_HANG d
-                                                    WHERE d.BanID = BAN_AN.BanID
-                                                      AND d.TrangThaiDon = N'Đang xử lý') THEN N'Đã thanh toán'
-                               ELSE N''
-                           END AS GhiChuBan
+                        CASE
+                            WHEN EXISTS (SELECT 1 FROM DON_HANG d
+                                         WHERE d.BanID = BAN_AN.BanID
+                                           AND d.TrangThaiDon = N'Đang xử lý'
+                                           AND EXISTS (SELECT 1 FROM CHI_TIET_DON_HANG c
+                                                       WHERE c.DonHangID = d.DonHangID AND c.TrangThaiMon <> N'Đã hủy')
+                                           AND NOT EXISTS (SELECT 1 FROM CHI_TIET_DON_HANG c
+                                                           WHERE c.DonHangID = d.DonHangID
+                                                             AND c.TrangThaiMon NOT IN (N'Đã phục vụ', N'Đã hủy')))
+                                 THEN N'Chờ thanh toán'
+                            WHEN TrangThai = N'Đang phục vụ'
+                                 AND NOT EXISTS (SELECT 1 FROM DON_HANG d
+                                                 WHERE d.BanID = BAN_AN.BanID
+                                                   AND d.TrangThaiDon = N'Đang xử lý') THEN N'Đã thanh toán'
+                            ELSE N''
+                        END AS GhiChuBan
                     FROM BAN_AN
                     WHERE (@tt = N'Tất cả' OR TrangThai = @tt)
                     ORDER BY CASE WHEN ViTri LIKE N'Tầng%' THEN 0 ELSE 1 END, ViTri, SoBan", conn);
@@ -350,64 +355,9 @@ namespace QLNhaHang.Controls.PhucVu
                 switch (f.HanhDong)
                 {
                     case "modon": MoDonHang(ban, donId); break;
-                    case "yeucau": GuiYeuCauThanhToan(ban, donId); break;
                     case "chuyen": ChuyenBanDialog(ban); break;
                     case "donban": XacNhanDonBan(ban); break;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // ===== PHỤC VỤ GỬI YÊU CẦU THANH TOÁN CHO THU NGÂN =====
-        void GuiYeuCauThanhToan(BanInfo ban, int donId)
-        {
-            try
-            {
-                using var conn = new SqlConnection(ConnStr);
-                conn.Open();
-
-                // Còn món chờ hoặc đang chế biến, chưa phục vụ thì chưa thanh toán được
-                using (var c1 = new SqlCommand(@"
-                    SELECT COUNT(*) FROM CHI_TIET_DON_HANG
-                    WHERE DonHangID = @d AND TrangThaiMon NOT IN (N'Đã phục vụ', N'Đã hủy')", conn))
-                {
-                    c1.Parameters.AddWithValue("@d", donId);
-                    int conLai = Convert.ToInt32(c1.ExecuteScalar());
-                    if (conLai > 0)
-                    {
-                        MessageBox.Show($"Còn {conLai} món chưa được phục vụ, chưa thể yêu cầu thanh toán.");
-                        return;
-                    }
-                }
-
-                // Đơn phải có ít nhất một món hợp lệ
-                using (var c2 = new SqlCommand(@"
-                    SELECT COUNT(*) FROM CHI_TIET_DON_HANG
-                    WHERE DonHangID = @d AND TrangThaiMon <> N'Đã hủy'", conn))
-                {
-                    c2.Parameters.AddWithValue("@d", donId);
-                    if (Convert.ToInt32(c2.ExecuteScalar()) == 0)
-                    {
-                        MessageBox.Show("Đơn chưa có món nào.");
-                        return;
-                    }
-                }
-
-                using var c3 = new SqlCommand(@"
-                    UPDATE DON_HANG
-                    SET YeuCauThanhToan = 1, ThoiGianYeuCau = SYSDATETIME()
-                    WHERE DonHangID = @d AND TrangThaiDon = N'Đang xử lý' AND YeuCauThanhToan = 0", conn);
-                c3.Parameters.AddWithValue("@d", donId);
-
-                if (c3.ExecuteNonQuery() > 0)
-                    MessageBox.Show($"Đã gửi yêu cầu thanh toán bàn {ban.SoBan} cho Thu ngân.");
-                else
-                    MessageBox.Show("Đơn này đã được yêu cầu thanh toán trước đó.");
-
-                LoadBan();
             }
             catch (Exception ex)
             {

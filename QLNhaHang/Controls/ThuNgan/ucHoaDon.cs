@@ -225,6 +225,24 @@ namespace QLNhaHang.Controls.ThuNgan
 
         DateTime? NgayLoc => dtpNgay.Checked ? dtpNgay.Value.Date : null;
 
+        // Đơn có thêm / bớt món sau khi lập hóa đơn thì tổng tiền hóa đơn CHƯA THANH TOÁN
+        // phải tính lại theo các món hiện có (bỏ món đã hủy). Hóa đơn đã thanh toán giữ nguyên.
+        static void DongBoTongTien()
+        {
+            Exec(@"
+                update hd
+                set hd.TongTien = isnull(t.Tong, 0),
+                    hd.GiamGia = case when hd.GiamGia > isnull(t.Tong, 0)
+                                      then isnull(t.Tong, 0) else hd.GiamGia end
+                from HOA_DON hd
+                outer apply (select sum(ct.SoLuong * ct.DonGia) as Tong
+                             from CHI_TIET_DON_HANG ct
+                             where ct.DonHangID = hd.DonHangID
+                               and ct.TrangThaiMon <> N'Đã hủy') t
+                where hd.TrangThaiThanhToan = N'Chưa thanh toán'
+                  and (hd.TongTien <> isnull(t.Tong, 0) or hd.GiamGia > isnull(t.Tong, 0))");
+        }
+
         void LoadDanhSach()
         {
             if (!_ready || _loading) return;
@@ -232,6 +250,7 @@ namespace QLNhaHang.Controls.ThuNgan
 
             try
             {
+                DongBoTongTien();
                 CapNhatThongKe();
 
                 var sb = new StringBuilder(@"
@@ -334,7 +353,8 @@ namespace QLNhaHang.Controls.ThuNgan
             lblThuNay.Text = Money(Convert.ToDecimal(thu.Rows[0][0]));
         }
 
-        // Khi Phục vụ bấm "Yêu cầu thanh toán" và mọi món đã phục vụ/hủy -> lập hóa đơn CHƯA THANH TOÁN
+        // Đơn đang xử lý mà MỌI món đã phục vụ hoặc hủy (và có ít nhất một món) thì tự lập
+        // hóa đơn CHƯA THANH TOÁN. Không cần Phục vụ bấm yêu cầu.
         void TaoHoaDonTuDong()
         {
             if (Session.NhanVienID <= 0) return;
@@ -347,19 +367,20 @@ namespace QLNhaHang.Controls.ThuNgan
                     from DON_HANG dh
                     left join CHI_TIET_DON_HANG ct
                            on ct.DonHangID = dh.DonHangID and ct.TrangThaiMon <> N'Đã hủy'
-                    where dh.YeuCauThanhToan = 1
-                      and dh.TrangThaiDon = N'Đang xử lý'
+                    where dh.TrangThaiDon = N'Đang xử lý'
                       and not exists (select 1 from HOA_DON h where h.DonHangID = dh.DonHangID)
+                      and exists (select 1 from CHI_TIET_DON_HANG c1
+                                  where c1.DonHangID = dh.DonHangID
+                                    and c1.TrangThaiMon <> N'Đã hủy')
                       and not exists (select 1 from CHI_TIET_DON_HANG c2
                                       where c2.DonHangID = dh.DonHangID
-                                        and c2.TrangThaiMon in (N'Chưa gửi bếp', N'Chờ chế biến',
-                                                                N'Đang chế biến', N'Hoàn thành'))
+                                        and c2.TrangThaiMon not in (N'Đã phục vụ', N'Đã hủy'))
                     group by dh.DonHangID",
                     P("@tn", Session.NhanVienID, SqlDbType.Int));
             }
             catch
             {
-                // Không chặn màn hình nếu DB chưa có cột YeuCauThanhToan
+                // Không chặn màn hình nếu có lỗi nhỏ khi lập hóa đơn tự động
             }
         }
 
@@ -385,11 +406,16 @@ namespace QLNhaHang.Controls.ThuNgan
 
             try
             {
+                // Gộp các lần gọi cùng một món (cùng đơn giá) thành một dòng
                 _items = Query(@"
-                    select ma.TenMon, ct.SoLuong, ct.DonGia, ct.SoLuong * ct.DonGia as ThanhTien
+                    select ma.TenMon,
+                           sum(ct.SoLuong) as SoLuong,
+                           ct.DonGia,
+                           sum(ct.SoLuong * ct.DonGia) as ThanhTien
                     from CHI_TIET_DON_HANG ct
                     join MON_AN ma on ma.MonID = ct.MonID
                     where ct.DonHangID = @dh and ct.TrangThaiMon <> N'Đã hủy'
+                    group by ma.TenMon, ct.DonGia
                     order by ma.TenMon", P("@dh", _cur.DonHangId, SqlDbType.Int));
                 foreach (DataRow r in _items.Rows)
                     dgvMon.Rows.Add(r["TenMon"], r["SoLuong"],
@@ -516,6 +542,42 @@ namespace QLNhaHang.Controls.ThuNgan
             if (Session.NhanVienID <= 0)
             {
                 MessageBox.Show("Không xác định được nhân viên đăng nhập. Vui lòng đăng nhập lại!");
+                return;
+            }
+
+            try
+            {
+                // 1. Tính lại tổng tiền theo các món hiện có; nếu khác số đang hiển thị thì báo để kiểm tra lại
+                DongBoTongTien();
+                DataTable moi = Query(
+                    "select ThanhTien from HOA_DON where HoaDonID = @id",
+                    P("@id", _cur.Id, SqlDbType.Int));
+                if (moi.Rows.Count > 0 && Convert.ToDecimal(moi.Rows[0]["ThanhTien"]) != _cur.Thanh)
+                {
+                    MessageBox.Show("Đơn vừa thay đổi món nên số tiền đã được cập nhật.\n" +
+                                    "Vui lòng kiểm tra lại rồi xác nhận thanh toán.",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadDanhSach();
+                    return;
+                }
+
+                // 2. Còn món chưa phục vụ thì chưa thanh toán được
+                DataTable conLai = Query(@"
+                    select count(*) from CHI_TIET_DON_HANG
+                    where DonHangID = @dh and TrangThaiMon not in (N'Đã phục vụ', N'Đã hủy')",
+                    P("@dh", _cur.DonHangId, SqlDbType.Int));
+                int soConLai = Convert.ToInt32(conLai.Rows[0][0]);
+                if (soConLai > 0)
+                {
+                    MessageBox.Show($"Còn {soConLai} món chưa được phục vụ, chưa thể thanh toán.",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi kiểm tra hóa đơn:\n" + ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

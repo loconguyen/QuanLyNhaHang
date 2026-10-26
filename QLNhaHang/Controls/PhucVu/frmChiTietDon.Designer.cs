@@ -17,7 +17,6 @@
             lblInfo = new Label();
             dgvMon = new DataGridView();
             lblTong = new Label();
-            btnYeuCau = new Button();
             btnThemMon = new Button();
             btnChuyenBan = new Button();
             btnDaPhucVu = new Button();
@@ -76,22 +75,6 @@
             lblTong.TabIndex = 1;
             lblTong.Text = "Tổng tiền tạm tính: 0 đ";
             // 
-            // btnYeuCau
-            // 
-            btnYeuCau.BackColor = Color.FromArgb(230, 81, 0);
-            btnYeuCau.Cursor = Cursors.Hand;
-            btnYeuCau.FlatAppearance.BorderSize = 0;
-            btnYeuCau.FlatStyle = FlatStyle.Flat;
-            btnYeuCau.ForeColor = Color.White;
-            btnYeuCau.Location = new Point(17, 560);
-            btnYeuCau.Margin = new Padding(3, 4, 3, 4);
-            btnYeuCau.Name = "btnYeuCau";
-            btnYeuCau.Size = new Size(189, 48);
-            btnYeuCau.TabIndex = 1;
-            btnYeuCau.Text = "Yêu cầu thanh toán";
-            btnYeuCau.UseVisualStyleBackColor = false;
-            btnYeuCau.Click += btnYeuCau_Click;
-            // 
             // btnThemMon
             // 
             btnThemMon.BackColor = Color.FromArgb(21, 101, 192);
@@ -99,7 +82,7 @@
             btnThemMon.FlatAppearance.BorderSize = 0;
             btnThemMon.FlatStyle = FlatStyle.Flat;
             btnThemMon.ForeColor = Color.White;
-            btnThemMon.Location = new Point(217, 560);
+            btnThemMon.Location = new Point(27, 560);
             btnThemMon.Margin = new Padding(3, 4, 3, 4);
             btnThemMon.Name = "btnThemMon";
             btnThemMon.Size = new Size(109, 48);
@@ -115,7 +98,7 @@
             btnChuyenBan.FlatAppearance.BorderSize = 0;
             btnChuyenBan.FlatStyle = FlatStyle.Flat;
             btnChuyenBan.ForeColor = Color.White;
-            btnChuyenBan.Location = new Point(337, 560);
+            btnChuyenBan.Location = new Point(190, 560);
             btnChuyenBan.Margin = new Padding(3, 4, 3, 4);
             btnChuyenBan.Name = "btnChuyenBan";
             btnChuyenBan.Size = new Size(109, 48);
@@ -131,7 +114,7 @@
             btnDaPhucVu.FlatAppearance.BorderSize = 0;
             btnDaPhucVu.FlatStyle = FlatStyle.Flat;
             btnDaPhucVu.ForeColor = Color.White;
-            btnDaPhucVu.Location = new Point(457, 560);
+            btnDaPhucVu.Location = new Point(355, 560);
             btnDaPhucVu.Margin = new Padding(3, 4, 3, 4);
             btnDaPhucVu.Name = "btnDaPhucVu";
             btnDaPhucVu.Size = new Size(126, 48);
@@ -147,7 +130,7 @@
             btnDonBan.FlatAppearance.BorderSize = 0;
             btnDonBan.FlatStyle = FlatStyle.Flat;
             btnDonBan.ForeColor = Color.White;
-            btnDonBan.Location = new Point(594, 560);
+            btnDonBan.Location = new Point(530, 560);
             btnDonBan.Margin = new Padding(3, 4, 3, 4);
             btnDonBan.Name = "btnDonBan";
             btnDonBan.Size = new Size(171, 48);
@@ -186,7 +169,6 @@
             Controls.Add(lblInfo);
             Controls.Add(dgvMon);
             Controls.Add(lblTong);
-            Controls.Add(btnYeuCau);
             Controls.Add(btnThemMon);
             Controls.Add(btnChuyenBan);
             Controls.Add(btnDaPhucVu);
@@ -215,7 +197,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colGuiBep;
         private System.Windows.Forms.DataGridViewTextBoxColumn colGhiChu;
         private System.Windows.Forms.Label lblTong;
-        private System.Windows.Forms.Button btnYeuCau;
         private System.Windows.Forms.Button btnThemMon;
         private System.Windows.Forms.Button btnChuyenBan;
         private System.Windows.Forms.Button btnDaPhucVu;

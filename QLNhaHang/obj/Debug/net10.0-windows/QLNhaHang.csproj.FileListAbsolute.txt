@@ -6,11 +6,9 @@ C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.Bep.ucNguyenLieu.resources
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.Bep.ucThucDon.resources
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.Bep.ucTongQuan.resources
-C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.PhucVu.ucMonChoPhucVu.resources
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.PhucVu.ucQuanLyBan.resources
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.PhucVu.ucTaoDon.resources
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.ThuNgan.ucHoaDon.resources
-C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.ThuNgan.ucThanhToan.resources
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Form1.resources
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Forms.DangKy.frmDangKy.resources
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Forms.DangNhap.DangNhapForm.resources
@@ -77,3 +75,4 @@ C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\refint\QLN
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.pdb
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.genruntimeconfig.cache
 C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\ref\QLNhaHang.dll
+C:\LapTrinhTrucQuan\QuanLyNhaHang\QLNhaHang\obj\Debug\net10.0-windows\QLNhaHang.Controls.PhucVu.frmChiTietDon.resources

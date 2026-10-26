@@ -135,8 +135,6 @@ namespace QLNhaHang.Controls.PhucVu
         void CapNhatNut()
         {
             bool laPhucVu = Session.Role == "PHUCVU" || Session.Role == "ADMIN";
-
-            btnYeuCau.Visible = laPhucVu && !_donDaThanhToan && !_daYeuCau;
             btnThemMon.Visible = laPhucVu && !_donDaThanhToan;
             btnChuyenBan.Visible = laPhucVu && !_donDaThanhToan;
             btnDaPhucVu.Visible = laPhucVu && !_donDaThanhToan;
@@ -218,7 +216,6 @@ namespace QLNhaHang.Controls.PhucVu
         }
 
         // ===== CÁC NÚT KHÁC: báo hành động rồi đóng, ucQuanLyBan xử lý tiếp =====
-        private void btnYeuCau_Click(object? sender, EventArgs e) { Chon("yeucau"); }
         private void btnThemMon_Click(object? sender, EventArgs e) { Chon("modon"); }
         private void btnChuyenBan_Click(object? sender, EventArgs e) { Chon("chuyen"); }
         private void btnDonBan_Click(object? sender, EventArgs e) { Chon("donban"); }

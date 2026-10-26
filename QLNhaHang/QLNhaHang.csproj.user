@@ -10,6 +10,9 @@
     <Compile Update="Controls\Admin\ucTaiKhoan.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Controls\Bep\TheDonBep.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Controls\Bep\ucCheBien.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -22,8 +25,8 @@
     <Compile Update="Controls\Bep\ucTongQuan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Controls\PhucVu\ucMonChoPhucVu.cs">
-      <SubType>UserControl</SubType>
+    <Compile Update="Controls\PhucVu\frmChiTietDon.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Update="Controls\PhucVu\ucQuanLyBan.cs">
       <SubType>UserControl</SubType>
@@ -32,9 +35,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Controls\ThuNgan\ucHoaDon.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Controls\ThuNgan\ucThanhToan.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Form1.cs">
