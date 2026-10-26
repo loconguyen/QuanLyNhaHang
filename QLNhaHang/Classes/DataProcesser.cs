@@ -1,11 +1,12 @@
 ﻿using System.Data;
+using System.Data;
 using Microsoft.Data.SqlClient;
 
 namespace QLNhaHang.Classes
 {
     public class DataProcesser
-    {
         internal static readonly string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
+        public static readonly string strConnect = @"Data Source =Loc\SQLEXPRESS; Database =QuanlyNhaHang;Integrated Security =True;TrustServercertificate=True";
         SqlConnection sqlConnect = null;
         // mo ket noi
         public SqlConnection TaoKetNoi()

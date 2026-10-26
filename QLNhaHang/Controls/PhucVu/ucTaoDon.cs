@@ -15,6 +15,18 @@ namespace QLNhaHang.Controls.PhucVu
         static readonly string ConnStr = DataProcesser.strConnect;
 
         const string CHUA_GUI = "Chưa gửi bếp";
+        const string TAM_HET = "Tạm hết";
+
+        // Mỗi khu vực một màu nền (dùng cho danh sách đơn đang xử lý)
+        static readonly Color[] MauKhu =
+        {
+            Color.FromArgb(187, 222, 251),   // xanh dương nhạt
+            Color.FromArgb(200, 230, 201),   // xanh lá nhạt
+            Color.FromArgb(225, 190, 231),   // tím nhạt
+            Color.FromArgb(255, 224, 178),   // cam nhạt
+            Color.FromArgb(178, 235, 242)    // xanh ngọc nhạt
+        };
+        readonly Dictionary<string, Color> _mauKhu = new Dictionary<string, Color>();
 
         int _donId;
         bool _dangNap;
@@ -24,7 +36,6 @@ namespace QLNhaHang.Controls.PhucVu
         public ucTaoDon()
         {
             InitializeComponent();
-            KhoiTaoCot();   // tạo cột thủ công, luôn có dù chưa có dữ liệu
 
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
             HienDanhSach();
@@ -38,59 +49,7 @@ namespace QLNhaHang.Controls.PhucVu
         }
 
         // =====================================================================
-        //  TẠO CỘT THỦ CÔNG CHO 3 LƯỚI
-        // =====================================================================
-        static DataGridViewTextBoxColumn Cot(string ten, string tieuDe, float rong = 100,
-                                             string? dinhDang = null, bool an = false)
-        {
-            var c = new DataGridViewTextBoxColumn
-            {
-                Name = ten,
-                DataPropertyName = ten,
-                HeaderText = tieuDe,
-                FillWeight = rong,
-                Visible = !an
-            };
-            if (dinhDang != null) c.DefaultCellStyle.Format = dinhDang;
-            return c;
-        }
-
-        void KhoiTaoCot()
-        {
-            // Danh sách đơn đang xử lý
-            dgvDon.AutoGenerateColumns = false;
-            dgvDon.Columns.AddRange(
-                Cot("DonHangID", "Mã đơn", 50),
-                Cot("SoBan", "Bàn", 50),
-                Cot("ViTri", "Khu vực", 80),
-                Cot("HoTen", "Nhân viên phục vụ", 120),
-                Cot("ThoiGianTao", "Tạo lúc", 100, "dd/MM/yyyy HH:mm"),
-                Cot("SoMon", "Số món", 50),
-                Cot("TongTien", "Tổng tiền (đ)", 90, "N0"));
-
-            // Thực đơn
-            dgvMon.AutoGenerateColumns = false;
-            dgvMon.Columns.AddRange(
-                Cot("MonID", "", 10, null, true),
-                Cot("TenMon", "Món", 120),
-                Cot("DonViTinh", "ĐVT", 40),
-                Cot("DonGia", "Đơn giá", 70, "N0"),
-                Cot("TenDanhMuc", "Danh mục", 80));
-
-            // Món trong đơn
-            dgvCT.AutoGenerateColumns = false;
-            dgvCT.Columns.AddRange(
-                Cot("MonID", "", 10, null, true),
-                Cot("TenMon", "Món", 110),
-                Cot("SoLuong", "SL", 30),
-                Cot("DonGia", "Đơn giá", 70, "N0"),
-                Cot("ThanhTien", "Thành tiền", 80, "N0"),
-                Cot("TrangThaiMon", "Trạng thái", 80),
-                Cot("GhiChu", "Ghi chú", 90));
-        }
-
-        // =====================================================================
-        //  MÀN 1: DANH SÁCH ĐƠN ĐANG XỬ LÝ
+        //  MÀN 1: DANH SÁCH ĐƠN ĐANG XỬ LÝ (tô màu theo khu vực)
         // =====================================================================
         void HienDanhSach()
         {
@@ -105,21 +64,38 @@ namespace QLNhaHang.Controls.PhucVu
             {
                 var dt = new DataTable();
 
-                // Hiện mọi đơn đang xử lý (khớp với số bàn Đang phục vụ ở Quản lý bàn)
                 using (var conn = new SqlConnection(ConnStr))
-                using (var da = new SqlDataAdapter(@"
-                    SELECT dh.DonHangID, b.SoBan, ISNULL(b.ViTri, N'') AS ViTri, nv.HoTen, dh.ThoiGianTao,
-                           COUNT(CASE WHEN c.TrangThaiMon <> N'Đã hủy' THEN 1 END) AS SoMon,
-                           ISNULL(SUM(CASE WHEN c.TrangThaiMon <> N'Đã hủy'
-                                           THEN c.SoLuong * c.DonGia END), 0) AS TongTien
-                    FROM DON_HANG dh
-                    JOIN BAN_AN b ON b.BanID = dh.BanID
-                    JOIN NHAN_VIEN nv ON nv.NhanVienID = dh.NhanVienPhucVuID
-                    LEFT JOIN CHI_TIET_DON_HANG c ON c.DonHangID = dh.DonHangID
-                    WHERE dh.TrangThaiDon = N'Đang xử lý'
-                    GROUP BY dh.DonHangID, b.SoBan, b.ViTri, nv.HoTen, dh.ThoiGianTao
-                    ORDER BY b.SoBan", conn))
                 {
+                    conn.Open();
+
+                    // Gán màu theo thứ tự khu vực trong bảng BAN_AN (màu cố định, không đổi khi ít đơn)
+                    _mauKhu.Clear();
+                    using (var cmdKhu = new SqlCommand(@"
+                        SELECT ViTri FROM (SELECT DISTINCT ISNULL(ViTri, N'') AS ViTri FROM BAN_AN) x
+                        ORDER BY CASE WHEN ViTri LIKE N'Tầng%' THEN 0 ELSE 1 END, ViTri", conn))
+                    using (var rdKhu = cmdKhu.ExecuteReader())
+                    {
+                        int i = 0;
+                        while (rdKhu.Read())
+                        {
+                            _mauKhu[rdKhu["ViTri"].ToString() ?? ""] = MauKhu[i % MauKhu.Length];
+                            i++;
+                        }
+                    }
+
+                    // Mọi đơn đang xử lý, sắp theo khu vực để các dòng cùng màu nằm liền nhau
+                    using var da = new SqlDataAdapter(@"
+                        SELECT dh.DonHangID, b.SoBan, ISNULL(b.ViTri, N'') AS ViTri, nv.HoTen, dh.ThoiGianTao,
+                               COUNT(CASE WHEN c.TrangThaiMon <> N'Đã hủy' THEN 1 END) AS SoMon,
+                               ISNULL(SUM(CASE WHEN c.TrangThaiMon <> N'Đã hủy'
+                                               THEN c.SoLuong * c.DonGia END), 0) AS TongTien
+                        FROM DON_HANG dh
+                        JOIN BAN_AN b ON b.BanID = dh.BanID
+                        JOIN NHAN_VIEN nv ON nv.NhanVienID = dh.NhanVienPhucVuID
+                        LEFT JOIN CHI_TIET_DON_HANG c ON c.DonHangID = dh.DonHangID
+                        WHERE dh.TrangThaiDon = N'Đang xử lý'
+                        GROUP BY dh.DonHangID, b.SoBan, b.ViTri, nv.HoTen, dh.ThoiGianTao
+                        ORDER BY CASE WHEN b.ViTri LIKE N'Tầng%' THEN 0 ELSE 1 END, b.ViTri, b.SoBan", conn);
                     da.Fill(dt);
                 }
 
@@ -134,6 +110,19 @@ namespace QLNhaHang.Controls.PhucVu
             {
                 MessageBox.Show("Không tải được danh sách đơn:\n" + ex.Message, "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Tô màu nền từng dòng theo khu vực
+        private void dgvDon_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvDon.Rows.Count) return;
+
+            if (dgvDon.Rows[e.RowIndex].DataBoundItem is DataRowView rv)
+            {
+                string viTri = rv["ViTri"].ToString() ?? "";
+                if (_mauKhu.TryGetValue(viTri, out Color mau))
+                    e.CellStyle.BackColor = mau;
             }
         }
 
@@ -156,7 +145,6 @@ namespace QLNhaHang.Controls.PhucVu
         {
             _donId = donId;
 
-            // Hiện màn chi tiết trước rồi mới nạp dữ liệu cho các lưới
             pnlDanhSach.Visible = false;
             pnlChiTiet.Visible = true;
 
@@ -169,7 +157,7 @@ namespace QLNhaHang.Controls.PhucVu
             HienDanhSach();
         }
 
-        // ----- Thực đơn (chỉ món đang bán) -----
+        // ----- Thực đơn: món đang bán và món tạm hết (món hết hiện xám, không thêm được) -----
         void TaiThucDon()
         {
             if (_dtMon.Rows.Count > 0) return;
@@ -178,11 +166,13 @@ namespace QLNhaHang.Controls.PhucVu
             {
                 using var conn = new SqlConnection(ConnStr);
                 using var da = new SqlDataAdapter(@"
-                    SELECT m.MonID, m.TenMon, m.DonViTinh, m.DonGia, d.TenDanhMuc
+                    SELECT m.MonID, m.TenMon, m.DonViTinh, m.DonGia, d.TenDanhMuc, m.TrangThaiMon
                     FROM MON_AN m
                     JOIN DANH_MUC_MON d ON d.DanhMucID = m.DanhMucID
-                    WHERE m.TrangThaiMon = N'Đang bán'
-                    ORDER BY d.TenDanhMuc, m.TenMon", conn);
+                    WHERE m.TrangThaiMon IN (N'Đang bán', N'Tạm hết')
+                    ORDER BY d.TenDanhMuc,
+                             CASE WHEN m.TrangThaiMon = N'Đang bán' THEN 0 ELSE 1 END,
+                             m.TenMon", conn);
                 var dt = new DataTable();
                 da.Fill(dt);
                 _dtMon = dt;
@@ -203,6 +193,23 @@ namespace QLNhaHang.Controls.PhucVu
             _dangNap = false;
 
             dgvMon.DataSource = _dtMon.DefaultView;
+        }
+
+        // Món hết: nền xám, chữ đỏ
+        private void dgvMon_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvMon.Rows.Count) return;
+
+            if (dgvMon.Rows[e.RowIndex].DataBoundItem is DataRowView rv &&
+                (rv["TrangThaiMon"].ToString() ?? "") == TAM_HET)
+            {
+                var xam = Color.FromArgb(238, 238, 238);
+                var doDam = Color.FromArgb(198, 40, 40);
+                e.CellStyle.BackColor = xam;
+                e.CellStyle.ForeColor = doDam;
+                e.CellStyle.SelectionBackColor = xam;     // chọn vào cũng không đổi màu
+                e.CellStyle.SelectionForeColor = doDam;
+            }
         }
 
         static string EscEq(string s) => s.Replace("'", "''");
@@ -267,12 +274,12 @@ namespace QLNhaHang.Controls.PhucVu
                     }
 
                     using var da = new SqlDataAdapter(@"
-                        SELECT c.MonID, m.TenMon, c.SoLuong, c.DonGia,
-                               c.SoLuong * c.DonGia AS ThanhTien, c.TrangThaiMon, c.GhiChu
+                        SELECT c.DongID, m.TenMon, c.SoLuong, c.DonGia,
+                               c.SoLuong * c.DonGia AS ThanhTien, c.TrangThaiMon, c.ThoiGianGuiBep, c.GhiChu
                         FROM CHI_TIET_DON_HANG c
                         JOIN MON_AN m ON m.MonID = c.MonID
                         WHERE c.DonHangID = @d
-                        ORDER BY CASE WHEN c.TrangThaiMon = N'Chưa gửi bếp' THEN 1 ELSE 0 END, m.TenMon", conn);
+                        ORDER BY CASE WHEN c.TrangThaiMon = N'Chưa gửi bếp' THEN 1 ELSE 0 END, c.DongID", conn);
                     da.SelectCommand.Parameters.AddWithValue("@d", _donId);
                     da.Fill(dt);
                 }
@@ -289,10 +296,11 @@ namespace QLNhaHang.Controls.PhucVu
 
                 dgvCT.DataSource = dt;
 
-                // Tô vàng món chưa gửi bếp
+                // Tô vàng món chưa gửi bếp (đọc từ dữ liệu nguồn, không phụ thuộc tên cột)
                 foreach (DataGridViewRow r in dgvCT.Rows)
                 {
-                    if (r.Cells["TrangThaiMon"].Value?.ToString() == CHUA_GUI)
+                    if (r.DataBoundItem is DataRowView rv &&
+                        (rv["TrangThaiMon"].ToString() ?? "") == CHUA_GUI)
                         r.DefaultCellStyle.BackColor = Color.FromArgb(255, 249, 196);
                 }
 
@@ -325,17 +333,17 @@ namespace QLNhaHang.Controls.PhucVu
             return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
         }
 
-        (int MonId, string TenMon, string TrangThai, int SoLuong, string GhiChu)? DongDangChon()
+        (int DongId, string TenMon, string TrangThai, int SoLuong, string GhiChu)? DongDangChon()
         {
             if (dgvCT.CurrentRow?.DataBoundItem is not DataRowView rv) return null;
-            return (Convert.ToInt32(rv["MonID"]),
+            return (Convert.ToInt32(rv["DongID"]),
                     rv["TenMon"].ToString() ?? "",
                     rv["TrangThaiMon"].ToString() ?? "",
                     Convert.ToInt32(rv["SoLuong"]),
                     rv["GhiChu"] == DBNull.Value ? "" : rv["GhiChu"].ToString() ?? "");
         }
 
-        // ----- THÊM MÓN -----
+        // ----- THÊM MÓN (nhấp đúp cũng gọi hàm này) -----
         private void btnThem_Click(object? sender, EventArgs e)
         {
             if (dgvMon.CurrentRow?.DataBoundItem is not DataRowView rv)
@@ -343,15 +351,27 @@ namespace QLNhaHang.Controls.PhucVu
                 MessageBox.Show("Chọn một món trong thực đơn.");
                 return;
             }
-            ThemMon(Convert.ToInt32(rv["MonID"]), rv["TenMon"].ToString() ?? "",
-                    (int)nudSoLuong.Value, txtGhiChu.Text.Trim());
+
+            string ten = rv["TenMon"].ToString() ?? "";
+
+            // Món đã hết: không cho thêm
+            if ((rv["TrangThaiMon"].ToString() ?? "") == TAM_HET)
+            {
+                MessageBox.Show($"Món {ten} đã hết, không thể thêm vào đơn.", "Hết món",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            ThemMon(Convert.ToInt32(rv["MonID"]), ten, (int)nudSoLuong.Value, txtGhiChu.Text.Trim());
         }
 
         private void dgvMon_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
+            // Đơn không cho sửa thì nút Thêm bị khóa, nhấp đúp cũng không thêm
             if (e.RowIndex >= 0 && btnThem.Enabled) btnThem_Click(sender, EventArgs.Empty);
         }
 
+        // Món đã gửi bếp rồi mà khách gọi thêm thì tạo DÒNG MỚI (có giờ gửi riêng)
         void ThemMon(int monId, string tenMon, int soLuong, string ghiChu)
         {
             try
@@ -362,7 +382,6 @@ namespace QLNhaHang.Controls.PhucVu
 
                 try
                 {
-                    // 1. Đơn còn sửa được không
                     if (!DonConSua(conn, tran))
                     {
                         tran.Rollback();
@@ -371,36 +390,51 @@ namespace QLNhaHang.Controls.PhucVu
                         return;
                     }
 
-                    // 2. Đơn giá hiện tại từ MON_AN, món phải còn bán (Phục vụ không tự nhập giá)
+                    // Đơn giá hiện tại từ MON_AN; kiểm tra lại món còn bán (tránh món vừa hết lúc đang gọi)
                     decimal donGia;
                     using (var c1 = new SqlCommand(
-                        "SELECT DonGia FROM MON_AN WHERE MonID = @m AND TrangThaiMon = N'Đang bán'", conn, tran))
+                        "SELECT DonGia, TrangThaiMon FROM MON_AN WHERE MonID = @m", conn, tran))
                     {
                         c1.Parameters.AddWithValue("@m", monId);
-                        object? kq = c1.ExecuteScalar();
-                        if (kq == null)
+                        using var rd = c1.ExecuteReader();
+                        if (!rd.Read())
                         {
+                            rd.Close();
                             tran.Rollback();
-                            MessageBox.Show($"Món {tenMon} hiện không bán.");
+                            MessageBox.Show("Không tìm thấy món.");
                             return;
                         }
-                        donGia = Convert.ToDecimal(kq);
+                        donGia = Convert.ToDecimal(rd["DonGia"]);
+                        string tt = rd["TrangThaiMon"].ToString() ?? "";
+                        rd.Close();
+
+                        if (tt != "Đang bán")
+                        {
+                            tran.Rollback();
+                            MessageBox.Show(tt == TAM_HET
+                                ? $"Món {tenMon} vừa hết, không thể thêm vào đơn."
+                                : $"Món {tenMon} hiện không bán.");
+                            return;
+                        }
                     }
 
-                    // 3. Món đã có trong đơn chưa
-                    string? ttCu = null;
-                    using (var c2 = new SqlCommand(
-                        "SELECT TrangThaiMon FROM CHI_TIET_DON_HANG WHERE DonHangID = @d AND MonID = @m", conn, tran))
+                    // Đã có dòng CHƯA GỬI BẾP của đúng món này thì cộng dồn số lượng
+                    int? dongChuaGui = null;
+                    using (var c2 = new SqlCommand(@"
+                        SELECT TOP 1 DongID FROM CHI_TIET_DON_HANG
+                        WHERE DonHangID = @d AND MonID = @m AND TrangThaiMon = N'Chưa gửi bếp'", conn, tran))
                     {
                         c2.Parameters.AddWithValue("@d", _donId);
                         c2.Parameters.AddWithValue("@m", monId);
-                        ttCu = c2.ExecuteScalar()?.ToString();
+                        object? kq = c2.ExecuteScalar();
+                        if (kq != null) dongChuaGui = Convert.ToInt32(kq);
                     }
 
                     object gc = ghiChu == "" ? DBNull.Value : ghiChu;
 
-                    if (ttCu == null)
+                    if (dongChuaGui == null)
                     {
+                        // Chưa có, hoặc các dòng cũ đã gửi bếp: thêm dòng mới
                         using var ins = new SqlCommand(@"
                             INSERT INTO CHI_TIET_DON_HANG (DonHangID, MonID, SoLuong, DonGia, TrangThaiMon, GhiChu)
                             VALUES (@d, @m, @sl, @dg, N'Chưa gửi bếp', @gc)", conn, tran);
@@ -411,25 +445,17 @@ namespace QLNhaHang.Controls.PhucVu
                         ins.Parameters.AddWithValue("@gc", gc);
                         ins.ExecuteNonQuery();
                     }
-                    else if (ttCu == CHUA_GUI)
+                    else
                     {
                         using var upd = new SqlCommand(@"
                             UPDATE CHI_TIET_DON_HANG
                             SET SoLuong = SoLuong + @sl,
                                 GhiChu = CASE WHEN @gc IS NULL THEN GhiChu ELSE @gc END
-                            WHERE DonHangID = @d AND MonID = @m", conn, tran);
+                            WHERE DongID = @id", conn, tran);
                         upd.Parameters.AddWithValue("@sl", soLuong);
                         upd.Parameters.AddWithValue("@gc", gc);
-                        upd.Parameters.AddWithValue("@d", _donId);
-                        upd.Parameters.AddWithValue("@m", monId);
+                        upd.Parameters.AddWithValue("@id", dongChuaGui.Value);
                         upd.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        tran.Rollback();
-                        MessageBox.Show($"Món {tenMon} đã gửi bếp, không thể cộng thêm số lượng vào dòng đó.\n" +
-                                        "Muốn thay đổi phải theo nghiệp vụ điều chỉnh, hủy món.");
-                        return;
                     }
 
                     tran.Commit();
@@ -502,13 +528,12 @@ namespace QLNhaHang.Controls.PhucVu
                     UPDATE c SET SoLuong = @sl, GhiChu = @gc
                     FROM CHI_TIET_DON_HANG c
                     JOIN DON_HANG dh ON dh.DonHangID = c.DonHangID
-                    WHERE c.DonHangID = @d AND c.MonID = @m
+                    WHERE c.DongID = @id
                       AND c.TrangThaiMon = N'Chưa gửi bếp'
                       AND dh.TrangThaiDon = N'Đang xử lý' AND dh.YeuCauThanhToan = 0", conn);
                 cmd.Parameters.AddWithValue("@sl", (int)nud.Value);
                 cmd.Parameters.AddWithValue("@gc", txt.Text.Trim() == "" ? DBNull.Value : (object)txt.Text.Trim());
-                cmd.Parameters.AddWithValue("@d", _donId);
-                cmd.Parameters.AddWithValue("@m", dong.Value.MonId);
+                cmd.Parameters.AddWithValue("@id", dong.Value.DongId);
                 conn.Open();
 
                 if (cmd.ExecuteNonQuery() == 0)
@@ -549,11 +574,10 @@ namespace QLNhaHang.Controls.PhucVu
                     DELETE c
                     FROM CHI_TIET_DON_HANG c
                     JOIN DON_HANG dh ON dh.DonHangID = c.DonHangID
-                    WHERE c.DonHangID = @d AND c.MonID = @m
+                    WHERE c.DongID = @id
                       AND c.TrangThaiMon = N'Chưa gửi bếp'
                       AND dh.TrangThaiDon = N'Đang xử lý' AND dh.YeuCauThanhToan = 0", conn);
-                cmd.Parameters.AddWithValue("@d", _donId);
-                cmd.Parameters.AddWithValue("@m", dong.Value.MonId);
+                cmd.Parameters.AddWithValue("@id", dong.Value.DongId);
                 conn.Open();
 
                 if (cmd.ExecuteNonQuery() == 0)
@@ -618,14 +642,15 @@ namespace QLNhaHang.Controls.PhucVu
                     if (khongBan.Count > 0)
                     {
                         tran.Rollback();
-                        MessageBox.Show("Các món sau hiện không bán, hãy xóa khỏi đơn rồi gửi lại:\n- " +
+                        MessageBox.Show("Các món sau hiện đã hết hoặc không bán, hãy xóa khỏi đơn rồi gửi lại:\n- " +
                                         string.Join("\n- ", khongBan));
                         return;
                     }
 
-                    // 3. Gửi: Chưa gửi bếp -> Chờ chế biến (đơn vẫn Đang xử lý)
+                    // 3. Gửi: Chưa gửi bếp -> Chờ chế biến, ghi thời gian gửi
                     using (var c3 = new SqlCommand(@"
-                        UPDATE CHI_TIET_DON_HANG SET TrangThaiMon = N'Chờ chế biến'
+                        UPDATE CHI_TIET_DON_HANG
+                        SET TrangThaiMon = N'Chờ chế biến', ThoiGianGuiBep = SYSDATETIME()
                         WHERE DonHangID = @d AND TrangThaiMon = N'Chưa gửi bếp'", conn, tran))
                     {
                         c3.Parameters.AddWithValue("@d", _donId);
@@ -633,7 +658,7 @@ namespace QLNhaHang.Controls.PhucVu
                     }
 
                     tran.Commit();
-                    MessageBox.Show($"Đã gửi {soMon} món xuống Bếp.");
+                    MessageBox.Show($"Đã gửi {soMon} món xuống Bếp lúc {DateTime.Now:HH:mm dd/MM/yyyy}.");
                 }
                 catch
                 {

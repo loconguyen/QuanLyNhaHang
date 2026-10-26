@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +20,8 @@ namespace QLNhaHang.Controls.Bep
         public ucNguyenLieu()
         {
             InitializeComponent();
+            dgvNL.AutoGenerateColumns = false;
+            foreach (DataGridViewColumn c in dgvNL.Columns) c.SortMode = DataGridViewColumnSortMode.NotSortable;
         }
         private bool DangThietKe
         {
@@ -91,7 +94,8 @@ namespace QLNhaHang.Controls.Bep
                 {
                     foreach (DataGridViewRow row in dgvNL.Rows)
                     {
-                        if (Convert.ToInt32(row.Cells[colNguyenLieuID.Index].Value) == giu)
+                        var rv = row.DataBoundItem as DataRowView;
+                        if (rv != null && Convert.ToInt32(rv["NguyenLieuID"]) == giu)
                         {
                             dgvNL.CurrentCell = row.Cells[colTenNguyeLieu.Index];
                             break;
@@ -113,11 +117,18 @@ namespace QLNhaHang.Controls.Bep
             {
                 _nlId = -1;
                 txtTenNL.Text = "";
+                lblDvtTon.Text = "";                 
+                lblDvtCanhBao.Text = "";              
                 btnLuuNL.Enabled = false;
                 return;
             }
             _nlId = Convert.ToInt32(rv["NguyenLieuID"]);
             txtTenNL.Text = Convert.ToString(rv["TenNguyenLieu"]);
+
+            string dvt = Convert.ToString(rv["DonViTinh"]);   
+            lblDvtTon.Text = dvt;                              
+            lblDvtCanhBao.Text = dvt;                          
+
             nudTon.Value = Math.Min(nudTon.Maximum, Dec(rv["SoLuongTon"]));
             nudCanhBao.Value = Math.Min(nudCanhBao.Maximum, Dec(rv["MucCanhBao"]));
             if (rv["HanSuDung"] == DBNull.Value)

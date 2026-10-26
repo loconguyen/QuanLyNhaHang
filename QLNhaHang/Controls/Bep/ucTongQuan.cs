@@ -18,6 +18,10 @@ namespace QLNhaHang.Controls.Bep
             InitializeComponent();
             dgvCho.AutoGenerateColumns = false;
             dgvNL.AutoGenerateColumns = false;
+            foreach (DataGridViewColumn c in dgvCho.Columns) c.SortMode = DataGridViewColumnSortMode.NotSortable;
+            foreach (DataGridViewColumn c in dgvNL.Columns) c.SortMode = DataGridViewColumnSortMode.NotSortable;
+            if (!DangThietKe)
+                Controls.Add(new BangThongBaoBep(CanhBaoBep.ChoLau, CanhBaoBep.NguyenLieuSapHet, CanhBaoBep.NguyenLieuHetHan));
         }
 
         private bool DangThietKe
@@ -59,7 +63,11 @@ namespace QLNhaHang.Controls.Bep
             foreach (DataGridViewRow row in dgvCho.Rows)
             {
                 var rv = row.DataBoundItem as DataRowView;
-                if (rv != null || Convert.ToInt32(rv["PhutCho"]) >= NguongChoPhut)
+
+                if (rv == null)
+                    continue;
+
+                if (Convert.ToInt32(rv["PhutCho"]) >= NguongChoPhut)
                     row.DefaultCellStyle.BackColor = Color.Red;
             }
         }
