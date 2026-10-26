@@ -213,7 +213,7 @@ namespace QLNhaHang.Controls.Bep
                 var ghi = new Button
                 {
                     Text = "Ghi chú",
-                    Size = new Size(92, 22),
+                    Size = new Size(92, 30),
                     Location = new Point(xPhai, 36),
                     FlatStyle = FlatStyle.Flat,
                     ForeColor = Color.DimGray,
@@ -273,107 +273,238 @@ namespace QLNhaHang.Controls.Bep
     // Mỗi màn truyền vào các loại cần hiện; không có thông báo thì tự ẩn. Tự làm mới 15 giây một lần.
     // Cách dùng (trong constructor của màn hình, sau InitializeComponent):
     //     Controls.Add(new BangThongBaoBep(CanhBaoBep.ChoLau));
+
     public class BangThongBaoBep : Panel
     {
-        private const int CaoDong = 26;
-        private const int ToiDa = 6;
-        private static readonly Font FNhan = new Font("Segoe UI", 8.5F, FontStyle.Bold);
-        private static readonly Font FChu = new Font("Segoe UI", 9.5F);
+        private const int CaoDong = 30;
+        private const int ToiDaCao = 180;
+
+        private static readonly Font FNhan =
+            new Font("Segoe UI", 8.5F, FontStyle.Bold);
+
+        private static readonly Font FChu =
+            new Font("Segoe UI", 9.5F);
 
         private readonly string[] _loai;
         private readonly System.Windows.Forms.Timer _timer;
         private readonly ToolTip _tip = new ToolTip();
+
+        private readonly Panel _vungCuon;
+        private readonly FlowLayoutPanel _danhSach;
+
         private List<CanhBaoBep> _ds = new List<CanhBaoBep>();
         private string _chuKy = "";
-        private int _dongTip = -1;
-
         public BangThongBaoBep(params string[] loaiHienThi)
         {
             _loai = loaiHienThi;
-            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint |
-                     ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+
+            SetStyle(
+                ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw,
+                true);
+
             Dock = DockStyle.Top;
             BackColor = Color.FromArgb(255, 247, 237);
             Height = 0;
             Visible = false;
+            Padding = new Padding(0);
 
-            _timer = new System.Windows.Forms.Timer { Interval = 300 };
+            // Vùng chứa có thanh cuộn dọc
+            _vungCuon = new Panel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                BackColor = BackColor,
+                Padding = new Padding(0),
+                Margin = new Padding(0)
+            };
+
+            // Danh sách các dòng thông báo
+            _danhSach = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                Margin = new Padding(0),
+                Padding = new Padding(0),
+                BackColor = BackColor
+            };
+
+            _vungCuon.Controls.Add(_danhSach);
+            Controls.Add(_vungCuon);
+
+            _timer = new System.Windows.Forms.Timer
+            {
+                Interval = 300
+            };
+
             _timer.Tick += (s, e) =>
             {
                 _timer.Interval = 15000;
                 LamMoi();
             };
-            _timer.Start();
-        }
 
-        //Nạp lại thông báo ngay (gọi sau khi sửa dữ liệu nếu muốn cập nhật tức thì)
+            _timer.Start();
+            // Tải thông báo ngay khi khởi tạo
+            LamMoi();
+
+        }
         public void LamMoi()
         {
             List<CanhBaoBep> ds;
+
             try
             {
-                ds = BepRepository.LayCanhBao().Where(c => Array.IndexOf(_loai, c.Loai) >= 0).ToList();
+                ds = BepRepository.LayCanhBao()
+                    .Where(c => Array.IndexOf(_loai, c.Loai) >= 0)
+                    .ToList();
             }
             catch
             {
-                return;   // lỗi tạm thời (mất kết nối...): giữ nguyên thông báo đang hiện
+                // Nếu lỗi kết nối, giữ nguyên thông báo cũ
+                return;
             }
 
-            string chuKy = string.Join("\n", ds.Select(c => c.Loai + "|" + c.NoiDung).ToArray());
-            if (chuKy == _chuKy) return;
+            string chuKy = string.Join("\n",
+                ds.Select(c => c.Loai + "|" + c.NoiDung).ToArray());
+
+            if (chuKy == _chuKy)
+                return;
+
             _chuKy = chuKy;
             _ds = ds;
 
-            int soDong = Math.Min(ds.Count, ToiDa) + (ds.Count > ToiDa ? 1 : 0);
-            Height = ds.Count == 0 ? 0 : soDong * CaoDong + 14;
-            Visible = ds.Count > 0;
+            _danhSach.SuspendLayout();
+            try
+            {
+                _danhSach.Controls.Clear();
+
+                foreach (CanhBaoBep c in _ds)
+                {
+                    _danhSach.Controls.Add(TaoDongThongBao(c));
+                }
+
+                // Đặt lại vị trí cuộn khi danh sách thay đổi
+                _vungCuon.AutoScrollPosition = new Point(0, 0);
+
+                int tongCao = _ds.Count * CaoDong + 14;
+
+                Height = _ds.Count == 0
+                    ? 0
+                    : Math.Min(tongCao, ToiDaCao);
+
+                Visible = _ds.Count > 0;
+            }
+            finally
+            {
+                _danhSach.ResumeLayout(true);
+            }
+
+            PerformLayout();
             Invalidate();
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        private Control TaoDongThongBao(CanhBaoBep c)
         {
-            var g = e.Graphics;
-            g.Clear(BackColor);
-            var kieu = TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix;
+            Color mau;
+            string nhan;
 
-            int y = 7;
-            int hien = Math.Min(_ds.Count, ToiDa);
-            for (int i = 0; i < hien; i++)
+            switch (c.Loai)
             {
-                CanhBaoBep c = _ds[i];
-                Color mau;
-                string nhan;
-                switch (c.Loai)
-                {
-                    case CanhBaoBep.ChoLau: mau = Color.FromArgb(234, 88, 12); nhan = "CHỜ LÂU"; break;
-                    case CanhBaoBep.NguyenLieuSapHet: mau = Color.FromArgb(180, 83, 9); nhan = "SẮP HẾT"; break;
-                    case CanhBaoBep.NguyenLieuHetHan: mau = Color.FromArgb(126, 34, 206); nhan = "HẾT HẠN"; break;
-                    default: mau = Color.Gray; nhan = "LƯU Ý"; break;
-                }
-                var rb = new Rectangle(12, y + 2, 104, CaoDong - 6);
-                using (var br = new SolidBrush(mau)) g.FillRectangle(br, rb);
-                TextRenderer.DrawText(g, nhan, FNhan, rb, Color.White,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPrefix);
-                TextRenderer.DrawText(g, c.NoiDung, FChu, new Rectangle(124, y, Math.Max(50, Width - 136), CaoDong - 2),
-                    Color.FromArgb(51, 65, 85), kieu);
-                y += CaoDong;
-            }
-            if (_ds.Count > ToiDa)
-                TextRenderer.DrawText(g, "… và " + (_ds.Count - ToiDa) + " thông báo khác", FChu,
-                    new Rectangle(124, y, Math.Max(50, Width - 136), CaoDong - 2), Color.DimGray, kieu);
+                case CanhBaoBep.ChoLau:
+                    mau = Color.FromArgb(255, 0, 0);
+                    nhan = "CHỜ LÂU";
+                    break;
 
-            using (var pen = new Pen(Color.FromArgb(253, 186, 116)))
-                g.DrawLine(pen, 0, Height - 1, Width, Height - 1);
+                case CanhBaoBep.NguyenLieuSapHet:
+                    mau = Color.FromArgb(180, 83, 9);
+                    nhan = "SẮP HẾT";
+                    break;
+
+                case CanhBaoBep.NguyenLieuHetHan:
+                    mau = Color.FromArgb(126, 34, 206);
+                    nhan = "HẾT HẠN";
+                    break;
+
+                default:
+                    mau = Color.Gray;
+                    nhan = "LƯU Ý";
+                    break;
+            }
+
+            var dong = new Panel
+            {
+                Width = Math.Max(100, _vungCuon.ClientSize.Width - 20),
+                Height = CaoDong,
+                Margin = new Padding(0),
+                BackColor = BackColor
+            };
+
+            var lblNhan = new Label
+            {
+                Text = nhan,
+                Location = new Point(12, 3),
+                Size = new Size(104, 22),
+                BackColor = mau,
+                ForeColor = Color.White,
+                Font = FNhan,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            var lblNoiDung = new Label
+            {
+                Text = c.NoiDung,
+                Location = new Point(124, 2),
+                Size = new Size(
+                    Math.Max(50, dong.Width - 136), 24),
+                Font = FChu,
+                ForeColor = Color.FromArgb(51, 65, 85),
+                AutoEllipsis = true,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            dong.Controls.Add(lblNhan);
+            dong.Controls.Add(lblNoiDung);
+
+            // Hiện đầy đủ nội dung khi rê chuột
+            _tip.SetToolTip(lblNoiDung, c.NoiDung);
+            _tip.SetToolTip(lblNhan, c.NoiDung);
+
+            dong.Paint += (s, e) =>
+            {
+                using (var pen = new Pen(Color.FromArgb(253, 186, 116)))
+                {
+                    e.Graphics.DrawLine(
+                        pen, 12, dong.Height - 1,
+                        dong.Width - 12, dong.Height - 1);
+                }
+            };
+
+            return dong;
         }
 
-        // Rê chuột vào một dòng bị cắt chữ thì hiện đầy đủ nội dung
-        protected override void OnMouseMove(MouseEventArgs e)
+        protected override void OnResize(EventArgs e)
         {
-            base.OnMouseMove(e);
-            int i = (e.Y - 7) / CaoDong;
-            if (i == _dongTip) return;
-            _dongTip = i;
-            _tip.SetToolTip(this, i >= 0 && i < Math.Min(_ds.Count, ToiDa) ? _ds[i].NoiDung : "");
+            base.OnResize(e);
+
+            if (_danhSach == null || _vungCuon == null)
+                return;
+
+            foreach (Control c in _danhSach.Controls)
+            {
+                c.Width = Math.Max(
+                    100, _vungCuon.ClientSize.Width - 20);
+
+                if (c.Controls.Count > 1)
+                {
+                    c.Controls[1].Width =
+                        Math.Max(50, c.Width - 136);
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -383,7 +514,9 @@ namespace QLNhaHang.Controls.Bep
                 _timer.Dispose();
                 _tip.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }
+
 }
