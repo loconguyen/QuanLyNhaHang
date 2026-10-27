@@ -172,7 +172,7 @@ namespace QLNhaHang.Forms.Main
         }
 
         // --- Admin ---
-        private void btnTaiKhoan_Click(object sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản"); new ucTaiKhoan(); }
+        private void btnTaiKhoan_Click(object sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản", new ucTaiKhoan()); }
 
     }
 }

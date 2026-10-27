@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Windows.Forms;
 using QLNhaHang.Classes;
@@ -26,17 +26,17 @@ namespace QLNhaHang.Forms.DangKy
             txtXacNhanMatKhau.UseSystemPasswordChar = true;
         }
 
-   
+
         private void btnDangKy_Click(object sender, EventArgs e)
         {
-            //  Lấy dữ liệu
+            // 1. Lấy dữ liệu
             string hoTen = txtHoTen.Text.Trim();
             string sdt = txtSDT.Text.Trim();
             string tenDangNhap = txtTenDangNhap.Text.Trim();
             string matKhau = txtMatKhau.Text;
             string xacNhanMatKhau = txtXacNhanMatKhau.Text;
 
-            // Kiểm tra họ tên
+            // 2. Kiểm tra họ tên
             if (string.IsNullOrWhiteSpace(hoTen))
             {
                 MessageBox.Show("Vui lòng nhập họ tên!");
@@ -44,7 +44,7 @@ namespace QLNhaHang.Forms.DangKy
                 return;
             }
 
-            // Kiểm tra số điện thoại
+            // 3. Kiểm tra số điện thoại
             if (string.IsNullOrWhiteSpace(sdt))
             {
                 MessageBox.Show("Vui lòng nhập số điện thoại!");
@@ -52,7 +52,7 @@ namespace QLNhaHang.Forms.DangKy
                 return;
             }
 
-            // Kiểm tra tên đăng nhập
+            // 4. Kiểm tra tên đăng nhập
             if (string.IsNullOrWhiteSpace(tenDangNhap))
             {
                 MessageBox.Show("Vui lòng nhập tên đăng nhập!");
@@ -60,7 +60,7 @@ namespace QLNhaHang.Forms.DangKy
                 return;
             }
 
-            //  Kiểm tra mật khẩu
+            // 5. Kiểm tra mật khẩu
             if (string.IsNullOrWhiteSpace(matKhau))
             {
                 MessageBox.Show("Vui lòng nhập mật khẩu!");
@@ -68,7 +68,7 @@ namespace QLNhaHang.Forms.DangKy
                 return;
             }
 
-            //Kiểm tra xác nhận mật khẩu
+            // 6. Kiểm tra xác nhận mật khẩu
             if (string.IsNullOrWhiteSpace(xacNhanMatKhau))
             {
                 MessageBox.Show("Vui lòng xác nhận mật khẩu!");
@@ -90,7 +90,7 @@ namespace QLNhaHang.Forms.DangKy
                 return;
             }
 
-            //  Lưu thông tin đăng ký
+            // 8. Lưu thông tin đăng ký
             try
             {
                 btnDangKy.Enabled = false;
@@ -110,7 +110,6 @@ namespace QLNhaHang.Forms.DangKy
                     MessageBoxIcon.Information
                 );
 
-                // Đóng Form đăng ký
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -130,7 +129,7 @@ namespace QLNhaHang.Forms.DangKy
         }
 
         // QUAY LẠI ĐĂNG NHẬP
-        
+
         private void linkDangNhap_LinkClicked(
             object sender,
             LinkLabelLinkClickedEventArgs e)
@@ -138,5 +137,7 @@ namespace QLNhaHang.Forms.DangKy
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+
     }
 }

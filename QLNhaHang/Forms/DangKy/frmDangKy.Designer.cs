@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -63,9 +63,9 @@ namespace QLNhaHang.Forms.DangKy
             pnlDangKy.Controls.Add(btnDangKy);
             pnlDangKy.Controls.Add(label7);
             pnlDangKy.Controls.Add(linkDangNhap);
-            pnlDangKy.Location = new Point(130, 40);
+            pnlDangKy.Location = new Point(130, 12);
             pnlDangKy.Name = "pnlDangKy";
-            pnlDangKy.Size = new Size(840, 700);
+            pnlDangKy.Size = new Size(840, 710);
             pnlDangKy.TabIndex = 0;
             // 
             // pnlThanhTrangTri
@@ -95,7 +95,7 @@ namespace QLNhaHang.Forms.DangKy
             lblMoTa.Name = "lblMoTa";
             lblMoTa.Size = new Size(760, 30);
             lblMoTa.TabIndex = 2;
-            lblMoTa.Text = "Tạo tài khoản để sử dụng hệ thống quản lý nhà hàng";
+            lblMoTa.Text = "Đăng ký dành cho nhân viên mới";
             lblMoTa.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -169,7 +169,7 @@ namespace QLNhaHang.Forms.DangKy
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             label5.ForeColor = Color.FromArgb(23, 38, 62);
-            label5.Location = new Point(50, 337);
+            label5.Location = new Point(50, 342);
             label5.Name = "label5";
             label5.Size = new Size(111, 30);
             label5.TabIndex = 6;
@@ -180,7 +180,7 @@ namespace QLNhaHang.Forms.DangKy
             txtMatKhau.BackColor = Color.FromArgb(248, 250, 252);
             txtMatKhau.BorderStyle = BorderStyle.FixedSingle;
             txtMatKhau.Font = new Font("Segoe UI", 12F);
-            txtMatKhau.Location = new Point(50, 370);
+            txtMatKhau.Location = new Point(50, 375);
             txtMatKhau.Name = "txtMatKhau";
             txtMatKhau.Size = new Size(740, 39);
             txtMatKhau.TabIndex = 3;
@@ -191,7 +191,7 @@ namespace QLNhaHang.Forms.DangKy
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             label6.ForeColor = Color.FromArgb(23, 38, 62);
-            label6.Location = new Point(50, 430);
+            label6.Location = new Point(50, 435);
             label6.Name = "label6";
             label6.Size = new Size(210, 30);
             label6.TabIndex = 7;
@@ -202,7 +202,7 @@ namespace QLNhaHang.Forms.DangKy
             txtXacNhanMatKhau.BackColor = Color.FromArgb(248, 250, 252);
             txtXacNhanMatKhau.BorderStyle = BorderStyle.FixedSingle;
             txtXacNhanMatKhau.Font = new Font("Segoe UI", 12F);
-            txtXacNhanMatKhau.Location = new Point(50, 463);
+            txtXacNhanMatKhau.Location = new Point(50, 468);
             txtXacNhanMatKhau.Name = "txtXacNhanMatKhau";
             txtXacNhanMatKhau.Size = new Size(740, 39);
             txtXacNhanMatKhau.TabIndex = 4;
@@ -212,11 +212,11 @@ namespace QLNhaHang.Forms.DangKy
             // 
             lblThongBao.Font = new Font("Segoe UI", 10F);
             lblThongBao.ForeColor = Color.FromArgb(100, 116, 139);
-            lblThongBao.Location = new Point(50, 520);
+            lblThongBao.Location = new Point(50, 530);
             lblThongBao.Name = "lblThongBao";
             lblThongBao.Size = new Size(740, 32);
             lblThongBao.TabIndex = 8;
-            lblThongBao.Text = "Tài khoản cần được quản lý phê duyệt trước khi sử dụng.";
+            lblThongBao.Text = "Đã có hồ sơ nhân viên? Liên hệ quản lý để được cấp tài khoản.";
             lblThongBao.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnDangKy
@@ -227,7 +227,7 @@ namespace QLNhaHang.Forms.DangKy
             btnDangKy.FlatStyle = FlatStyle.Flat;
             btnDangKy.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             btnDangKy.ForeColor = Color.White;
-            btnDangKy.Location = new Point(235, 570);
+            btnDangKy.Location = new Point(235, 575);
             btnDangKy.Name = "btnDangKy";
             btnDangKy.Size = new Size(370, 52);
             btnDangKy.TabIndex = 5;
@@ -240,7 +240,7 @@ namespace QLNhaHang.Forms.DangKy
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 10.5F);
             label7.ForeColor = Color.Gray;
-            label7.Location = new Point(242, 647);
+            label7.Location = new Point(247, 653);
             label7.Name = "label7";
             label7.Size = new Size(168, 30);
             label7.TabIndex = 9;
@@ -254,7 +254,7 @@ namespace QLNhaHang.Forms.DangKy
             linkDangNhap.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             linkDangNhap.LinkBehavior = LinkBehavior.HoverUnderline;
             linkDangNhap.LinkColor = Color.FromArgb(60, 115, 201);
-            linkDangNhap.Location = new Point(405, 647);
+            linkDangNhap.Location = new Point(410, 653);
             linkDangNhap.Name = "linkDangNhap";
             linkDangNhap.Size = new Size(205, 30);
             linkDangNhap.TabIndex = 6;
@@ -268,7 +268,7 @@ namespace QLNhaHang.Forms.DangKy
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 245, 249);
-            ClientSize = new Size(1100, 790);
+            ClientSize = new Size(1100, 734);
             Controls.Add(pnlDangKy);
             Font = new Font("Segoe UI", 11F);
             FormBorderStyle = FormBorderStyle.FixedSingle;

@@ -30,9 +30,9 @@ namespace QLNhaHang.Classes
                 throw new InvalidOperationException("Mật khẩu phải có từ 8 đến 128 ký tự.");
         }
 
-        public DataRow? DangNhap(string ten, int maNV, string vaiTro, string matKhau)
+        public DataRow? DangNhap(string ten, string vaiTro, string matKhau)
         {
-            if (ten.Length > 50 || string.IsNullOrEmpty(matKhau) || maNV <= 0) return null;
+            if (ten.Length > 50 || string.IsNullOrEmpty(matKhau)) return null;
             using var ketNoi = TaoKetNoi();
             ketNoi.Open();
             using var giaoDich = ketNoi.BeginTransaction(IsolationLevel.Serializable);
@@ -41,10 +41,9 @@ namespace QLNhaHang.Classes
                 FROM dbo.TAI_KHOAN tk WITH (UPDLOCK,HOLDLOCK)
                 JOIN dbo.NHAN_VIEN nv ON nv.NhanVienID=tk.NhanVienID
                 JOIN dbo.VAI_TRO vt ON vt.RoleID=tk.RoleID
-                WHERE tk.TenDangNhap=@ten AND tk.NhanVienID=@nv AND vt.TenVaiTro=@vaiTro
+                WHERE tk.TenDangNhap=@ten AND vt.TenVaiTro=@vaiTro
                   AND tk.TrangThai=N'Hoạt động' AND nv.TrangThai=N'Đang làm';", ketNoi, giaoDich);
             lenh.Parameters.Add("@ten", SqlDbType.VarChar, 50).Value = ten;
-            lenh.Parameters.Add("@nv", SqlDbType.Int).Value = maNV;
             lenh.Parameters.Add("@vaiTro", SqlDbType.VarChar, 30).Value = vaiTro;
             DataTable bang = DocBang(lenh);
             if (bang.Rows.Count != 1) return null;
@@ -66,32 +65,112 @@ namespace QLNhaHang.Classes
             return dong;
         }
 
-        public void GuiYeuCau(string hoTen, string sdt, string tenDangNhap, string matKhau)
+        public void GuiYeuCau(
+    string hoTen,
+    string sdt,
+    string tenDangNhap,
+    string matKhau)
         {
             tenDangNhap = tenDangNhap.Trim();
+            hoTen = hoTen.Trim();
+            sdt = sdt.Trim();
+
             KiemTraTen(tenDangNhap);
             KiemTraMatKhau(matKhau);
-            if (string.IsNullOrWhiteSpace(hoTen) || hoTen.Trim().Length > 100 || sdt.Length != 10 ||
-                sdt[0] != '0' || !sdt.All(c => c >= '0' && c <= '9'))
-                throw new InvalidOperationException("Họ tên tối đa 100 ký tự. Số điện thoại gồm 10 chữ số, bắt đầu bằng 0.");
+
+            // 1. Kiểm tra thông tin đăng ký
+            if (string.IsNullOrWhiteSpace(hoTen) ||
+                hoTen.Length > 100 ||
+                sdt.Length != 10 ||
+                sdt[0] != '0' ||
+                !sdt.All(c => c >= '0' && c <= '9'))
+            {
+                throw new InvalidOperationException(
+                    "Họ tên tối đa 100 ký tự. Số điện thoại gồm 10 chữ số, bắt đầu bằng 0.");
+            }
+
+            // 3. Băm mật khẩu
             string maBam = BaoMatMatKhau.BamMatKhau(matKhau);
+
             using var ketNoi = TaoKetNoi();
             ketNoi.Open();
-            using var giaoDich = ketNoi.BeginTransaction(IsolationLevel.Serializable);
+
+            using var giaoDich =
+                ketNoi.BeginTransaction(IsolationLevel.Serializable);
+
             using var lenh = new SqlCommand(@"
-                IF EXISTS (SELECT 1 FROM dbo.TAI_KHOAN WITH (UPDLOCK,HOLDLOCK) WHERE TenDangNhap=@ten)
-                    THROW 50001, N'Tên đăng nhập đã tồn tại. Hãy chọn tên khác.', 1;
-                IF EXISTS (SELECT 1 FROM dbo.NHAN_VIEN WITH (UPDLOCK,HOLDLOCK) WHERE SDT=@sdt)
-                    OR EXISTS (SELECT 1 FROM dbo.TAI_KHOAN WITH (UPDLOCK,HOLDLOCK)
-                        WHERE TrangThai=N'Chờ duyệt' AND SDTDangKy=@sdt)
-                    THROW 50001, N'Số điện thoại đã tồn tại hoặc đang chờ duyệt. Liên hệ Admin nếu đã là nhân viên.', 1;
-                INSERT dbo.TAI_KHOAN(TenDangNhap,MatKhauHash,TrangThai,RoleID,NhanVienID,HoTenDangKy,SDTDangKy)
-                VALUES (@ten,@hash,N'Chờ duyệt',NULL,NULL,@hoTen,@sdt);", ketNoi, giaoDich);
-            lenh.Parameters.Add("@ten", SqlDbType.VarChar, 50).Value = tenDangNhap;
-            lenh.Parameters.Add("@hoTen", SqlDbType.NVarChar, 100).Value = hoTen.Trim();
-            lenh.Parameters.Add("@sdt", SqlDbType.VarChar, 15).Value = sdt;
-            lenh.Parameters.Add("@hash", SqlDbType.VarChar, 255).Value = maBam;
+
+        -- Kiểm tra tên đăng nhập
+        IF EXISTS (
+            SELECT 1
+            FROM dbo.TAI_KHOAN WITH (UPDLOCK, HOLDLOCK)
+            WHERE TenDangNhap = @ten
+        )
+            THROW 50001,
+                N'Tên đăng nhập đã tồn tại. Hãy chọn tên khác.', 1;
+
+        -- Kiểm tra SĐT đang có yêu cầu chờ duyệt
+        IF EXISTS (
+            SELECT 1
+            FROM dbo.TAI_KHOAN WITH (UPDLOCK, HOLDLOCK)
+            WHERE TrangThai = N'Chờ duyệt'
+              AND SDTDangKy = @sdt
+        )
+            THROW 50001,
+                N'Số điện thoại đã có yêu cầu đăng ký đang chờ duyệt.', 1;
+
+        -- Nhân viên có sẵn dùng chức năng cấp tài khoản
+        IF EXISTS (
+            SELECT 1
+            FROM dbo.NHAN_VIEN WITH (UPDLOCK, HOLDLOCK) WHERE SDT = @sdt
+        )
+            THROW 50001,
+                N'Nhân viên đã có trong danh sách. Vui lòng liên hệ quản lý để được cấp tài khoản.', 1;
+
+        -- Tạo yêu cầu đăng ký
+        INSERT INTO dbo.TAI_KHOAN
+        (
+            TenDangNhap,
+            MatKhauHash,
+            TrangThai,
+            RoleID,
+            NhanVienID,
+            HoTenDangKy,
+            SDTDangKy
+        )
+        VALUES
+        (
+            @ten,
+            @hash,
+            N'Chờ duyệt',
+            NULL,
+            NULL,
+            @hoTen,
+            @sdt
+        );
+
+    ", ketNoi, giaoDich);
+
+            // 4. Truyền tham số SQL
+            lenh.Parameters.Add(
+                "@ten", SqlDbType.VarChar, 50
+            ).Value = tenDangNhap;
+
+            lenh.Parameters.Add(
+                "@hoTen", SqlDbType.NVarChar, 100
+            ).Value = hoTen;
+
+            lenh.Parameters.Add(
+                "@sdt", SqlDbType.VarChar, 15
+            ).Value = sdt;
+
+            lenh.Parameters.Add(
+                "@hash", SqlDbType.VarChar, 255
+            ).Value = maBam;
+
+// 5. Thực hiện INSERT
             lenh.ExecuteNonQuery();
+
             giaoDich.Commit();
         }
 
@@ -272,79 +351,12 @@ namespace QLNhaHang.Classes
                         THROW 50001, N'Nhân viên đã có tài khoản hoặc tên đăng nhập đã tồn tại.', 1;
                     INSERT dbo.TAI_KHOAN(TenDangNhap,MatKhauHash,TrangThai,RoleID,NhanVienID)
                         VALUES (@ten,@hash,N'Hoạt động',@role,@nv);", kn, gd);
-                lenh.Parameters.Add("@nv", SqlDbType.Int).Value = maNV;
                 lenh.Parameters.Add("@ten", SqlDbType.VarChar, 50).Value = ten;
                 lenh.Parameters.Add("@role", SqlDbType.Int).Value = roleID;
                 lenh.Parameters.Add("@hash", SqlDbType.VarChar, 255).Value = hash;
                 return lenh.ExecuteNonQuery();
             });
         }
-
-        // duyet tai khoan nhan vien co 2 truong hop
-        // th1: nhan vien da co trong he thong
-
-        public void DuyetNhanVienDaCo(
-            int taiKhoanID,
-            int nhanVienID,
-            int roleID)
-        {
-            ThayDoi(
-                taiKhoanID,
-                KiemTraVaiTro + @"
-            -- Kiểm tra tài khoản chờ duyệt
-            IF NOT EXISTS (
-                SELECT 1
-                FROM dbo.TAI_KHOAN WITH (UPDLOCK, HOLDLOCK)
-                WHERE TaiKhoanID = @id
-                  AND TrangThai = N'Chờ duyệt'
-                  AND NhanVienID IS NULL
-            )
-                THROW 50001,
-                    N'Tài khoản không ở trạng thái chờ duyệt.', 1;
-
-            -- Kiểm tra nhân viên hợp lệ
-            IF NOT EXISTS (
-                SELECT 1
-                FROM dbo.NHAN_VIEN WITH (UPDLOCK, HOLDLOCK)
-                WHERE NhanVienID = @nv
-                  AND TrangThai = N'Đang làm'
-            )
-                THROW 50001,
-                    N'Nhân viên không tồn tại hoặc đã nghỉ việc.', 1;
-
-            -- Kiểm tra nhân viên chưa có tài khoản
-            IF EXISTS (
-                SELECT 1
-                FROM dbo.TAI_KHOAN WITH (UPDLOCK, HOLDLOCK)
-                WHERE NhanVienID = @nv
-            )
-                THROW 50001,
-                    N'Nhân viên đã có tài khoản.', 1;
-
-            -- Liên kết tài khoản với nhân viên
-            UPDATE dbo.TAI_KHOAN
-            SET NhanVienID = @nv,
-                RoleID = @role,
-                TrangThai = N'Hoạt động'
-            WHERE TaiKhoanID = @id
-              AND TrangThai = N'Chờ duyệt';
-
-            IF @@ROWCOUNT <> 1
-                THROW 50001,
-                    N'Không thể duyệt tài khoản.', 1;
-        ",
-                lenh =>
-                {
-                    lenh.Parameters.Add("@nv", SqlDbType.Int)
-                        .Value = nhanVienID;
-
-                    lenh.Parameters.Add("@role", SqlDbType.Int)
-                        .Value = roleID;
-                },
-                lenh => lenh.ExecuteNonQuery()
-            );
-        }
-        //th2 nhan vien moi hoan toan
 
         public int DuyetNhanVienMoi(
             int taiKhoanID,
@@ -397,7 +409,10 @@ namespace QLNhaHang.Classes
             SELECT @vaiTro = TenVaiTro
             FROM dbo.VAI_TRO
             WHERE RoleID = @role;
-
+IF LTRIM(RTRIM(@hoTenDangKy)) <> LTRIM(RTRIM(@hoTen))
+   OR @sdtDangKy <> @sdt
+    THROW 50001,
+        N'Họ tên hoặc số điện thoại không khớp với thông tin đăng ký.', 1;
             -- Tạo hồ sơ nhân viên
             INSERT INTO dbo.NHAN_VIEN
             (
@@ -508,7 +523,9 @@ namespace QLNhaHang.Classes
             });
         }
 
+        // cac phuong thuc cho button xac nhan duyet
+
+
 
     }
 }
-

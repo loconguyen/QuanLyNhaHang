@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -28,19 +28,16 @@ namespace QLNhaHang.Forms.DangNhap
             lblMoTa = new Label();
 
             label1 = new Label();
-            label2 = new Label();
             label3 = new Label();
             label4 = new Label();
 
             txtDangNhap = new TextBox();
-            txtMaNhanVien = new TextBox();
             txtMatKhau = new TextBox();
 
             cbRole = new ComboBox();
             btnDangNhap = new Button();
 
             linkDK = new LinkLabel();
-            linkMatKhau = new LinkLabel();
 
             pnlDangNhap.SuspendLayout();
             SuspendLayout();
@@ -118,7 +115,7 @@ namespace QLNhaHang.Forms.DangNhap
             label1.Name = "label1";
 
             txtDangNhap.Location = new Point(50, 178);
-            txtDangNhap.Size = new Size(345, 37);
+            txtDangNhap.Size = new Size(740, 37);
             txtDangNhap.Font =
                 new Font("Segoe UI", 12F);
             txtDangNhap.BackColor =
@@ -129,30 +126,7 @@ namespace QLNhaHang.Forms.DangNhap
                 BorderStyle.FixedSingle;
             txtDangNhap.Name = "txtDangNhap";
             txtDangNhap.TabIndex = 0;
-
-            // =====================================
-            // MÃ NHÂN VIÊN
-            // =====================================
-            label2.AutoSize = true;
-            label2.Location = new Point(445, 145);
-            label2.Text = "Mã nhân viên";
-            label2.Font = new Font(
-                "Segoe UI", 11F, FontStyle.Bold);
-            label2.ForeColor =
-                Color.FromArgb(23, 38, 62);
-            label2.Name = "label2";
-
-            txtMaNhanVien.Location =
-                new Point(445, 178);
-            txtMaNhanVien.Size = new Size(345, 37);
-            txtMaNhanVien.Font =
-                new Font("Segoe UI", 12F);
-            txtMaNhanVien.BackColor =
-                Color.FromArgb(248, 250, 252);
-            txtMaNhanVien.BorderStyle =
-                BorderStyle.FixedSingle;
-            txtMaNhanVien.Name = "txtMaNhanVien";
-            txtMaNhanVien.TabIndex = 1;
+            txtDangNhap.MaxLength = 50;
 
             // =====================================
             // MẬT KHẨU
@@ -176,7 +150,7 @@ namespace QLNhaHang.Forms.DangNhap
                 BorderStyle.FixedSingle;
             txtMatKhau.UseSystemPasswordChar = true;
             txtMatKhau.Name = "txtMatKhau";
-            txtMatKhau.TabIndex = 2;
+            txtMatKhau.TabIndex = 1;
 
             // =====================================
             // BỘ PHẬN LÀM VIỆC
@@ -201,7 +175,7 @@ namespace QLNhaHang.Forms.DangNhap
                 ComboBoxStyle.DropDownList;
             cbRole.FormattingEnabled = true;
             cbRole.Name = "cbRole";
-            cbRole.TabIndex = 3;
+            cbRole.TabIndex = 2;
 
             // Danh sách bộ phận được nạp trong
             // phương thức LoadBoPhan() của DangNhapForm.cs
@@ -224,7 +198,7 @@ namespace QLNhaHang.Forms.DangNhap
             btnDangNhap.FlatAppearance.BorderSize = 0;
             btnDangNhap.Cursor = Cursors.Hand;
             btnDangNhap.UseVisualStyleBackColor = false;
-            btnDangNhap.TabIndex = 4;
+            btnDangNhap.TabIndex = 3;
 
             // Giữ nguyên sự kiện đăng nhập
             btnDangNhap.Click += btnDangNhap_Click;
@@ -232,8 +206,10 @@ namespace QLNhaHang.Forms.DangNhap
             // =====================================
             // LINK ĐĂNG KÝ
             // =====================================
-            linkDK.AutoSize = true;
-            linkDK.Location = new Point(125, 585);
+            linkDK.AutoSize = false;
+            linkDK.Location = new Point(50, 585);
+            linkDK.Size = new Size(740, 40);
+            linkDK.TextAlign = ContentAlignment.MiddleCenter;
             linkDK.Text = "Đăng ký tài khoản";
             linkDK.Font = new Font(
                 "Segoe UI", 11F, FontStyle.Bold);
@@ -245,29 +221,10 @@ namespace QLNhaHang.Forms.DangNhap
                 LinkBehavior.HoverUnderline;
             linkDK.Cursor = Cursors.Hand;
             linkDK.Name = "linkDK";
-            linkDK.TabIndex = 5;
+            linkDK.TabIndex = 4;
 
             // Sự kiện linkDK.LinkClicked đã được
             // đăng ký trong DangNhapForm.cs
-
-            // =====================================
-            // LINK QUÊN MẬT KHẨU
-            // =====================================
-            linkMatKhau.AutoSize = true;
-            linkMatKhau.Location =
-                new Point(520, 585);
-            linkMatKhau.Text = "Bạn quên mật khẩu?";
-            linkMatKhau.Font = new Font(
-                "Segoe UI", 11F, FontStyle.Bold);
-            linkMatKhau.LinkColor =
-                Color.FromArgb(60, 115, 201);
-            linkMatKhau.ActiveLinkColor =
-                Color.FromArgb(23, 38, 62);
-            linkMatKhau.LinkBehavior =
-                LinkBehavior.HoverUnderline;
-            linkMatKhau.Cursor = Cursors.Hand;
-            linkMatKhau.Name = "linkMatKhau";
-            linkMatKhau.TabIndex = 6;
 
             // =====================================
             // THÊM CONTROL VÀO PANEL
@@ -281,8 +238,6 @@ namespace QLNhaHang.Forms.DangNhap
             pnlDangNhap.Controls.Add(label1);
             pnlDangNhap.Controls.Add(txtDangNhap);
 
-            pnlDangNhap.Controls.Add(label2);
-            pnlDangNhap.Controls.Add(txtMaNhanVien);
 
             pnlDangNhap.Controls.Add(label3);
             pnlDangNhap.Controls.Add(txtMatKhau);
@@ -292,7 +247,6 @@ namespace QLNhaHang.Forms.DangNhap
 
             pnlDangNhap.Controls.Add(btnDangNhap);
             pnlDangNhap.Controls.Add(linkDK);
-            pnlDangNhap.Controls.Add(linkMatKhau);
 
             Controls.Add(pnlDangNhap);
 
@@ -312,18 +266,15 @@ namespace QLNhaHang.Forms.DangNhap
         private Label lblMoTa;
 
         private Label label1;
-        private Label label2;
         private Label label3;
         private Label label4;
 
         private TextBox txtDangNhap;
-        private TextBox txtMaNhanVien;
         private TextBox txtMatKhau;
 
         private ComboBox cbRole;
         private Button btnDangNhap;
 
         private LinkLabel linkDK;
-        private LinkLabel linkMatKhau;
     }
 }
