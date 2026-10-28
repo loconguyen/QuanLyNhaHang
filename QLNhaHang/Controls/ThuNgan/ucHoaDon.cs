@@ -62,6 +62,7 @@ namespace QLNhaHang.Controls.ThuNgan
         public ucHoaDon()
         {
             InitializeComponent();
+            AutoScaleMode = AutoScaleMode.None;     // [SỬA] không tự phóng to theo DPI
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
 
             tabBtns = new[] { btnTabCho, btnTabDa, btnTabHuy };
@@ -81,6 +82,10 @@ namespace QLNhaHang.Controls.ThuNgan
             CapNhatTab();
             ChonPhuongThuc(PT_TIENMAT);
         }
+
+        // [SỬA] Chặn form cha phóng to control và các control con
+        protected override bool ScaleChildren => false;
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified) { }
 
         static string CaLamViec()
         {
@@ -361,21 +366,15 @@ namespace QLNhaHang.Controls.ThuNgan
             try
             {
                 Exec(@"
-                    insert into HOA_DON (DonHangID, ThuNganID, NgayLap, TongTien, GiamGia, TrangThaiThanhToan)
-                    select dh.DonHangID, @tn, sysdatetime(),
-                           isnull(sum(ct.SoLuong * ct.DonGia), 0), 0, N'Chưa thanh toán'
-                    from DON_HANG dh
-                    left join CHI_TIET_DON_HANG ct
-                           on ct.DonHangID = dh.DonHangID and ct.TrangThaiMon <> N'Đã hủy'
-                    where dh.TrangThaiDon = N'Đang xử lý'
-                      and not exists (select 1 from HOA_DON h where h.DonHangID = dh.DonHangID)
-                      and exists (select 1 from CHI_TIET_DON_HANG c1
-                                  where c1.DonHangID = dh.DonHangID
-                                    and c1.TrangThaiMon <> N'Đã hủy')
-                      and not exists (select 1 from CHI_TIET_DON_HANG c2
-                                      where c2.DonHangID = dh.DonHangID
-                                        and c2.TrangThaiMon not in (N'Đã phục vụ', N'Đã hủy'))
-                    group by dh.DonHangID",
+            insert into HOA_DON (DonHangID, ThuNganID, NgayLap, TongTien, GiamGia, TrangThaiThanhToan)
+            select dh.DonHangID, @tn, sysdatetime(),
+                   sum(ct.SoLuong * ct.DonGia), 0, N'Chưa thanh toán'
+            from DON_HANG dh
+            join CHI_TIET_DON_HANG ct
+                 on ct.DonHangID = dh.DonHangID and ct.TrangThaiMon <> N'Đã hủy'
+            where dh.TrangThaiDon = N'Đang xử lý'
+              and not exists (select 1 from HOA_DON h where h.DonHangID = dh.DonHangID)
+            group by dh.DonHangID",
                     P("@tn", Session.NhanVienID, SqlDbType.Int));
             }
             catch
@@ -547,7 +546,8 @@ namespace QLNhaHang.Controls.ThuNgan
 
             try
             {
-                // 1. Tính lại tổng tiền theo các món hiện có; nếu khác số đang hiển thị thì báo để kiểm tra lại
+                // Tính lại tổng tiền theo TẤT CẢ món đã gọi (không bỏ món chưa ra);
+                // nếu khác số đang hiển thị thì báo để kiểm tra lại
                 DongBoTongTien();
                 DataTable moi = Query(
                     "select ThanhTien from HOA_DON where HoaDonID = @id",
@@ -558,19 +558,6 @@ namespace QLNhaHang.Controls.ThuNgan
                                     "Vui lòng kiểm tra lại rồi xác nhận thanh toán.",
                         "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadDanhSach();
-                    return;
-                }
-
-                // 2. Còn món chưa phục vụ thì chưa thanh toán được
-                DataTable conLai = Query(@"
-                    select count(*) from CHI_TIET_DON_HANG
-                    where DonHangID = @dh and TrangThaiMon not in (N'Đã phục vụ', N'Đã hủy')",
-                    P("@dh", _cur.DonHangId, SqlDbType.Int));
-                int soConLai = Convert.ToInt32(conLai.Rows[0][0]);
-                if (soConLai > 0)
-                {
-                    MessageBox.Show($"Còn {soConLai} món chưa được phục vụ, chưa thể thanh toán.",
-                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
@@ -731,6 +718,7 @@ namespace QLNhaHang.Controls.ThuNgan
             g.ColumnHeadersDefaultCellStyle.SelectionForeColor = cText;
             g.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             g.ColumnHeadersDefaultCellStyle.Padding = new Padding(8, 0, 8, 0);
+            g.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;   // [SỬA] header không xuống dòng
             g.DefaultCellStyle.BackColor = Color.White;
             g.DefaultCellStyle.ForeColor = cText;
             g.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
