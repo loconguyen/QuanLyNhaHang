@@ -6,7 +6,10 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
@@ -14,6 +17,7 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             lblInfo = new Label();
             dgvMon = new DataGridView();
             lblTong = new Label();
@@ -39,17 +43,27 @@
             // 
             dgvMon.AllowUserToAddRows = false;
             dgvMon.AllowUserToDeleteRows = false;
+            dgvMon.AllowUserToResizeRows = false;
             dgvMon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvMon.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvMon.BackgroundColor = Color.White;
             dgvMon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(24, 38, 66);
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             dataGridViewCellStyle1.ForeColor = Color.White;
             dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(24, 38, 66);
             dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvMon.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvMon.ColumnHeadersHeight = 34;
+
+            // Tăng chiều cao hàng tiêu đề để hiển thị đầy đủ chữ "Số lượng"
+            dgvMon.ColumnHeadersHeight = 55;
+
             dgvMon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvMon.DefaultCellStyle = dataGridViewCellStyle2;
             dgvMon.EnableHeadersVisualStyles = false;
             dgvMon.GridColor = Color.FromArgb(207, 216, 220);
             dgvMon.Location = new Point(17, 80);
@@ -188,14 +202,6 @@
 
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.DataGridView dgvMon;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDongID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTenMon;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSoLuong;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDonGia;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colThanhTien;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTrangThai;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colGuiBep;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colGhiChu;
         private System.Windows.Forms.Label lblTong;
         private System.Windows.Forms.Button btnThemMon;
         private System.Windows.Forms.Button btnChuyenBan;

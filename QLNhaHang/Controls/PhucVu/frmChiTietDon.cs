@@ -120,6 +120,8 @@ namespace QLNhaHang.Controls.PhucVu
             }
 
             dgvMon.DataSource = dt;
+            CauHinhCot();   // đặt lại tiêu đề tiếng Việt, định dạng (cột được sinh lại sau mỗi lần nạp)
+
             dgvMon.ClearSelection();
             foreach (DataGridViewRow r in dgvMon.Rows)
                 if (daChon.Contains(So(r, "DongID")))
@@ -129,6 +131,39 @@ namespace QLNhaHang.Controls.PhucVu
                 .Where(r => r.Field<string>("TrangThaiMon") != "Đã hủy")
                 .Sum(r => r.Field<decimal>("ThanhTien"));
             lblTong.Text = $"Tổng tiền tạm tính: {tong:N0} đ";
+        }
+
+        // Tiêu đề tiếng Việt + định dạng + độ rộng cho từng cột
+        void CauHinhCot()
+        {
+            void Cot(string ten, string tieuDe, float trongSo,
+                     string? dinhDang = null, DataGridViewContentAlignment? canh = null)
+            {
+                var c = dgvMon.Columns[ten];
+                if (c == null) return;
+                c.HeaderText = tieuDe;
+                c.FillWeight = trongSo;
+                c.MinimumWidth = 60;
+                c.SortMode = DataGridViewColumnSortMode.NotSortable;
+                if (dinhDang != null) c.DefaultCellStyle.Format = dinhDang;
+                if (canh != null)
+                {
+                    c.DefaultCellStyle.Alignment = canh.Value;
+                    c.HeaderCell.Style.Alignment = canh.Value;
+                }
+            }
+
+            var phai = DataGridViewContentAlignment.MiddleRight;
+            var giua = DataGridViewContentAlignment.MiddleCenter;
+
+            if (dgvMon.Columns["DongID"] is DataGridViewColumn id) id.Visible = false;   // mã nội bộ
+            Cot("TenMon", "Tên món", 26);
+            Cot("SoLuong", "Số lượng", 9, null, giua);
+            Cot("DonGia", "Đơn giá", 14, "N0", phai);
+            Cot("ThanhTien", "Thành tiền", 15, "N0", phai);
+            Cot("TrangThaiMon", "Trạng thái", 16);
+            Cot("ThoiGianGuiBep", "Giờ gửi bếp", 15, "dd/MM HH:mm");
+            Cot("GhiChu", "Ghi chú", 20);
         }
 
         // Nút nào hiện theo vai trò và trạng thái đơn
