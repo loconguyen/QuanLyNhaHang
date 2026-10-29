@@ -24,8 +24,6 @@ namespace QLNhaHang.Controls.ThuNgan
         static readonly Color cBlue = Color.FromArgb(37, 99, 235);
         static readonly Color cGreen = Color.FromArgb(22, 163, 74);
         static readonly Color cGreenSoft = Color.FromArgb(220, 247, 230);
-        static readonly Color cRed = Color.FromArgb(220, 38, 38);
-        static readonly Color cRedSoft = Color.FromArgb(254, 226, 226);
         static readonly Color cAmber = Color.FromArgb(217, 119, 6);
         static readonly Color cAmberSoft = Color.FromArgb(255, 240, 214);
         static readonly Color cHeader = Color.FromArgb(243, 246, 250);
@@ -33,19 +31,28 @@ namespace QLNhaHang.Controls.ThuNgan
         // ===== Trạng thái lưu trong DB =====
         const string TT_CHO = "Chưa thanh toán";
         const string TT_DA = "Đã thanh toán";
-        const string TT_HUY = "Đã hủy";
-        static readonly string[] TabTT = { TT_CHO, TT_DA, TT_HUY };
+        static readonly string[] TabTT = { TT_CHO, TT_DA };
+
+        // Ngày dùng để lọc: hóa đơn đã thanh toán -> ngày thanh toán, còn lại -> ngày lập
+        const string SqlNgayHD =
+            "cast(case when hd.TrangThaiThanhToan = N'Đã thanh toán' " +
+            "then isnull(hd.NgayThanhToan, hd.NgayLap) else hd.NgayLap end as date)";
 
         const string PT_TIENMAT = "Tiền mặt";
         const string PT_CK = "Chuyển khoản";
         const string PT_THE = "Thẻ";
         static readonly string[] PtNames = { PT_TIENMAT, PT_CK, PT_THE };
 
+        // Giao diện được thiết kế ở ~125% DPI (120 dpi). Đổi font sang đơn vị pixel theo mốc này
+        // để chữ luôn khớp với kích thước control (tính bằng pixel) trên mọi máy / mọi mức DPI.
+        const float DesignDpi = 120f;
+
         sealed class HoaDonRow
         {
             public int Id, DonHangId, BanId;
             public string SoBan = "", TrangThai = "";
-            public DateTime Gio;
+            public DateTime Gio;            // giờ vào (giờ tạo đơn)
+            public DateTime? NgayTT;        // giờ thanh toán
             public decimal Tong, Giam, Thanh;
             public string? Pttt;
         }
@@ -53,7 +60,7 @@ namespace QLNhaHang.Controls.ThuNgan
         Button[] tabBtns = Array.Empty<Button>();
         Button[] ptBtns = Array.Empty<Button>();
 
-        int _tab = 0;                       // 0..2 = tab, -1 = tất cả
+        int _tab = 0;                       // 0..1 = tab, -1 = tất cả
         bool _ready, _loading, _sync, _formatting;
         HoaDonRow? _cur;
         DataTable _items = new();
@@ -62,18 +69,34 @@ namespace QLNhaHang.Controls.ThuNgan
         public ucHoaDon()
         {
             InitializeComponent();
-            AutoScaleMode = AutoScaleMode.None;     // [SỬA] không tự phóng to theo DPI
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
 
-            tabBtns = new[] { btnTabCho, btnTabDa, btnTabHuy };
+            ChuanHoaFont(this);
+
+            tabBtns = new[] { btnTabCho, btnTabDa };
             ptBtns = new[] { btnTienMat, btnChuyenKhoan, btnThe };
 
             StyleGrid(dgvHD);
             StyleGrid(dgvMon);
+            dgvHD.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;   // cho tiêu đề xuống dòng
+            dgvHD.DefaultCellStyle.Padding = new Padding(6, 0, 6, 0);
+            dgvHD.ColumnHeadersDefaultCellStyle.Padding = new Padding(6, 0, 6, 0);
+
+            colMa.FillWeight = 18; colMa.MinimumWidth = 100;
+            colBan.FillWeight = 11; colBan.MinimumWidth = 70;
+            colGio.FillWeight = 20; colGio.MinimumWidth = 115;
+            colTong.FillWeight = 21; colTong.MinimumWidth = 115;
+            colTT.FillWeight = 30; colTT.MinimumWidth = 165;
+
+            // Căn cột tiền sang phải (cả tiêu đề lẫn ô) để thẳng hàng với nhau
             colTong.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colTong.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             mSL.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mSL.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             mGia.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+            mGia.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             mTien.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+            mTien.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
             lblGiamGia.ForeColor = cBlue;
             new ToolTip().SetToolTip(lblGiamGia, "Bấm để nhập số tiền giảm giá");
@@ -83,9 +106,20 @@ namespace QLNhaHang.Controls.ThuNgan
             ChonPhuongThuc(PT_TIENMAT);
         }
 
-        // [SỬA] Chặn form cha phóng to control và các control con
+        // Chặn form cha phóng to control và các control con
         protected override bool ScaleChildren => false;
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified) { }
+
+        // ---------- Font theo pixel ----------
+        static Font F(float pt, FontStyle st = FontStyle.Regular, string family = "Segoe UI")
+            => new Font(family, pt * DesignDpi / 72f, st, GraphicsUnit.Pixel);
+
+        static void ChuanHoaFont(Control c)
+        {
+            if (c.Font.Unit == GraphicsUnit.Point)
+                c.Font = new Font(c.Font.FontFamily, c.Font.Size * DesignDpi / 72f, c.Font.Style, GraphicsUnit.Pixel);
+            foreach (Control ch in c.Controls) ChuanHoaFont(ch);
+        }
 
         static string CaLamViec()
         {
@@ -184,7 +218,6 @@ namespace QLNhaHang.Controls.ThuNgan
             switch (st)
             {
                 case TT_DA: fg = cGreen; bg = cGreenSoft; text = "Đã thanh toán"; glyph = "✓"; break;
-                case TT_HUY: fg = cRed; bg = cRedSoft; text = "Đã hủy"; glyph = "✕"; break;
                 default: fg = cAmber; bg = cAmberSoft; text = "Chờ thanh toán"; glyph = "◔"; break;
             }
 
@@ -195,11 +228,11 @@ namespace QLNhaHang.Controls.ThuNgan
             using (var br = new SolidBrush(bg))
                 g.FillPath(br, path);
 
-            using var f = new Font("Segoe UI", 10F);
-            using var fs = new Font("Segoe UI Symbol", 10F, FontStyle.Bold);
+            using var f = F(9.5F);
+            using var fs = F(9.5F, FontStyle.Bold, "Segoe UI Symbol");
             const TextFormatFlags fl = TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.NoPadding;
-            TextRenderer.DrawText(g, glyph, fs, new Rectangle(r.X + 8, r.Y, 24, r.Height), fg, fl);
-            TextRenderer.DrawText(g, text, f, new Rectangle(r.X + 34, r.Y, r.Width - 36, r.Height), fg, fl | TextFormatFlags.EndEllipsis);
+            TextRenderer.DrawText(g, glyph, fs, new Rectangle(r.X + 8, r.Y, 22, r.Height), fg, fl);
+            TextRenderer.DrawText(g, text, f, new Rectangle(r.X + 32, r.Y, Math.Max(0, r.Width - 34), r.Height), fg, fl | TextFormatFlags.EndEllipsis);
         }
 
         // =====================================================================
@@ -261,16 +294,16 @@ namespace QLNhaHang.Controls.ThuNgan
                 var sb = new StringBuilder(@"
                     select hd.HoaDonID, hd.DonHangID, dh.BanID, b.SoBan, dh.ThoiGianTao,
                            hd.TongTien, hd.GiamGia, hd.ThanhTien,
-                           hd.PhuongThucThanhToan, hd.TrangThaiThanhToan
+                           hd.PhuongThucThanhToan, hd.TrangThaiThanhToan, hd.NgayThanhToan
                     from HOA_DON hd
                     join DON_HANG dh on dh.DonHangID = hd.DonHangID
                     join BAN_AN b on b.BanID = dh.BanID
-                    where 1 = 1 ");
+                    where hd.TrangThaiThanhToan in (N'Chưa thanh toán', N'Đã thanh toán') ");
                 var ps = new List<SqlParameter>();
 
                 if (NgayLoc != null)
                 {
-                    sb.Append(" and cast(hd.NgayLap as date) = @ngay ");
+                    sb.Append(" and " + SqlNgayHD + " = @ngay ");
                     ps.Add(P("@ngay", NgayLoc, SqlDbType.Date));
                 }
                 if (_tab >= 0)
@@ -287,7 +320,7 @@ namespace QLNhaHang.Controls.ThuNgan
                     ps.Add(P("@kw", "%" + kw + "%", SqlDbType.NVarChar));
                     ps.Add(P("@kwExact", kw, SqlDbType.NVarChar));
                 }
-                sb.Append(" order by hd.HoaDonID desc");
+                sb.Append(" order by isnull(hd.NgayThanhToan, hd.NgayLap) desc, hd.HoaDonID desc");
 
                 DataTable dt = Query(sb.ToString(), ps.ToArray());
 
@@ -303,13 +336,20 @@ namespace QLNhaHang.Controls.ThuNgan
                         BanId = Convert.ToInt32(r["BanID"]),
                         SoBan = Convert.ToString(r["SoBan"]) ?? "",
                         Gio = Convert.ToDateTime(r["ThoiGianTao"]),
+                        NgayTT = r["NgayThanhToan"] == DBNull.Value ? null : Convert.ToDateTime(r["NgayThanhToan"]),
                         Tong = Convert.ToDecimal(r["TongTien"]),
                         Giam = Convert.ToDecimal(r["GiamGia"]),
                         Thanh = Convert.ToDecimal(r["ThanhTien"]),
                         Pttt = r["PhuongThucThanhToan"] == DBNull.Value ? null : Convert.ToString(r["PhuongThucThanhToan"]),
                         TrangThai = Convert.ToString(r["TrangThaiThanhToan"]) ?? ""
                     };
-                    int i = dgvHD.Rows.Add(Ma(h.Id), h.SoBan, h.Gio.ToString("HH:mm"), Money(h.Thanh), h.TrangThai);
+
+                    // Chờ thanh toán -> giờ vào (giờ tạo đơn); đã thanh toán -> giờ thanh toán
+                    string gio = (h.TrangThai == TT_DA && h.NgayTT != null)
+                        ? h.NgayTT.Value.ToString("HH:mm dd/MM")
+                        : h.Gio.ToString("HH:mm dd/MM");
+
+                    int i = dgvHD.Rows.Add(Ma(h.Id), h.SoBan, gio, Money(h.Thanh), h.TrangThai);
                     dgvHD.Rows[i].Tag = h;
                     if (giuId == h.Id) chon = i;
                 }
@@ -340,21 +380,19 @@ namespace QLNhaHang.Controls.ThuNgan
         {
             DataTable dt = Query(@"
                 select
-                    isnull(sum(case when TrangThaiThanhToan = N'Chưa thanh toán' then 1 else 0 end), 0) as Cho,
-                    isnull(sum(case when TrangThaiThanhToan = N'Đã thanh toán' then 1 else 0 end), 0) as Da,
-                    isnull(sum(case when TrangThaiThanhToan = N'Đã hủy' then 1 else 0 end), 0) as Huy
-                from HOA_DON
-                where (@ngay is null or cast(NgayLap as date) = @ngay)",
+                    isnull(sum(case when hd.TrangThaiThanhToan = N'Chưa thanh toán' then 1 else 0 end), 0) as Cho,
+                    isnull(sum(case when hd.TrangThaiThanhToan = N'Đã thanh toán' then 1 else 0 end), 0) as Da
+                from HOA_DON hd
+                where (@ngay is null or " + SqlNgayHD + " = @ngay)",
                 P("@ngay", NgayLoc, SqlDbType.Date));
             lblSoCho.Text = Convert.ToInt32(dt.Rows[0]["Cho"]).ToString("00");
             lblSoDa.Text = Convert.ToInt32(dt.Rows[0]["Da"]).ToString("00");
-            lblSoHuy.Text = Convert.ToInt32(dt.Rows[0]["Huy"]).ToString("00");
 
             DataTable thu = Query(@"
                 select isnull(sum(ThanhTien), 0)
                 from HOA_DON
                 where TrangThaiThanhToan = N'Đã thanh toán'
-                  and cast(NgayLap as date) = cast(getdate() as date)");
+                  and cast(isnull(NgayThanhToan, NgayLap) as date) = cast(getdate() as date)");
             lblThuNay.Text = Money(Convert.ToDecimal(thu.Rows[0][0]));
         }
 
@@ -448,6 +486,11 @@ namespace QLNhaHang.Controls.ThuNgan
                 tabBtns[i].ForeColor = (i == _tab) ? cBlue : cMuted;
                 tabBtns[i].Invalidate();
             }
+
+            // Tiêu đề cột giờ đổi theo tab đang xem
+            colGio.HeaderText = _tab == 0 ? "Giờ vào"
+                              : _tab == 1 ? "Giờ thanh toán"
+                              : "Thời gian";
         }
 
         void CapNhatTrangThaiNut()
@@ -593,7 +636,9 @@ namespace QLNhaHang.Controls.ThuNgan
                 int n;
                 using (var c1 = new SqlCommand(@"
                     update HOA_DON
-                    set PhuongThucThanhToan = @pt, TrangThaiThanhToan = N'Đã thanh toán'
+                    set PhuongThucThanhToan = @pt,
+                        TrangThaiThanhToan = N'Đã thanh toán',
+                        NgayThanhToan = sysdatetime()
                     where HoaDonID = @id and TrangThaiThanhToan = N'Chưa thanh toán'", cn, tx))
                 {
                     c1.Parameters.Add(P("@pt", _pttt, SqlDbType.NVarChar));
@@ -716,14 +761,14 @@ namespace QLNhaHang.Controls.ThuNgan
             g.ColumnHeadersDefaultCellStyle.ForeColor = cText;
             g.ColumnHeadersDefaultCellStyle.SelectionBackColor = cHeader;
             g.ColumnHeadersDefaultCellStyle.SelectionForeColor = cText;
-            g.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            g.ColumnHeadersDefaultCellStyle.Font = F(10.5F, FontStyle.Bold);
             g.ColumnHeadersDefaultCellStyle.Padding = new Padding(8, 0, 8, 0);
-            g.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;   // [SỬA] header không xuống dòng
+            g.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             g.DefaultCellStyle.BackColor = Color.White;
             g.DefaultCellStyle.ForeColor = cText;
             g.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
             g.DefaultCellStyle.SelectionForeColor = cText;
-            g.DefaultCellStyle.Font = new Font("Segoe UI", 10.5F);
+            g.DefaultCellStyle.Font = F(10.5F);
             g.DefaultCellStyle.Padding = new Padding(8, 0, 8, 0);
         }
 
