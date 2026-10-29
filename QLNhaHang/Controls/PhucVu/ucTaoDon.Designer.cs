@@ -1,4 +1,5 @@
-﻿namespace QLNhaHang.Controls.PhucVu
+﻿using QLNhaHang.Classes;
+namespace QLNhaHang.Controls.PhucVu
 {
     partial class ucTaoDon
     {
@@ -100,14 +101,14 @@
             // =====================================================================
             //  MÀN 1: DANH SÁCH ĐƠN ĐANG XỬ LÝ
             // =====================================================================
-            this.pnlDanhSach.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlDanhSach.BackColor = QLNhaHang.Classes.Theme.Background;
             this.pnlDanhSach.Controls.Add(this.dgvDon);
             this.pnlDanhSach.Controls.Add(this.pnlTopDS);
             this.pnlDanhSach.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDanhSach.Name = "pnlDanhSach";
             this.pnlDanhSach.TabIndex = 1;
 
-            this.pnlTopDS.BackColor = System.Drawing.Color.White;
+            this.pnlTopDS.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlTopDS.Controls.Add(this.lblTieuDeDS);
             this.pnlTopDS.Controls.Add(this.lblHuongDan);
             this.pnlTopDS.Controls.Add(this.btnLamMoiDS);
@@ -117,23 +118,23 @@
 
             this.lblTieuDeDS.AutoSize = true;
             this.lblTieuDeDS.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTieuDeDS.ForeColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.lblTieuDeDS.ForeColor = QLNhaHang.Classes.Theme.BlueBold;
             this.lblTieuDeDS.Location = new System.Drawing.Point(20, 10);
             this.lblTieuDeDS.Name = "lblTieuDeDS";
             this.lblTieuDeDS.Text = "Đơn đang xử lý";
 
             this.lblHuongDan.AutoSize = true;
-            this.lblHuongDan.ForeColor = System.Drawing.Color.DimGray;
+            this.lblHuongDan.ForeColor = QLNhaHang.Classes.Theme.TextMuted;
             this.lblHuongDan.Location = new System.Drawing.Point(22, 48);
             this.lblHuongDan.Name = "lblHuongDan";
             this.lblHuongDan.Text = "";
 
             this.btnLamMoiDS.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.btnLamMoiDS.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.btnLamMoiDS.BackColor = QLNhaHang.Classes.Theme.BlueBold;
             this.btnLamMoiDS.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLamMoiDS.FlatAppearance.BorderSize = 0;
             this.btnLamMoiDS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLamMoiDS.ForeColor = System.Drawing.Color.White;
+            this.btnLamMoiDS.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.btnLamMoiDS.Location = new System.Drawing.Point(960, 22);
             this.btnLamMoiDS.Name = "btnLamMoiDS";
             this.btnLamMoiDS.Size = new System.Drawing.Size(95, 36);
@@ -142,16 +143,16 @@
             this.btnLamMoiDS.Click += new System.EventHandler(this.btnLamMoiDS_Click);
 
             // --- bảng danh sách đơn ---
-            stHdDon.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            stHdDon.BackColor = QLNhaHang.Classes.Theme.BlueBold;
             stHdDon.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            stHdDon.ForeColor = System.Drawing.Color.White;
-            stHdDon.SelectionBackColor = System.Drawing.Color.FromArgb(24, 38, 66);
-            stHdDon.SelectionForeColor = System.Drawing.Color.White;
+            stHdDon.ForeColor = QLNhaHang.Classes.Theme.Surface;
+            stHdDon.SelectionBackColor = QLNhaHang.Classes.Theme.BlueBold;
+            stHdDon.SelectionForeColor = QLNhaHang.Classes.Theme.Surface;
             this.dgvDon.AllowUserToAddRows = false;
             this.dgvDon.AllowUserToDeleteRows = false;
             this.dgvDon.AutoGenerateColumns = false;
             this.dgvDon.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvDon.BackgroundColor = System.Drawing.Color.White;
+            this.dgvDon.BackgroundColor = QLNhaHang.Classes.Theme.Surface;
             this.dgvDon.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvDon.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvDon.ColumnHeadersDefaultCellStyle = stHdDon;
@@ -162,7 +163,7 @@
                 this.cDonThoiGianTao, this.cDonSoMon, this.cDonTongTien });
             this.dgvDon.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDon.EnableHeadersVisualStyles = false;
-            this.dgvDon.GridColor = System.Drawing.Color.FromArgb(207, 216, 220);
+            this.dgvDon.GridColor = QLNhaHang.Classes.Theme.Border;
             this.dgvDon.MultiSelect = false;
             this.dgvDon.Name = "dgvDon";
             this.dgvDon.ReadOnly = true;
@@ -223,7 +224,7 @@
             //  MÀN 2: CHI TIẾT ĐƠN
             //  Thứ tự add: Fill -> Left (đường kẻ) -> Left (cột trái) -> Top
             // =====================================================================
-            this.pnlChiTiet.BackColor = System.Drawing.Color.White;
+            this.pnlChiTiet.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlChiTiet.Controls.Add(this.pnlGio);
             this.pnlChiTiet.Controls.Add(this.pnlKe);
             this.pnlChiTiet.Controls.Add(this.pnlMenu);
@@ -234,7 +235,7 @@
             this.pnlChiTiet.Visible = false;
 
             // --- header ---
-            this.pnlHeaderCT.BackColor = System.Drawing.Color.FromArgb(236, 240, 245);
+            this.pnlHeaderCT.BackColor = QLNhaHang.Classes.Theme.BlueSoft;
             this.pnlHeaderCT.Controls.Add(this.btnQuayLai);
             this.pnlHeaderCT.Controls.Add(this.lblThongTinDon);
             this.pnlHeaderCT.Controls.Add(this.lblTrangThaiDon);
@@ -242,11 +243,11 @@
             this.pnlHeaderCT.Name = "pnlHeaderCT";
             this.pnlHeaderCT.Size = new System.Drawing.Size(1080, 70);
 
-            this.btnQuayLai.BackColor = System.Drawing.Color.FromArgb(96, 125, 139);
+            this.btnQuayLai.BackColor = QLNhaHang.Classes.Theme.TextMuted;
             this.btnQuayLai.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnQuayLai.FlatAppearance.BorderSize = 0;
             this.btnQuayLai.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnQuayLai.ForeColor = System.Drawing.Color.White;
+            this.btnQuayLai.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.btnQuayLai.Location = new System.Drawing.Point(20, 17);
             this.btnQuayLai.Name = "btnQuayLai";
             this.btnQuayLai.Size = new System.Drawing.Size(110, 36);
@@ -256,19 +257,19 @@
 
             this.lblThongTinDon.AutoSize = true;
             this.lblThongTinDon.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.lblThongTinDon.ForeColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.lblThongTinDon.ForeColor = QLNhaHang.Classes.Theme.BlueBold;
             this.lblThongTinDon.Location = new System.Drawing.Point(150, 12);
             this.lblThongTinDon.Name = "lblThongTinDon";
             this.lblThongTinDon.Text = "Bàn  ·  Đơn #";
 
             this.lblTrangThaiDon.AutoSize = true;
-            this.lblTrangThaiDon.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblTrangThaiDon.ForeColor = QLNhaHang.Classes.Theme.Danger;
             this.lblTrangThaiDon.Location = new System.Drawing.Point(152, 42);
             this.lblTrangThaiDon.Name = "lblTrangThaiDon";
             this.lblTrangThaiDon.Text = "";
 
             // --- cột trái: thực đơn (rộng 520) ---
-            this.pnlMenu.BackColor = System.Drawing.Color.White;
+            this.pnlMenu.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlMenu.Controls.Add(this.dgvMon);
             this.pnlMenu.Controls.Add(this.pnlThem);
             this.pnlMenu.Controls.Add(this.pnlLocMon);
@@ -277,7 +278,7 @@
             this.pnlMenu.Size = new System.Drawing.Size(520, 560);
 
             // Thanh trên cột trái: cao 52, trùng với thanh trên cột phải
-            this.pnlLocMon.BackColor = System.Drawing.Color.White;
+            this.pnlLocMon.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlLocMon.Controls.Add(this.cboDanhMuc);
             this.pnlLocMon.Controls.Add(this.txtTim);
             this.pnlLocMon.Dock = System.Windows.Forms.DockStyle.Top;
@@ -299,16 +300,16 @@
             this.txtTim.TextChanged += new System.EventHandler(this.txtTim_TextChanged);
 
             // --- bảng thực đơn ---
-            stHdMon.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            stHdMon.BackColor = QLNhaHang.Classes.Theme.BlueBold;
             stHdMon.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            stHdMon.ForeColor = System.Drawing.Color.White;
-            stHdMon.SelectionBackColor = System.Drawing.Color.FromArgb(24, 38, 66);
-            stHdMon.SelectionForeColor = System.Drawing.Color.White;
+            stHdMon.ForeColor = QLNhaHang.Classes.Theme.Surface;
+            stHdMon.SelectionBackColor = QLNhaHang.Classes.Theme.BlueBold;
+            stHdMon.SelectionForeColor = QLNhaHang.Classes.Theme.Surface;
             this.dgvMon.AllowUserToAddRows = false;
             this.dgvMon.AllowUserToDeleteRows = false;
             this.dgvMon.AutoGenerateColumns = false;
             this.dgvMon.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvMon.BackgroundColor = System.Drawing.Color.White;
+            this.dgvMon.BackgroundColor = QLNhaHang.Classes.Theme.Surface;
             this.dgvMon.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvMon.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvMon.ColumnHeadersDefaultCellStyle = stHdMon;
@@ -319,7 +320,7 @@
                 this.cMonDanhMuc, this.cMonTinhTrang });
             this.dgvMon.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMon.EnableHeadersVisualStyles = false;
-            this.dgvMon.GridColor = System.Drawing.Color.FromArgb(207, 216, 220);
+            this.dgvMon.GridColor = QLNhaHang.Classes.Theme.Border;
             this.dgvMon.MultiSelect = false;
             this.dgvMon.Name = "dgvMon";
             this.dgvMon.ReadOnly = true;
@@ -368,7 +369,7 @@
             this.cMonTinhTrang.ReadOnly = true;
 
             // Thanh dưới cột trái: cao 120, trùng với thanh dưới cột phải
-            this.pnlThem.BackColor = System.Drawing.Color.White;
+            this.pnlThem.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlThem.Controls.Add(this.lblSL);
             this.pnlThem.Controls.Add(this.nudSoLuong);
             this.pnlThem.Controls.Add(this.lblGC);
@@ -404,11 +405,11 @@
             this.txtGhiChu.TabIndex = 1;
 
             // Nút nằm ở hàng y=72, cùng hàng với nhóm nút bên phải
-            this.btnThem.BackColor = System.Drawing.Color.FromArgb(21, 101, 192);
+            this.btnThem.BackColor = QLNhaHang.Classes.Theme.Blue;
             this.btnThem.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThem.FlatAppearance.BorderSize = 0;
             this.btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnThem.ForeColor = System.Drawing.Color.White;
+            this.btnThem.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.btnThem.Location = new System.Drawing.Point(378, 72);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(130, 38);
@@ -418,19 +419,19 @@
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
 
             this.lblGoiY.AutoSize = true;
-            this.lblGoiY.ForeColor = System.Drawing.Color.DimGray;
+            this.lblGoiY.ForeColor = QLNhaHang.Classes.Theme.TextMuted;
             this.lblGoiY.Location = new System.Drawing.Point(12, 82);
             this.lblGoiY.Name = "lblGoiY";
             this.lblGoiY.Text = "Nhấp đúp vào một món để thêm nhanh.";
 
             // --- đường kẻ giữa hai cột ---
-            this.pnlKe.BackColor = System.Drawing.Color.FromArgb(176, 190, 197);
+            this.pnlKe.BackColor = QLNhaHang.Classes.Theme.Border;
             this.pnlKe.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlKe.Name = "pnlKe";
             this.pnlKe.Size = new System.Drawing.Size(2, 560);
 
             // --- cột phải: món trong đơn ---
-            this.pnlGio.BackColor = System.Drawing.Color.White;
+            this.pnlGio.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlGio.Controls.Add(this.dgvCT);
             this.pnlGio.Controls.Add(this.pnlGioBottom);
             this.pnlGio.Controls.Add(this.pnlGioTop);
@@ -438,7 +439,7 @@
             this.pnlGio.Name = "pnlGio";
 
             // Thanh trên cột phải: cao 52, trùng với thanh trên cột trái
-            this.pnlGioTop.BackColor = System.Drawing.Color.White;
+            this.pnlGioTop.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlGioTop.Controls.Add(this.lblGio);
             this.pnlGioTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlGioTop.Name = "pnlGioTop";
@@ -446,22 +447,22 @@
 
             this.lblGio.AutoSize = true;
             this.lblGio.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.lblGio.ForeColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.lblGio.ForeColor = QLNhaHang.Classes.Theme.BlueBold;
             this.lblGio.Location = new System.Drawing.Point(12, 14);
             this.lblGio.Name = "lblGio";
             this.lblGio.Text = "Món trong đơn";
 
             // --- bảng món trong đơn ---
-            stHdCT.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            stHdCT.BackColor = QLNhaHang.Classes.Theme.BlueBold;
             stHdCT.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            stHdCT.ForeColor = System.Drawing.Color.White;
-            stHdCT.SelectionBackColor = System.Drawing.Color.FromArgb(24, 38, 66);
-            stHdCT.SelectionForeColor = System.Drawing.Color.White;
+            stHdCT.ForeColor = QLNhaHang.Classes.Theme.Surface;
+            stHdCT.SelectionBackColor = QLNhaHang.Classes.Theme.BlueBold;
+            stHdCT.SelectionForeColor = QLNhaHang.Classes.Theme.Surface;
             this.dgvCT.AllowUserToAddRows = false;
             this.dgvCT.AllowUserToDeleteRows = false;
             this.dgvCT.AutoGenerateColumns = false;
             this.dgvCT.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvCT.BackgroundColor = System.Drawing.Color.White;
+            this.dgvCT.BackgroundColor = QLNhaHang.Classes.Theme.Surface;
             this.dgvCT.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvCT.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvCT.ColumnHeadersDefaultCellStyle = stHdCT;
@@ -472,7 +473,7 @@
                 this.cCtThanhTien, this.cCtTrangThai, this.cCtGuiBep, this.cCtGhiChu });
             this.dgvCT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCT.EnableHeadersVisualStyles = false;
-            this.dgvCT.GridColor = System.Drawing.Color.FromArgb(207, 216, 220);
+            this.dgvCT.GridColor = QLNhaHang.Classes.Theme.Border;
             this.dgvCT.MultiSelect = false;
             this.dgvCT.Name = "dgvCT";
             this.dgvCT.ReadOnly = true;
@@ -535,7 +536,7 @@
             this.cCtGhiChu.ReadOnly = true;
 
             // Thanh dưới cột phải: cao 120, trùng với thanh dưới cột trái
-            this.pnlGioBottom.BackColor = System.Drawing.Color.White;
+            this.pnlGioBottom.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlGioBottom.Controls.Add(this.lblTong);
             this.pnlGioBottom.Controls.Add(this.lblQuyTac);
             this.pnlGioBottom.Controls.Add(this.btnSua);
@@ -548,23 +549,23 @@
 
             this.lblTong.AutoSize = true;
             this.lblTong.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblTong.ForeColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.lblTong.ForeColor = QLNhaHang.Classes.Theme.BlueBold;
             this.lblTong.Location = new System.Drawing.Point(12, 10);
             this.lblTong.Name = "lblTong";
             this.lblTong.Text = "Tổng tiền tạm tính: 0 đ";
 
             this.lblQuyTac.AutoSize = true;
-            this.lblQuyTac.ForeColor = System.Drawing.Color.DimGray;
+            this.lblQuyTac.ForeColor = QLNhaHang.Classes.Theme.TextMuted;
             this.lblQuyTac.Location = new System.Drawing.Point(12, 42);
             this.lblQuyTac.Name = "lblQuyTac";
             this.lblQuyTac.Text = "Dòng màu vàng là món chưa gửi bếp, được sửa và xóa.";
 
             // Các nút nằm ở hàng y=72, cùng hàng với nút Thêm vào đơn bên trái
-            this.btnSua.BackColor = System.Drawing.Color.FromArgb(230, 81, 0);
+            this.btnSua.BackColor = QLNhaHang.Classes.Theme.Orange;
             this.btnSua.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSua.FlatAppearance.BorderSize = 0;
             this.btnSua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSua.ForeColor = System.Drawing.Color.White;
+            this.btnSua.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.btnSua.Location = new System.Drawing.Point(12, 72);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(105, 38);
@@ -572,11 +573,11 @@
             this.btnSua.UseVisualStyleBackColor = false;
             this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
 
-            this.btnXoa.BackColor = System.Drawing.Color.FromArgb(198, 40, 40);
+            this.btnXoa.BackColor = QLNhaHang.Classes.Theme.Danger;
             this.btnXoa.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnXoa.FlatAppearance.BorderSize = 0;
             this.btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnXoa.ForeColor = System.Drawing.Color.White;
+            this.btnXoa.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.btnXoa.Location = new System.Drawing.Point(125, 72);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(95, 38);
@@ -584,11 +585,11 @@
             this.btnXoa.UseVisualStyleBackColor = false;
             this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
 
-            this.btnHuyDon.BackColor = System.Drawing.Color.FromArgb(136, 14, 79);
+            this.btnHuyDon.BackColor = QLNhaHang.Classes.Theme.Danger;
             this.btnHuyDon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnHuyDon.FlatAppearance.BorderSize = 0;
             this.btnHuyDon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHuyDon.ForeColor = System.Drawing.Color.White;
+            this.btnHuyDon.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.btnHuyDon.Location = new System.Drawing.Point(228, 72);
             this.btnHuyDon.Name = "btnHuyDon";
             this.btnHuyDon.Size = new System.Drawing.Size(105, 38);
@@ -598,11 +599,11 @@
             this.btnHuyDon.Click += new System.EventHandler(this.btnHuyDon_Click);
 
             this.btnGuiBep.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.btnGuiBep.BackColor = System.Drawing.Color.FromArgb(46, 125, 50);
+            this.btnGuiBep.BackColor = QLNhaHang.Classes.Theme.Green;
             this.btnGuiBep.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnGuiBep.FlatAppearance.BorderSize = 0;
             this.btnGuiBep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGuiBep.ForeColor = System.Drawing.Color.White;
+            this.btnGuiBep.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.btnGuiBep.Location = new System.Drawing.Point(421, 72);
             this.btnGuiBep.Name = "btnGuiBep";
             this.btnGuiBep.Size = new System.Drawing.Size(125, 38);

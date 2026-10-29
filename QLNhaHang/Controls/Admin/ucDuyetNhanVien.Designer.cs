@@ -1,3 +1,4 @@
+﻿using QLNhaHang.Classes;
 namespace QLNhaHang.Controls.Admin
 {
     partial class ucDuyetNhanVien
@@ -13,13 +14,15 @@ namespace QLNhaHang.Controls.Admin
         {
             SuspendLayout();
             Font = new Font("Segoe UI", 10F);
-            BackColor = Color.FromArgb(248, 249, 251);
-            ForeColor = Color.FromArgb(23, 38, 62);
+            BackColor = Theme.Background;
+            ForeColor = Theme.BlueBold;
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             AutoScroll = true;
             Padding = new Padding(24);
             Size = new Size(1080, 660);
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "ucDuyetNhanVien";
 
             var layout = new TableLayoutPanel
@@ -91,7 +94,7 @@ namespace QLNhaHang.Controls.Admin
             btnXacNhanDuyet = new Button
             {
                 Text = "Xác nhận duyệt", AutoSize = true, Height = 42, Enabled = false,
-                BackColor = Color.FromArgb(23, 38, 62), ForeColor = Color.White,
+                BackColor = Theme.BlueBold, ForeColor = Theme.Surface,
                 FlatStyle = FlatStyle.Flat, Padding = new Padding(16, 8, 16, 8)
             };
             btnQuayLai = new Button { Text = "Quay lại", AutoSize = true, Padding = new Padding(16, 8, 16, 8) };
@@ -107,7 +110,7 @@ namespace QLNhaHang.Controls.Admin
         private static TextBox TaoO(bool chiDoc) => new TextBox
         {
             ReadOnly = chiDoc, Dock = DockStyle.Fill,
-            BackColor = chiDoc ? Color.FromArgb(241, 245, 249) : Color.White
+            BackColor = chiDoc ? Theme.Background : Theme.Surface
         };
 
         private static TableLayoutPanel TaoBang()

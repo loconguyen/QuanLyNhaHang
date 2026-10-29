@@ -73,8 +73,8 @@ namespace QLNhaHang.Controls.Bep
                 if (rv == null) continue;
                 switch (Convert.ToString(rv["TrangThaiMon"]))
                 {
-                    case TrangThaiMonAn.TamHet: row.DefaultCellStyle.BackColor = Color.FromArgb(255,0,0); break;
-                    case TrangThaiMonAn.NgungBan: row.DefaultCellStyle.BackColor = Color.FromArgb(229, 231, 235); break;
+                    case TrangThaiMonAn.TamHet: row.DefaultCellStyle.BackColor = Theme.Danger; break;
+                    case TrangThaiMonAn.NgungBan: row.DefaultCellStyle.BackColor = Theme.Divider; break;
                 }
             }
         }

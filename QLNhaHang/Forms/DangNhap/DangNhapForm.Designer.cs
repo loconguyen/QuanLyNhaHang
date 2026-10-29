@@ -1,3 +1,4 @@
+﻿using QLNhaHang.Classes;
 
 using System;
 using System.Drawing;
@@ -49,13 +50,15 @@ namespace QLNhaHang.Forms.DangNhap
             AutoScaleMode = AutoScaleMode.Font;
 
             ClientSize = new Size(1100, 790);
-            BackColor = Color.FromArgb(241, 245, 249);
+            BackColor = Theme.Background;
             Font = new Font("Segoe UI", 11F);
 
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             StartPosition = FormStartPosition.CenterScreen;
 
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "DangNhapForm";
             Text = "Đăng nhập - Quản lý nhà hàng";
 
@@ -64,7 +67,7 @@ namespace QLNhaHang.Forms.DangNhap
             // =====================================
             pnlDangNhap.Location = new Point(130, 40);
             pnlDangNhap.Size = new Size(840, 700);
-            pnlDangNhap.BackColor = Color.White;
+            pnlDangNhap.BackColor = Theme.Surface;
             pnlDangNhap.BorderStyle = BorderStyle.FixedSingle;
             pnlDangNhap.Name = "pnlDangNhap";
 
@@ -72,7 +75,7 @@ namespace QLNhaHang.Forms.DangNhap
             pnlThanhTrangTri.Location = new Point(0, 0);
             pnlThanhTrangTri.Size = new Size(840, 7);
             pnlThanhTrangTri.BackColor =
-                Color.FromArgb(23, 38, 62);
+                Theme.BlueBold;
             pnlThanhTrangTri.Name = "pnlThanhTrangTri";
 
             // =====================================
@@ -85,7 +88,7 @@ namespace QLNhaHang.Forms.DangNhap
             heading.Font = new Font(
                 "Segoe UI", 23F, FontStyle.Bold);
             heading.ForeColor =
-                Color.FromArgb(23, 38, 62);
+                Theme.BlueBold;
             heading.TextAlign =
                 ContentAlignment.MiddleCenter;
             heading.Name = "heading";
@@ -97,7 +100,7 @@ namespace QLNhaHang.Forms.DangNhap
             lblMoTa.Text =
                 "Đăng nhập để truy cập hệ thống quản lý nhà hàng";
             lblMoTa.Font = new Font("Segoe UI", 10.5F);
-            lblMoTa.ForeColor = Color.Gray;
+            lblMoTa.ForeColor = Theme.TextMuted;
             lblMoTa.TextAlign =
                 ContentAlignment.MiddleCenter;
             lblMoTa.Name = "lblMoTa";
@@ -111,7 +114,7 @@ namespace QLNhaHang.Forms.DangNhap
             label1.Font = new Font(
                 "Segoe UI", 11F, FontStyle.Bold);
             label1.ForeColor =
-                Color.FromArgb(23, 38, 62);
+                Theme.BlueBold;
             label1.Name = "label1";
 
             txtDangNhap.Location = new Point(50, 178);
@@ -119,9 +122,9 @@ namespace QLNhaHang.Forms.DangNhap
             txtDangNhap.Font =
                 new Font("Segoe UI", 12F);
             txtDangNhap.BackColor =
-                Color.FromArgb(248, 250, 252);
+                Theme.SurfaceMuted;
             txtDangNhap.ForeColor =
-                Color.FromArgb(16, 18, 15);
+                Theme.Black;
             txtDangNhap.BorderStyle =
                 BorderStyle.FixedSingle;
             txtDangNhap.Name = "txtDangNhap";
@@ -137,7 +140,7 @@ namespace QLNhaHang.Forms.DangNhap
             label3.Font = new Font(
                 "Segoe UI", 11F, FontStyle.Bold);
             label3.ForeColor =
-                Color.FromArgb(23, 38, 62);
+                Theme.BlueBold;
             label3.Name = "label3";
 
             txtMatKhau.Location = new Point(50, 275);
@@ -145,7 +148,7 @@ namespace QLNhaHang.Forms.DangNhap
             txtMatKhau.Font =
                 new Font("Segoe UI", 12F);
             txtMatKhau.BackColor =
-                Color.FromArgb(248, 250, 252);
+                Theme.SurfaceMuted;
             txtMatKhau.BorderStyle =
                 BorderStyle.FixedSingle;
             txtMatKhau.UseSystemPasswordChar = true;
@@ -161,15 +164,15 @@ namespace QLNhaHang.Forms.DangNhap
             label4.Font = new Font(
                 "Segoe UI", 11F, FontStyle.Bold);
             label4.ForeColor =
-                Color.FromArgb(23, 38, 62);
+                Theme.BlueBold;
             label4.Name = "label4";
 
             cbRole.Location = new Point(50, 370);
             cbRole.Size = new Size(740, 40);
             cbRole.Font = new Font("Segoe UI", 12F);
-            cbRole.BackColor = Color.White;
+            cbRole.BackColor = Theme.Surface;
             cbRole.ForeColor =
-                Color.FromArgb(16, 18, 15);
+                Theme.Black;
             cbRole.FlatStyle = FlatStyle.Standard;
             cbRole.DropDownStyle =
                 ComboBoxStyle.DropDownList;
@@ -192,8 +195,8 @@ namespace QLNhaHang.Forms.DangNhap
                 "Segoe UI", 12F, FontStyle.Bold);
 
             btnDangNhap.BackColor =
-                Color.FromArgb(23, 38, 62);
-            btnDangNhap.ForeColor = Color.White;
+                Theme.BlueBold;
+            btnDangNhap.ForeColor = Theme.Surface;
             btnDangNhap.FlatStyle = FlatStyle.Flat;
             btnDangNhap.FlatAppearance.BorderSize = 0;
             btnDangNhap.Cursor = Cursors.Hand;
@@ -214,9 +217,9 @@ namespace QLNhaHang.Forms.DangNhap
             linkDK.Font = new Font(
                 "Segoe UI", 11F, FontStyle.Bold);
             linkDK.LinkColor =
-                Color.FromArgb(60, 115, 201);
+                Theme.Blue;
             linkDK.ActiveLinkColor =
-                Color.FromArgb(23, 38, 62);
+                Theme.BlueBold;
             linkDK.LinkBehavior =
                 LinkBehavior.HoverUnderline;
             linkDK.Cursor = Cursors.Hand;

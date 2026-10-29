@@ -1,4 +1,4 @@
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using QLNhaHang.Classes;
 
 namespace QLNhaHang.Forms.TaiKhoan
@@ -71,7 +71,7 @@ namespace QLNhaHang.Forms.TaiKhoan
         }
         private void HienLoi(Exception ex)
         {
-            lblThongBao.ForeColor = Color.FromArgb(170, 60, 30);
+            lblThongBao.ForeColor = Theme.Danger;
             lblThongBao.Text = ex is SqlException sql && sql.Number < 50000
                 ? sql.Number is 2601 or 2627 ? "Nhân viên hoặc tên đăng nhập đã có tài khoản."
                 : "Không thể cấp tài khoản. Kiểm tra kết nối và cấu trúc database."

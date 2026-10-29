@@ -34,6 +34,8 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "ucAdmin";
             Size = new Size(792, 664);
             ResumeLayout(false);

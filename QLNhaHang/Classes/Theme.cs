@@ -17,10 +17,29 @@ namespace QLNhaHang.Classes
         public static readonly Color Black = Color.FromArgb(16, 18, 15);
         public static readonly Color Orange = Color.FromArgb(229, 100, 29);
         public static readonly Color Blue = Color.FromArgb(60, 115, 201);
-        public static readonly Color Green = Color.FromArgb(17, 169, 77);
+        public static readonly Color Green = Color.FromArgb(21, 128, 61);
         
 
 
+        // Màu ngữ nghĩa dùng chung trên tất cả màn hình.
+        public static readonly Color Background = Color.FromArgb(244, 247, 251);
+        public static readonly Color Surface = Color.FromArgb(255, 255, 255);
+        public static readonly Color SurfaceMuted = Color.FromArgb(248, 250, 252);
+        public static readonly Color TextMuted = Color.FromArgb(100, 116, 139);
+        public static readonly Color Border = Color.FromArgb(203, 213, 225);
+        public static readonly Color Divider = Color.FromArgb(226, 232, 240);
+        public static readonly Color BlueSoft = Color.FromArgb(232, 240, 254);
+        public static readonly Color GreenSoft = Color.FromArgb(221, 245, 227);
+        public static readonly Color OrangeSoft = Color.FromArgb(255, 237, 213);
+        public static readonly Color OrangeText = Color.FromArgb(154, 65, 12);
+        public static readonly Color WarningBackground = Color.FromArgb(255, 247, 237);
+        public static readonly Color WarningBorder = Color.FromArgb(253, 186, 116);
+        public static readonly Color Danger = Color.FromArgb(185, 48, 48);
+        public static readonly Color DangerSoft = Color.FromArgb(254, 226, 226);
+        public static readonly Color Purple = Color.FromArgb(112, 64, 176);
+        public static readonly Color PurpleSoft = Color.FromArgb(240, 231, 250);
+        public static readonly Color Teal = Color.FromArgb(0, 121, 107);
+        public static readonly Color TealSoft = Color.FromArgb(218, 242, 239);
         // font
 
         public static readonly Font H1 = new("Segoe UI", 25, FontStyle.Bold);
@@ -37,7 +56,7 @@ namespace QLNhaHang.Classes
         {
             form.Font = Body;
             form.ForeColor = Black;
-            form.BackColor = Color.FromArgb(248, 249, 251);
+            form.BackColor = Background;
 
             form.StartPosition = FormStartPosition.CenterScreen;
         }
@@ -45,14 +64,14 @@ namespace QLNhaHang.Classes
         public static void StyleLabel(Label lbl)
         {
             lbl.Font = H3;
-            lbl.ForeColor = Color.Black;
+            lbl.ForeColor = Black;
         }
 
         public static void StyleTextBox(TextBox txt)
         {
             txt.Font = H3;
             txt.BackColor = Color.White;
-            txt.ForeColor = Color.Black;
+            txt.ForeColor = Black;
             txt.BorderStyle = BorderStyle.FixedSingle;
         }
 
@@ -76,7 +95,7 @@ namespace QLNhaHang.Classes
         {
             cbo.Font = H4;
             cbo.BackColor = Color.White;
-            cbo.ForeColor = Color.Black;
+            cbo.ForeColor = Black;
             
 
             cbo.FlatStyle = FlatStyle.Flat;
@@ -87,7 +106,7 @@ namespace QLNhaHang.Classes
         {
             link.Font = H4;
             link.LinkColor = BlueBold;
-            link.ActiveLinkColor = Color.RoyalBlue;
+            link.ActiveLinkColor = Blue;
             link.VisitedLinkColor = BlueBold;
 
             link.LinkBehavior = LinkBehavior.HoverUnderline;

@@ -1,4 +1,5 @@
-﻿namespace QLNhaHang.Controls.ThuNgan
+﻿using QLNhaHang.Classes;
+namespace QLNhaHang.Controls.ThuNgan
 {
     partial class ucHoaDon
     {
@@ -133,16 +134,16 @@
             lblTieuDe.AutoSize = true;
             lblTieuDe.BackColor = Color.Transparent;
             lblTieuDe.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblTieuDe.ForeColor = Color.FromArgb(15, 23, 42);
+            lblTieuDe.ForeColor = Color.FromArgb(35, 52, 73);
             lblTieuDe.Location = new Point(0, 2);
             lblTieuDe.Name = "lblTieuDe";
-            lblTieuDe.Size = new Size(284, 46);
+            lblTieuDe.Size = new Size(333, 54);
             lblTieuDe.TabIndex = 0;
             lblTieuDe.Text = "Quản lý hóa đơn";
             // 
             // pnlHeader
             // 
-            pnlHeader.BackColor = Color.FromArgb(244, 247, 251);
+            pnlHeader.BackColor = Color.FromArgb(243, 245, 248);
             pnlHeader.Controls.Add(lblTieuDe);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(20, 14);
@@ -152,9 +153,9 @@
             // 
             // lblIconCho
             // 
-            lblIconCho.BackColor = Color.FromArgb(232, 240, 254);
+            lblIconCho.BackColor = Color.FromArgb(234, 241, 249);
             lblIconCho.Font = new Font("Segoe UI Symbol", 16F, FontStyle.Bold);
-            lblIconCho.ForeColor = Color.FromArgb(37, 99, 235);
+            lblIconCho.ForeColor = Color.FromArgb(49, 99, 156);
             lblIconCho.Location = new Point(18, 14);
             lblIconCho.Name = "lblIconCho";
             lblIconCho.Size = new Size(52, 52);
@@ -170,7 +171,7 @@
             lblCapCho.ForeColor = Color.FromArgb(100, 116, 139);
             lblCapCho.Location = new Point(82, 8);
             lblCapCho.Name = "lblCapCho";
-            lblCapCho.Size = new Size(135, 25);
+            lblCapCho.Size = new Size(159, 30);
             lblCapCho.TabIndex = 1;
             lblCapCho.Text = "Chờ thanh toán";
             // 
@@ -179,16 +180,16 @@
             lblSoCho.AutoSize = true;
             lblSoCho.BackColor = Color.Transparent;
             lblSoCho.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblSoCho.ForeColor = Color.FromArgb(37, 99, 235);
+            lblSoCho.ForeColor = Color.FromArgb(49, 99, 156);
             lblSoCho.Location = new Point(80, 28);
             lblSoCho.Name = "lblSoCho";
-            lblSoCho.Size = new Size(69, 54);
+            lblSoCho.Size = new Size(84, 65);
             lblSoCho.TabIndex = 2;
             lblSoCho.Text = "00";
             // 
             // cardCho
             // 
-            cardCho.BackColor = Color.White;
+            cardCho.BackColor = Color.FromArgb(255, 255, 255);
             cardCho.BorderStyle = BorderStyle.FixedSingle;
             cardCho.Controls.Add(lblIconCho);
             cardCho.Controls.Add(lblCapCho);
@@ -202,9 +203,9 @@
             // 
             // lblIconDa
             // 
-            lblIconDa.BackColor = Color.FromArgb(22, 163, 74);
+            lblIconDa.BackColor = Color.FromArgb(35, 123, 94);
             lblIconDa.Font = new Font("Segoe UI Symbol", 16F, FontStyle.Bold);
-            lblIconDa.ForeColor = Color.White;
+            lblIconDa.ForeColor = Color.FromArgb(255, 255, 255);
             lblIconDa.Location = new Point(18, 14);
             lblIconDa.Name = "lblIconDa";
             lblIconDa.Size = new Size(52, 52);
@@ -220,7 +221,7 @@
             lblCapDa.ForeColor = Color.FromArgb(100, 116, 139);
             lblCapDa.Location = new Point(82, 8);
             lblCapDa.Name = "lblCapDa";
-            lblCapDa.Size = new Size(125, 25);
+            lblCapDa.Size = new Size(147, 30);
             lblCapDa.TabIndex = 1;
             lblCapDa.Text = "Đã thanh toán";
             // 
@@ -229,16 +230,16 @@
             lblSoDa.AutoSize = true;
             lblSoDa.BackColor = Color.Transparent;
             lblSoDa.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblSoDa.ForeColor = Color.FromArgb(22, 163, 74);
+            lblSoDa.ForeColor = Color.FromArgb(35, 123, 94);
             lblSoDa.Location = new Point(80, 28);
             lblSoDa.Name = "lblSoDa";
-            lblSoDa.Size = new Size(69, 54);
+            lblSoDa.Size = new Size(84, 65);
             lblSoDa.TabIndex = 2;
             lblSoDa.Text = "00";
             // 
             // cardDa
             // 
-            cardDa.BackColor = Color.White;
+            cardDa.BackColor = Color.FromArgb(255, 255, 255);
             cardDa.BorderStyle = BorderStyle.FixedSingle;
             cardDa.Controls.Add(lblIconDa);
             cardDa.Controls.Add(lblCapDa);
@@ -252,9 +253,9 @@
             // 
             // lblIconHuy
             // 
-            lblIconHuy.BackColor = Color.FromArgb(220, 38, 38);
+            lblIconHuy.BackColor = Color.FromArgb(177, 66, 66);
             lblIconHuy.Font = new Font("Segoe UI Symbol", 16F, FontStyle.Bold);
-            lblIconHuy.ForeColor = Color.White;
+            lblIconHuy.ForeColor = Color.FromArgb(255, 255, 255);
             lblIconHuy.Location = new Point(18, 14);
             lblIconHuy.Name = "lblIconHuy";
             lblIconHuy.Size = new Size(52, 52);
@@ -270,7 +271,7 @@
             lblCapHuy.ForeColor = Color.FromArgb(100, 116, 139);
             lblCapHuy.Location = new Point(82, 8);
             lblCapHuy.Name = "lblCapHuy";
-            lblCapHuy.Size = new Size(68, 25);
+            lblCapHuy.Size = new Size(79, 30);
             lblCapHuy.TabIndex = 1;
             lblCapHuy.Text = "Đã hủy";
             // 
@@ -279,16 +280,16 @@
             lblSoHuy.AutoSize = true;
             lblSoHuy.BackColor = Color.Transparent;
             lblSoHuy.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblSoHuy.ForeColor = Color.FromArgb(220, 38, 38);
+            lblSoHuy.ForeColor = Color.FromArgb(177, 66, 66);
             lblSoHuy.Location = new Point(80, 28);
             lblSoHuy.Name = "lblSoHuy";
-            lblSoHuy.Size = new Size(69, 54);
+            lblSoHuy.Size = new Size(84, 65);
             lblSoHuy.TabIndex = 2;
             lblSoHuy.Text = "00";
             // 
             // cardHuy
             // 
-            cardHuy.BackColor = Color.White;
+            cardHuy.BackColor = Color.FromArgb(255, 255, 255);
             cardHuy.BorderStyle = BorderStyle.FixedSingle;
             cardHuy.Controls.Add(lblIconHuy);
             cardHuy.Controls.Add(lblCapHuy);
@@ -302,9 +303,9 @@
             // 
             // lblIconThu
             // 
-            lblIconThu.BackColor = Color.FromArgb(255, 240, 214);
+            lblIconThu.BackColor = Color.FromArgb(251, 241, 226);
             lblIconThu.Font = new Font("Segoe UI Symbol", 16F, FontStyle.Bold);
-            lblIconThu.ForeColor = Color.FromArgb(217, 119, 6);
+            lblIconThu.ForeColor = Color.FromArgb(171, 102, 34);
             lblIconThu.Location = new Point(18, 14);
             lblIconThu.Name = "lblIconThu";
             lblIconThu.Size = new Size(52, 52);
@@ -320,7 +321,7 @@
             lblCapThu.ForeColor = Color.FromArgb(100, 116, 139);
             lblCapThu.Location = new Point(82, 8);
             lblCapThu.Name = "lblCapThu";
-            lblCapThu.Size = new Size(140, 25);
+            lblCapThu.Size = new Size(163, 30);
             lblCapThu.TabIndex = 1;
             lblCapThu.Text = "Đã thu hôm nay";
             // 
@@ -329,16 +330,16 @@
             lblThuNay.AutoSize = true;
             lblThuNay.BackColor = Color.Transparent;
             lblThuNay.Font = new Font("Segoe UI", 19F, FontStyle.Bold);
-            lblThuNay.ForeColor = Color.FromArgb(15, 23, 42);
+            lblThuNay.ForeColor = Color.FromArgb(35, 52, 73);
             lblThuNay.Location = new Point(80, 32);
             lblThuNay.Name = "lblThuNay";
-            lblThuNay.Size = new Size(67, 45);
+            lblThuNay.Size = new Size(78, 51);
             lblThuNay.TabIndex = 2;
             lblThuNay.Text = "0 đ";
             // 
             // cardThu
             // 
-            cardThu.BackColor = Color.White;
+            cardThu.BackColor = Color.FromArgb(255, 255, 255);
             cardThu.BorderStyle = BorderStyle.FixedSingle;
             cardThu.Controls.Add(lblIconThu);
             cardThu.Controls.Add(lblCapThu);
@@ -352,7 +353,7 @@
             // 
             // tlpStats
             // 
-            tlpStats.BackColor = Color.FromArgb(244, 247, 251);
+            tlpStats.BackColor = Color.FromArgb(243, 245, 248);
             tlpStats.ColumnCount = 4;
             tlpStats.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tlpStats.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
@@ -378,7 +379,7 @@
             lblIconTim.ForeColor = Color.FromArgb(100, 116, 139);
             lblIconTim.Location = new Point(12, 7);
             lblIconTim.Name = "lblIconTim";
-            lblIconTim.Size = new Size(32, 32);
+            lblIconTim.Size = new Size(38, 38);
             lblIconTim.TabIndex = 1;
             lblIconTim.Text = "⌕";
             // 
@@ -387,17 +388,17 @@
             txtTim.BorderStyle = BorderStyle.None;
             txtTim.Dock = DockStyle.Fill;
             txtTim.Font = new Font("Segoe UI", 9F);
-            txtTim.ForeColor = Color.FromArgb(15, 23, 42);
+            txtTim.ForeColor = Color.FromArgb(35, 52, 73);
             txtTim.Location = new Point(40, 11);
             txtTim.Name = "txtTim";
             txtTim.PlaceholderText = "Tìm mã hóa đơn, bàn, khách hàng...";
-            txtTim.Size = new Size(786, 20);
+            txtTim.Size = new Size(786, 24);
             txtTim.TabIndex = 0;
             txtTim.TextChanged += txtTim_TextChanged;
             // 
             // pnlTim
             // 
-            pnlTim.BackColor = Color.White;
+            pnlTim.BackColor = Color.FromArgb(255, 255, 255);
             pnlTim.BorderStyle = BorderStyle.FixedSingle;
             pnlTim.Controls.Add(txtTim);
             pnlTim.Controls.Add(lblIconTim);
@@ -418,13 +419,13 @@
             dtpNgay.Location = new Point(12, 9);
             dtpNgay.Name = "dtpNgay";
             dtpNgay.ShowCheckBox = true;
-            dtpNgay.Size = new Size(196, 27);
+            dtpNgay.Size = new Size(196, 31);
             dtpNgay.TabIndex = 0;
             dtpNgay.ValueChanged += dtpNgay_ValueChanged;
             // 
             // pnlNgay
             // 
-            pnlNgay.BackColor = Color.White;
+            pnlNgay.BackColor = Color.FromArgb(255, 255, 255);
             pnlNgay.BorderStyle = BorderStyle.FixedSingle;
             pnlNgay.Controls.Add(dtpNgay);
             pnlNgay.Dock = DockStyle.Fill;
@@ -437,7 +438,7 @@
             // 
             // cboTrangThai
             // 
-            cboTrangThai.BackColor = Color.White;
+            cboTrangThai.BackColor = Color.FromArgb(255, 255, 255);
             cboTrangThai.Dock = DockStyle.Fill;
             cboTrangThai.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTrangThai.FlatStyle = FlatStyle.Flat;
@@ -445,13 +446,13 @@
             cboTrangThai.Items.AddRange(new object[] { "Tất cả trạng thái", "Chờ thanh toán", "Đã thanh toán", "Đã hủy" });
             cboTrangThai.Location = new Point(12, 8);
             cboTrangThai.Name = "cboTrangThai";
-            cboTrangThai.Size = new Size(216, 28);
+            cboTrangThai.Size = new Size(216, 33);
             cboTrangThai.TabIndex = 0;
             cboTrangThai.SelectedIndexChanged += cboTrangThai_SelectedIndexChanged;
             // 
             // pnlTT
             // 
-            pnlTT.BackColor = Color.White;
+            pnlTT.BackColor = Color.FromArgb(255, 255, 255);
             pnlTT.BorderStyle = BorderStyle.FixedSingle;
             pnlTT.Controls.Add(cboTrangThai);
             pnlTT.Dock = DockStyle.Fill;
@@ -464,13 +465,13 @@
             // 
             // btnLamMoi
             // 
-            btnLamMoi.BackColor = Color.FromArgb(37, 99, 235);
+            btnLamMoi.BackColor = Color.FromArgb(49, 99, 156);
             btnLamMoi.Cursor = Cursors.Hand;
             btnLamMoi.Dock = DockStyle.Fill;
             btnLamMoi.FlatAppearance.BorderSize = 0;
             btnLamMoi.FlatStyle = FlatStyle.Flat;
             btnLamMoi.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            btnLamMoi.ForeColor = Color.White;
+            btnLamMoi.ForeColor = Color.FromArgb(255, 255, 255);
             btnLamMoi.Location = new Point(1330, 8);
             btnLamMoi.Margin = new Padding(0);
             btnLamMoi.Name = "btnLamMoi";
@@ -482,7 +483,7 @@
             // 
             // tlpToolbar
             // 
-            tlpToolbar.BackColor = Color.FromArgb(244, 247, 251);
+            tlpToolbar.BackColor = Color.FromArgb(243, 245, 248);
             tlpToolbar.ColumnCount = 4;
             tlpToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tlpToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
@@ -503,7 +504,7 @@
             // 
             // btnTabCho
             // 
-            btnTabCho.BackColor = Color.White;
+            btnTabCho.BackColor = Color.FromArgb(255, 255, 255);
             btnTabCho.Cursor = Cursors.Hand;
             btnTabCho.FlatAppearance.BorderSize = 0;
             btnTabCho.FlatAppearance.MouseOverBackColor = Color.FromArgb(248, 250, 252);
@@ -522,7 +523,7 @@
             // 
             // btnTabDa
             // 
-            btnTabDa.BackColor = Color.White;
+            btnTabDa.BackColor = Color.FromArgb(255, 255, 255);
             btnTabDa.Cursor = Cursors.Hand;
             btnTabDa.FlatAppearance.BorderSize = 0;
             btnTabDa.FlatAppearance.MouseOverBackColor = Color.FromArgb(248, 250, 252);
@@ -541,7 +542,7 @@
             // 
             // btnTabHuy
             // 
-            btnTabHuy.BackColor = Color.White;
+            btnTabHuy.BackColor = Color.FromArgb(255, 255, 255);
             btnTabHuy.Cursor = Cursors.Hand;
             btnTabHuy.FlatAppearance.BorderSize = 0;
             btnTabHuy.FlatAppearance.MouseOverBackColor = Color.FromArgb(248, 250, 252);
@@ -560,7 +561,7 @@
             // 
             // pnlTabs
             // 
-            pnlTabs.BackColor = Color.White;
+            pnlTabs.BackColor = Color.FromArgb(255, 255, 255);
             pnlTabs.Controls.Add(btnTabCho);
             pnlTabs.Controls.Add(btnTabDa);
             pnlTabs.Controls.Add(btnTabHuy);
@@ -578,13 +579,13 @@
             lblFooter.ForeColor = Color.FromArgb(100, 116, 139);
             lblFooter.Location = new Point(18, 10);
             lblFooter.Name = "lblFooter";
-            lblFooter.Size = new Size(339, 21);
+            lblFooter.Size = new Size(411, 25);
             lblFooter.TabIndex = 0;
             lblFooter.Text = "6 hóa đơn  •  Chọn một hóa đơn để xem chi tiết";
             // 
             // pnlFoot
             // 
-            pnlFoot.BackColor = Color.White;
+            pnlFoot.BackColor = Color.FromArgb(255, 255, 255);
             pnlFoot.Controls.Add(lblFooter);
             pnlFoot.Dock = DockStyle.Bottom;
             pnlFoot.Location = new Point(1, 591);
@@ -644,7 +645,7 @@
             dgvHD.AllowUserToResizeColumns = false;
             dgvHD.AllowUserToResizeRows = false;
             dgvHD.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvHD.BackgroundColor = Color.White;
+            dgvHD.BackgroundColor = Color.FromArgb(255, 255, 255);
             dgvHD.BorderStyle = BorderStyle.None;
             dgvHD.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvHD.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
@@ -670,7 +671,7 @@
             // 
             // pnlLeft
             // 
-            pnlLeft.BackColor = Color.White;
+            pnlLeft.BackColor = Color.FromArgb(255, 255, 255);
             pnlLeft.BorderStyle = BorderStyle.FixedSingle;
             pnlLeft.Controls.Add(dgvHD);
             pnlLeft.Controls.Add(pnlFoot);
@@ -686,7 +687,7 @@
             // 
             lblCT.Dock = DockStyle.Fill;
             lblCT.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            lblCT.ForeColor = Color.FromArgb(15, 23, 42);
+            lblCT.ForeColor = Color.FromArgb(35, 52, 73);
             lblCT.Location = new Point(3, 0);
             lblCT.Name = "lblCT";
             lblCT.Size = new Size(516, 36);
@@ -737,7 +738,7 @@
             dgvMon.AllowUserToResizeColumns = false;
             dgvMon.AllowUserToResizeRows = false;
             dgvMon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvMon.BackgroundColor = Color.White;
+            dgvMon.BackgroundColor = Color.FromArgb(255, 255, 255);
             dgvMon.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvMon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvMon.ColumnHeadersHeight = 40;
@@ -764,7 +765,7 @@
             // 
             lblCap_lblTienMon.Dock = DockStyle.Fill;
             lblCap_lblTienMon.Font = new Font("Segoe UI", 10.5F);
-            lblCap_lblTienMon.ForeColor = Color.FromArgb(15, 23, 42);
+            lblCap_lblTienMon.ForeColor = Color.FromArgb(35, 52, 73);
             lblCap_lblTienMon.Location = new Point(3, 0);
             lblCap_lblTienMon.Name = "lblCap_lblTienMon";
             lblCap_lblTienMon.Size = new Size(252, 26);
@@ -776,7 +777,7 @@
             // 
             lblTienMon.Dock = DockStyle.Fill;
             lblTienMon.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            lblTienMon.ForeColor = Color.FromArgb(15, 23, 42);
+            lblTienMon.ForeColor = Color.FromArgb(35, 52, 73);
             lblTienMon.Location = new Point(261, 0);
             lblTienMon.Name = "lblTienMon";
             lblTienMon.Padding = new Padding(0, 0, 6, 0);
@@ -789,7 +790,7 @@
             // 
             lblCap_lblGiamGia.Dock = DockStyle.Fill;
             lblCap_lblGiamGia.Font = new Font("Segoe UI", 10.5F);
-            lblCap_lblGiamGia.ForeColor = Color.FromArgb(15, 23, 42);
+            lblCap_lblGiamGia.ForeColor = Color.FromArgb(35, 52, 73);
             lblCap_lblGiamGia.Location = new Point(3, 26);
             lblCap_lblGiamGia.Name = "lblCap_lblGiamGia";
             lblCap_lblGiamGia.Size = new Size(252, 26);
@@ -801,7 +802,7 @@
             // 
             lblGiamGia.Dock = DockStyle.Fill;
             lblGiamGia.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            lblGiamGia.ForeColor = Color.FromArgb(15, 23, 42);
+            lblGiamGia.ForeColor = Color.FromArgb(35, 52, 73);
             lblGiamGia.Location = new Point(261, 26);
             lblGiamGia.Name = "lblGiamGia";
             lblGiamGia.Padding = new Padding(0, 0, 6, 0);
@@ -815,7 +816,7 @@
             // 
             lblCap_lblPhuThu.Dock = DockStyle.Fill;
             lblCap_lblPhuThu.Font = new Font("Segoe UI", 10.5F);
-            lblCap_lblPhuThu.ForeColor = Color.FromArgb(15, 23, 42);
+            lblCap_lblPhuThu.ForeColor = Color.FromArgb(35, 52, 73);
             lblCap_lblPhuThu.Location = new Point(3, 52);
             lblCap_lblPhuThu.Name = "lblCap_lblPhuThu";
             lblCap_lblPhuThu.Size = new Size(252, 26);
@@ -827,7 +828,7 @@
             // 
             lblPhuThu.Dock = DockStyle.Fill;
             lblPhuThu.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            lblPhuThu.ForeColor = Color.FromArgb(15, 23, 42);
+            lblPhuThu.ForeColor = Color.FromArgb(35, 52, 73);
             lblPhuThu.Location = new Point(261, 52);
             lblPhuThu.Name = "lblPhuThu";
             lblPhuThu.Padding = new Padding(0, 0, 6, 0);
@@ -841,10 +842,10 @@
             lblCanCap.AutoSize = true;
             lblCanCap.BackColor = Color.Transparent;
             lblCanCap.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            lblCanCap.ForeColor = Color.FromArgb(15, 23, 42);
+            lblCanCap.ForeColor = Color.FromArgb(35, 52, 73);
             lblCanCap.Location = new Point(3, 6);
             lblCanCap.Name = "lblCanCap";
-            lblCanCap.Size = new Size(171, 30);
+            lblCanCap.Size = new Size(203, 36);
             lblCanCap.TabIndex = 1;
             lblCanCap.Text = "Cần thanh toán";
             // 
@@ -852,7 +853,7 @@
             // 
             lblCan.Dock = DockStyle.Right;
             lblCan.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
-            lblCan.ForeColor = Color.FromArgb(15, 23, 42);
+            lblCan.ForeColor = Color.FromArgb(35, 52, 73);
             lblCan.Location = new Point(256, 0);
             lblCan.Name = "lblCan";
             lblCan.Padding = new Padding(0, 0, 6, 0);
@@ -863,7 +864,7 @@
             // 
             // pnlCan
             // 
-            pnlCan.BackColor = Color.FromArgb(232, 240, 254);
+            pnlCan.BackColor = Color.FromArgb(234, 241, 249);
             tlpTong.SetColumnSpan(pnlCan, 2);
             pnlCan.Controls.Add(lblCan);
             pnlCan.Controls.Add(lblCanCap);
@@ -876,7 +877,7 @@
             // 
             // tlpTong
             // 
-            tlpTong.BackColor = Color.White;
+            tlpTong.BackColor = Color.FromArgb(255, 255, 255);
             tlpTong.ColumnCount = 2;
             tlpTong.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpTong.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
@@ -902,7 +903,7 @@
             // 
             lblPT.Dock = DockStyle.Top;
             lblPT.Font = new Font("Segoe UI", 10.5F);
-            lblPT.ForeColor = Color.FromArgb(15, 23, 42);
+            lblPT.ForeColor = Color.FromArgb(35, 52, 73);
             lblPT.Location = new Point(0, 0);
             lblPT.Name = "lblPT";
             lblPT.Size = new Size(516, 24);
@@ -912,7 +913,7 @@
             // 
             // btnTienMat
             // 
-            btnTienMat.BackColor = Color.White;
+            btnTienMat.BackColor = Color.FromArgb(255, 255, 255);
             btnTienMat.Cursor = Cursors.Hand;
             btnTienMat.Dock = DockStyle.Fill;
             btnTienMat.FlatAppearance.BorderColor = Color.FromArgb(226, 232, 240);
@@ -929,7 +930,7 @@
             // 
             // btnChuyenKhoan
             // 
-            btnChuyenKhoan.BackColor = Color.White;
+            btnChuyenKhoan.BackColor = Color.FromArgb(255, 255, 255);
             btnChuyenKhoan.Cursor = Cursors.Hand;
             btnChuyenKhoan.Dock = DockStyle.Fill;
             btnChuyenKhoan.FlatAppearance.BorderColor = Color.FromArgb(226, 232, 240);
@@ -946,7 +947,7 @@
             // 
             // btnThe
             // 
-            btnThe.BackColor = Color.White;
+            btnThe.BackColor = Color.FromArgb(255, 255, 255);
             btnThe.Cursor = Cursors.Hand;
             btnThe.Dock = DockStyle.Fill;
             btnThe.FlatAppearance.BorderColor = Color.FromArgb(226, 232, 240);
@@ -963,7 +964,7 @@
             // 
             // tlpPT
             // 
-            tlpPT.BackColor = Color.White;
+            tlpPT.BackColor = Color.FromArgb(255, 255, 255);
             tlpPT.ColumnCount = 3;
             tlpPT.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
             tlpPT.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
@@ -981,7 +982,7 @@
             // 
             // pnlPT
             // 
-            pnlPT.BackColor = Color.White;
+            pnlPT.BackColor = Color.FromArgb(255, 255, 255);
             pnlPT.Controls.Add(tlpPT);
             pnlPT.Controls.Add(lblPT);
             pnlPT.Dock = DockStyle.Fill;
@@ -994,7 +995,7 @@
             // 
             lblDuaCap.Dock = DockStyle.Top;
             lblDuaCap.Font = new Font("Segoe UI", 10F);
-            lblDuaCap.ForeColor = Color.FromArgb(15, 23, 42);
+            lblDuaCap.ForeColor = Color.FromArgb(35, 52, 73);
             lblDuaCap.Location = new Point(0, 0);
             lblDuaCap.Name = "lblDuaCap";
             lblDuaCap.Size = new Size(273, 22);
@@ -1004,7 +1005,7 @@
             // 
             // lblDongDua
             // 
-            lblDongDua.BackColor = Color.White;
+            lblDongDua.BackColor = Color.FromArgb(255, 255, 255);
             lblDongDua.Dock = DockStyle.Right;
             lblDongDua.Font = new Font("Segoe UI", 10.5F);
             lblDongDua.ForeColor = Color.FromArgb(100, 116, 139);
@@ -1017,20 +1018,20 @@
             // 
             // txtDua
             // 
-            txtDua.BackColor = Color.White;
+            txtDua.BackColor = Color.FromArgb(255, 255, 255);
             txtDua.BorderStyle = BorderStyle.None;
             txtDua.Dock = DockStyle.Fill;
             txtDua.Font = new Font("Segoe UI", 11F);
-            txtDua.ForeColor = Color.FromArgb(15, 23, 42);
+            txtDua.ForeColor = Color.FromArgb(35, 52, 73);
             txtDua.Location = new Point(10, 9);
             txtDua.Name = "txtDua";
-            txtDua.Size = new Size(227, 25);
+            txtDua.Size = new Size(227, 30);
             txtDua.TabIndex = 0;
             txtDua.TextChanged += txtDua_TextChanged;
             // 
             // pnlDuaBox
             // 
-            pnlDuaBox.BackColor = Color.White;
+            pnlDuaBox.BackColor = Color.FromArgb(255, 255, 255);
             pnlDuaBox.BorderStyle = BorderStyle.FixedSingle;
             pnlDuaBox.Controls.Add(txtDua);
             pnlDuaBox.Controls.Add(lblDongDua);
@@ -1043,7 +1044,7 @@
             // 
             // pnlDua
             // 
-            pnlDua.BackColor = Color.White;
+            pnlDua.BackColor = Color.FromArgb(255, 255, 255);
             pnlDua.Controls.Add(pnlDuaBox);
             pnlDua.Controls.Add(lblDuaCap);
             pnlDua.Dock = DockStyle.Fill;
@@ -1057,7 +1058,7 @@
             // 
             lblThuaCap.Dock = DockStyle.Top;
             lblThuaCap.Font = new Font("Segoe UI", 10F);
-            lblThuaCap.ForeColor = Color.FromArgb(15, 23, 42);
+            lblThuaCap.ForeColor = Color.FromArgb(35, 52, 73);
             lblThuaCap.Location = new Point(0, 0);
             lblThuaCap.Name = "lblThuaCap";
             lblThuaCap.Size = new Size(223, 22);
@@ -1067,7 +1068,7 @@
             // 
             // lblDongThua
             // 
-            lblDongThua.BackColor = Color.FromArgb(241, 245, 249);
+            lblDongThua.BackColor = Color.FromArgb(243, 245, 248);
             lblDongThua.Dock = DockStyle.Right;
             lblDongThua.Font = new Font("Segoe UI", 10.5F);
             lblDongThua.ForeColor = Color.FromArgb(100, 116, 139);
@@ -1080,7 +1081,7 @@
             // 
             // txtThua
             // 
-            txtThua.BackColor = Color.FromArgb(241, 245, 249);
+            txtThua.BackColor = Color.FromArgb(243, 245, 248);
             txtThua.BorderStyle = BorderStyle.None;
             txtThua.Dock = DockStyle.Fill;
             txtThua.Font = new Font("Segoe UI", 11F);
@@ -1088,13 +1089,13 @@
             txtThua.Location = new Point(10, 9);
             txtThua.Name = "txtThua";
             txtThua.ReadOnly = true;
-            txtThua.Size = new Size(177, 25);
+            txtThua.Size = new Size(177, 30);
             txtThua.TabIndex = 0;
             txtThua.TabStop = false;
             // 
             // pnlThuaBox
             // 
-            pnlThuaBox.BackColor = Color.FromArgb(241, 245, 249);
+            pnlThuaBox.BackColor = Color.FromArgb(243, 245, 248);
             pnlThuaBox.BorderStyle = BorderStyle.FixedSingle;
             pnlThuaBox.Controls.Add(txtThua);
             pnlThuaBox.Controls.Add(lblDongThua);
@@ -1107,7 +1108,7 @@
             // 
             // pnlThua
             // 
-            pnlThua.BackColor = Color.White;
+            pnlThua.BackColor = Color.FromArgb(255, 255, 255);
             pnlThua.Controls.Add(pnlThuaBox);
             pnlThua.Controls.Add(lblThuaCap);
             pnlThua.Dock = DockStyle.Fill;
@@ -1119,7 +1120,7 @@
             // 
             // tlpTien
             // 
-            tlpTien.BackColor = Color.White;
+            tlpTien.BackColor = Color.FromArgb(255, 255, 255);
             tlpTien.ColumnCount = 2;
             tlpTien.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
             tlpTien.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
@@ -1135,13 +1136,13 @@
             // 
             // btnIn
             // 
-            btnIn.BackColor = Color.White;
+            btnIn.BackColor = Color.FromArgb(255, 255, 255);
             btnIn.Cursor = Cursors.Hand;
             btnIn.Dock = DockStyle.Fill;
             btnIn.FlatAppearance.BorderColor = Color.FromArgb(226, 232, 240);
             btnIn.FlatStyle = FlatStyle.Flat;
             btnIn.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            btnIn.ForeColor = Color.FromArgb(15, 23, 42);
+            btnIn.ForeColor = Color.FromArgb(35, 52, 73);
             btnIn.Location = new Point(0, 4);
             btnIn.Margin = new Padding(0, 4, 10, 0);
             btnIn.Name = "btnIn";
@@ -1153,13 +1154,13 @@
             // 
             // btnXacNhan
             // 
-            btnXacNhan.BackColor = Color.FromArgb(37, 99, 235);
+            btnXacNhan.BackColor = Color.FromArgb(49, 99, 156);
             btnXacNhan.Cursor = Cursors.Hand;
             btnXacNhan.Dock = DockStyle.Fill;
             btnXacNhan.FlatAppearance.BorderSize = 0;
             btnXacNhan.FlatStyle = FlatStyle.Flat;
             btnXacNhan.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            btnXacNhan.ForeColor = Color.White;
+            btnXacNhan.ForeColor = Color.FromArgb(255, 255, 255);
             btnXacNhan.Location = new Point(206, 4);
             btnXacNhan.Margin = new Padding(0, 4, 0, 0);
             btnXacNhan.Name = "btnXacNhan";
@@ -1171,7 +1172,7 @@
             // 
             // tlpNut
             // 
-            tlpNut.BackColor = Color.White;
+            tlpNut.BackColor = Color.FromArgb(255, 255, 255);
             tlpNut.ColumnCount = 2;
             tlpNut.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             tlpNut.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
@@ -1187,7 +1188,7 @@
             // 
             // tlpPhai
             // 
-            tlpPhai.BackColor = Color.White;
+            tlpPhai.BackColor = Color.FromArgb(255, 255, 255);
             tlpPhai.ColumnCount = 1;
             tlpPhai.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tlpPhai.Controls.Add(lblCT, 0, 0);
@@ -1211,7 +1212,7 @@
             // 
             // pnlRight
             // 
-            pnlRight.BackColor = Color.White;
+            pnlRight.BackColor = Color.FromArgb(255, 255, 255);
             pnlRight.BorderStyle = BorderStyle.FixedSingle;
             pnlRight.Controls.Add(tlpPhai);
             pnlRight.Dock = DockStyle.Right;
@@ -1223,7 +1224,7 @@
             // 
             // pnlGap
             // 
-            pnlGap.BackColor = Color.FromArgb(244, 247, 251);
+            pnlGap.BackColor = Color.FromArgb(243, 245, 248);
             pnlGap.Dock = DockStyle.Right;
             pnlGap.Location = new Point(886, 6);
             pnlGap.Name = "pnlGap";
@@ -1232,7 +1233,7 @@
             // 
             // pnlMain
             // 
-            pnlMain.BackColor = Color.FromArgb(244, 247, 251);
+            pnlMain.BackColor = Color.FromArgb(243, 245, 248);
             pnlMain.Controls.Add(pnlLeft);
             pnlMain.Controls.Add(pnlGap);
             pnlMain.Controls.Add(pnlRight);
@@ -1245,14 +1246,15 @@
             // 
             // ucHoaDon
             // 
-            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(244, 247, 251);
+            BackColor = Color.FromArgb(243, 245, 248);
             Controls.Add(pnlMain);
             Controls.Add(tlpToolbar);
             Controls.Add(tlpStats);
             Controls.Add(pnlHeader);
             Font = new Font("Segoe UI", 10F);
+            ForeColor = Color.FromArgb(39, 51, 67);
             Margin = new Padding(3, 2, 3, 2);
             Name = "ucHoaDon";
             Padding = new Padding(20, 14, 20, 16);

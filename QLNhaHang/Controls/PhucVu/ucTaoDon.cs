@@ -20,11 +20,11 @@ namespace QLNhaHang.Controls.PhucVu
         // Mỗi khu vực một màu nền (dùng cho danh sách đơn đang xử lý)
         static readonly Color[] MauKhu =
         {
-            Color.FromArgb(187, 222, 251),   // xanh dương nhạt
-            Color.FromArgb(200, 230, 201),   // xanh lá nhạt
-            Color.FromArgb(225, 190, 231),   // tím nhạt
-            Color.FromArgb(255, 224, 178),   // cam nhạt
-            Color.FromArgb(178, 235, 242)    // xanh ngọc nhạt
+            Theme.BlueSoft,   // xanh dương nhạt
+            Theme.GreenSoft,   // xanh lá nhạt
+            Theme.PurpleSoft,   // tím nhạt
+            Theme.OrangeSoft,   // cam nhạt
+            Theme.TealSoft    // xanh ngọc nhạt
         };
         readonly Dictionary<string, Color> _mauKhu = new Dictionary<string, Color>();
 
@@ -203,8 +203,8 @@ namespace QLNhaHang.Controls.PhucVu
             if (dgvMon.Rows[e.RowIndex].DataBoundItem is DataRowView rv &&
                 (rv["TrangThaiMon"].ToString() ?? "") == TAM_HET)
             {
-                var xam = Color.FromArgb(238, 238, 238);
-                var doDam = Color.FromArgb(198, 40, 40);
+                var xam = Theme.SurfaceMuted;
+                var doDam = Theme.Danger;
                 e.CellStyle.BackColor = xam;
                 e.CellStyle.ForeColor = doDam;
                 e.CellStyle.SelectionBackColor = xam;     // chọn vào cũng không đổi màu
@@ -301,7 +301,7 @@ namespace QLNhaHang.Controls.PhucVu
                 {
                     if (r.DataBoundItem is DataRowView rv &&
                         (rv["TrangThaiMon"].ToString() ?? "") == CHUA_GUI)
-                        r.DefaultCellStyle.BackColor = Color.FromArgb(255, 249, 196);
+                        r.DefaultCellStyle.BackColor = Theme.OrangeSoft;
                 }
 
                 decimal tong = dt.AsEnumerable()

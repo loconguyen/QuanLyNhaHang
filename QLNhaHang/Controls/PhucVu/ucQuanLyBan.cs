@@ -124,7 +124,7 @@ namespace QLNhaHang.Controls.PhucVu
                     Margin = new Padding(0, 12, 0, 2),
                     TextAlign = ContentAlignment.MiddleLeft,
                     Font = new Font("Segoe UI", 11, FontStyle.Bold),
-                    ForeColor = Color.FromArgb(24, 38, 66)
+                    ForeColor = Theme.BlueBold
                 };
                 flpBan.Controls.Add(tieuDe);
 
@@ -155,10 +155,10 @@ namespace QLNhaHang.Controls.PhucVu
         {
             switch (tt)
             {
-                case "Trống": return Color.FromArgb(200, 230, 201);
-                case "Đang phục vụ": return Color.FromArgb(255, 224, 178);
-                case "Chờ dọn": return Color.FromArgb(255, 249, 196);
-                default: return Color.FromArgb(224, 224, 224);   // Bảo trì
+                case "Trống": return Theme.GreenSoft;
+                case "Đang phục vụ": return Theme.OrangeSoft;
+                case "Chờ dọn": return Theme.OrangeSoft;
+                default: return Theme.Border;   // Bảo trì
             }
         }
 

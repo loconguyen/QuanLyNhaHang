@@ -68,7 +68,7 @@ namespace QLNhaHang.Controls.Bep
                     continue;
 
                 if (Convert.ToInt32(rv["PhutCho"]) >= NguongChoPhut)
-                    row.DefaultCellStyle.BackColor = Color.Red;
+                    row.DefaultCellStyle.BackColor = Theme.Danger;
             }
         }
 
@@ -79,8 +79,8 @@ namespace QLNhaHang.Controls.Bep
                 var rv = row.DataBoundItem as DataRowView;
                 if (rv == null)
                     continue;
-                row.DefaultCellStyle.BackColor = Convert.ToString(rv["LyDo"]) == "Sắp hết hàng" ? Color.FromArgb(254, 226, 226)
-                    : Color.FromArgb(255, 237, 213);
+                row.DefaultCellStyle.BackColor = Convert.ToString(rv["LyDo"]) == "Sắp hết hàng" ? Theme.DangerSoft
+                    : Theme.OrangeSoft;
             }
         }
 

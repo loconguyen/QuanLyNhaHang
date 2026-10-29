@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using QLNhaHang.Classes;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace QLNhaHang.Controls.Bep
@@ -57,7 +58,9 @@ namespace QLNhaHang.Controls.Bep
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
             tblMain.Name = "tblMain";
-            tblMain.Padding = new Padding(8);
+            tblMain.Padding = new Padding(16);
+            tblMain.BackColor = Theme.Background;
+            ForeColor = Theme.Black;
             tblMain.RowCount = 4;
             tblMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tblMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 84F));
@@ -69,7 +72,8 @@ namespace QLNhaHang.Controls.Bep
             // lblTitle
             // 
             lblTitle.Dock = DockStyle.Fill;
-            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitle.ForeColor = Theme.BlueBold;
             lblTitle.Location = new Point(11, 8);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(1356, 40);
@@ -96,7 +100,7 @@ namespace QLNhaHang.Controls.Bep
             // 
             // pnlCho
             // 
-            pnlCho.BackColor = Color.White;
+            pnlCho.BackColor = Theme.Surface;
             pnlCho.Controls.Add(lblChoCaption);
             pnlCho.Controls.Add(lblCho);
             pnlCho.Dock = DockStyle.Fill;
@@ -109,7 +113,7 @@ namespace QLNhaHang.Controls.Bep
             // lblChoCaption
             // 
             lblChoCaption.Dock = DockStyle.Fill;
-            lblChoCaption.ForeColor = Color.DimGray;
+            lblChoCaption.ForeColor = Theme.TextMuted;
             lblChoCaption.Location = new Point(0, 46);
             lblChoCaption.Name = "lblChoCaption";
             lblChoCaption.Size = new Size(444, 24);
@@ -121,7 +125,7 @@ namespace QLNhaHang.Controls.Bep
             // 
             lblCho.Dock = DockStyle.Top;
             lblCho.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblCho.ForeColor = Color.OrangeRed;
+            lblCho.ForeColor = Theme.Orange;
             lblCho.Location = new Point(0, 0);
             lblCho.Name = "lblCho";
             lblCho.Size = new Size(444, 46);
@@ -131,7 +135,7 @@ namespace QLNhaHang.Controls.Bep
             // 
             // pnlDang
             // 
-            pnlDang.BackColor = Color.White;
+            pnlDang.BackColor = Theme.Surface;
             pnlDang.Controls.Add(lblDangCaption);
             pnlDang.Controls.Add(lblDang);
             pnlDang.Dock = DockStyle.Fill;
@@ -144,7 +148,7 @@ namespace QLNhaHang.Controls.Bep
             // lblDangCaption
             // 
             lblDangCaption.Dock = DockStyle.Fill;
-            lblDangCaption.ForeColor = Color.DimGray;
+            lblDangCaption.ForeColor = Theme.TextMuted;
             lblDangCaption.Location = new Point(0, 46);
             lblDangCaption.Name = "lblDangCaption";
             lblDangCaption.Size = new Size(444, 24);
@@ -156,7 +160,7 @@ namespace QLNhaHang.Controls.Bep
             // 
             lblDang.Dock = DockStyle.Top;
             lblDang.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblDang.ForeColor = Color.RoyalBlue;
+            lblDang.ForeColor = Theme.Blue;
             lblDang.Location = new Point(0, 0);
             lblDang.Name = "lblDang";
             lblDang.Size = new Size(444, 46);
@@ -166,7 +170,7 @@ namespace QLNhaHang.Controls.Bep
             // 
             // pnlXong
             // 
-            pnlXong.BackColor = Color.White;
+            pnlXong.BackColor = Theme.Surface;
             pnlXong.Controls.Add(lblXongCaption);
             pnlXong.Controls.Add(lblXong);
             pnlXong.Dock = DockStyle.Fill;
@@ -179,7 +183,7 @@ namespace QLNhaHang.Controls.Bep
             // lblXongCaption
             // 
             lblXongCaption.Dock = DockStyle.Fill;
-            lblXongCaption.ForeColor = Color.DimGray;
+            lblXongCaption.ForeColor = Theme.TextMuted;
             lblXongCaption.Location = new Point(0, 46);
             lblXongCaption.Name = "lblXongCaption";
             lblXongCaption.Size = new Size(444, 24);
@@ -191,7 +195,7 @@ namespace QLNhaHang.Controls.Bep
             // 
             lblXong.Dock = DockStyle.Top;
             lblXong.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblXong.ForeColor = Color.SeaGreen;
+            lblXong.ForeColor = Theme.Green;
             lblXong.Location = new Point(0, 0);
             lblXong.Name = "lblXong";
             lblXong.Size = new Size(444, 46);
@@ -202,7 +206,7 @@ namespace QLNhaHang.Controls.Bep
             // lblThongBao
             // 
             lblThongBao.Dock = DockStyle.Fill;
-            lblThongBao.ForeColor = Color.DimGray;
+            lblThongBao.ForeColor = Theme.TextMuted;
             lblThongBao.Location = new Point(11, 132);
             lblThongBao.Name = "lblThongBao";
             lblThongBao.Size = new Size(1356, 28);
@@ -212,7 +216,9 @@ namespace QLNhaHang.Controls.Bep
             // flpDon
             // 
             flpDon.AutoScroll = true;
-            flpDon.BackColor = Color.FromArgb(244, 246, 250);
+            flpDon.Padding = new Padding(0, 4, 0, 12);
+            flpDon.WrapContents = true;
+            flpDon.BackColor = Theme.Background;
             flpDon.Dock = DockStyle.Fill;
             flpDon.Location = new Point(11, 163);
             flpDon.Name = "flpDon";
@@ -227,10 +233,12 @@ namespace QLNhaHang.Controls.Bep
             // 
             // ucCheBien
             // 
-            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             Controls.Add(tblMain);
             Font = new Font("Segoe UI", 10F);
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "ucCheBien";
             Size = new Size(1378, 644);
             Load += ucCheBien_Load;

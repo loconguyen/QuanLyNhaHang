@@ -18,17 +18,17 @@ namespace QLNhaHang.Controls.ThuNgan
         static readonly CultureInfo Vi = new("vi-VN");
 
         // ===== Bảng màu =====
-        static readonly Color cBorder = Color.FromArgb(226, 232, 240);
-        static readonly Color cText = Color.FromArgb(15, 23, 42);
-        static readonly Color cMuted = Color.FromArgb(100, 116, 139);
-        static readonly Color cBlue = Color.FromArgb(37, 99, 235);
-        static readonly Color cGreen = Color.FromArgb(22, 163, 74);
-        static readonly Color cGreenSoft = Color.FromArgb(220, 247, 230);
-        static readonly Color cRed = Color.FromArgb(220, 38, 38);
-        static readonly Color cRedSoft = Color.FromArgb(254, 226, 226);
-        static readonly Color cAmber = Color.FromArgb(217, 119, 6);
-        static readonly Color cAmberSoft = Color.FromArgb(255, 240, 214);
-        static readonly Color cHeader = Color.FromArgb(243, 246, 250);
+        static readonly Color cBorder = Theme.Divider;
+        static readonly Color cText = Theme.BlueBold;
+        static readonly Color cMuted = Theme.TextMuted;
+        static readonly Color cBlue = Theme.Blue;
+        static readonly Color cGreen = Theme.Green;
+        static readonly Color cGreenSoft = Theme.GreenSoft;
+        static readonly Color cRed = Theme.Danger;
+        static readonly Color cRedSoft = Theme.DangerSoft;
+        static readonly Color cAmber = Theme.Orange;
+        static readonly Color cAmberSoft = Theme.OrangeSoft;
+        static readonly Color cHeader = Theme.Background;
 
         // ===== Trạng thái lưu trong DB =====
         const string TT_CHO = "Chưa thanh toán";
@@ -458,7 +458,7 @@ namespace QLNhaHang.Controls.ThuNgan
             lblGiamGia.ForeColor = choTT ? cBlue : cText;
             txtDua.Enabled = choTT && _pttt == PT_TIENMAT;
             btnXacNhan.Enabled = choTT;
-            btnXacNhan.BackColor = choTT ? cBlue : Color.FromArgb(148, 163, 184);
+            btnXacNhan.BackColor = choTT ? cBlue : Theme.TextMuted;
             btnIn.Enabled = _cur != null;
         }
 
@@ -469,8 +469,8 @@ namespace QLNhaHang.Controls.ThuNgan
             {
                 bool on = PtNames[i] == name;
                 var b = ptBtns[i];
-                b.BackColor = on ? cBlue : Color.White;
-                b.ForeColor = on ? Color.White : cText;
+                b.BackColor = on ? cBlue : Theme.Surface;
+                b.ForeColor = on ? Theme.Surface : cText;
                 b.FlatAppearance.BorderSize = on ? 0 : 1;
                 b.FlatAppearance.BorderColor = cBorder;
             }
@@ -719,9 +719,9 @@ namespace QLNhaHang.Controls.ThuNgan
             g.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             g.ColumnHeadersDefaultCellStyle.Padding = new Padding(8, 0, 8, 0);
             g.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;   // [SỬA] header không xuống dòng
-            g.DefaultCellStyle.BackColor = Color.White;
+            g.DefaultCellStyle.BackColor = Theme.Surface;
             g.DefaultCellStyle.ForeColor = cText;
-            g.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
+            g.DefaultCellStyle.SelectionBackColor = Theme.BlueSoft;
             g.DefaultCellStyle.SelectionForeColor = cText;
             g.DefaultCellStyle.Font = new Font("Segoe UI", 10.5F);
             g.DefaultCellStyle.Padding = new Padding(8, 0, 8, 0);

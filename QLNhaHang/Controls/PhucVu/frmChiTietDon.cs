@@ -147,9 +147,9 @@ namespace QLNhaHang.Controls.PhucVu
             if (e.RowIndex < 0 || e.RowIndex >= dgvMon.Rows.Count) return;
 
             string tt = Chuoi(dgvMon.Rows[e.RowIndex], "TrangThaiMon");
-            if (tt == "Hoàn thành") e.CellStyle.BackColor = Color.FromArgb(200, 230, 201);
-            else if (tt == "Chưa gửi bếp") e.CellStyle.BackColor = Color.FromArgb(255, 249, 196);
-            else if (tt == "Đã phục vụ") e.CellStyle.ForeColor = Color.Gray;
+            if (tt == "Hoàn thành") e.CellStyle.BackColor = Theme.GreenSoft;
+            else if (tt == "Chưa gửi bếp") e.CellStyle.BackColor = Theme.OrangeSoft;
+            else if (tt == "Đã phục vụ") e.CellStyle.ForeColor = Theme.TextMuted;
         }
 
         // ===== ĐÃ PHỤC VỤ: Hoàn thành -> Đã phục vụ (không đóng hộp thoại) =====

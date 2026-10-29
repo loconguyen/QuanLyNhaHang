@@ -1,4 +1,5 @@
-﻿namespace QLNhaHang.Forms.Main
+﻿using QLNhaHang.Classes;
+namespace QLNhaHang.Forms.Main
 {
     partial class MainForm
     {
@@ -36,7 +37,7 @@
             //
             // pnlHeader
             //
-            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.pnlHeader.BackColor = QLNhaHang.Classes.Theme.BlueBold;
             this.pnlHeader.Controls.Add(this.lblUser);
             this.pnlHeader.Controls.Add(this.lblScreen);
             this.pnlHeader.Controls.Add(this.lblTitle);
@@ -50,7 +51,7 @@
             //
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.lblTitle.Location = new System.Drawing.Point(15, 16);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Text = "Restaurant Management";
@@ -59,7 +60,7 @@
             //
             this.lblScreen.AutoSize = true;
             this.lblScreen.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.lblScreen.ForeColor = System.Drawing.Color.LightGray;
+            this.lblScreen.ForeColor = QLNhaHang.Classes.Theme.Border;
             this.lblScreen.Location = new System.Drawing.Point(320, 19);
             this.lblScreen.Name = "lblScreen";
             this.lblScreen.Text = "Màn hình";
@@ -68,14 +69,14 @@
             //
             this.lblUser.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             this.lblUser.AutoSize = true;
-            this.lblUser.ForeColor = System.Drawing.Color.White;
+            this.lblUser.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.lblUser.Location = new System.Drawing.Point(1060, 20);
             this.lblUser.Name = "lblUser";
             this.lblUser.Text = "Tên - Role";
             //
             // pnlSidebar
             //
-            this.pnlSidebar.BackColor = System.Drawing.Color.White;
+            this.pnlSidebar.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlSidebar.Controls.Add(this.btnDangXuat);
             this.pnlSidebar.Controls.Add(this.btnTaiKhoan);
             this.pnlSidebar.Controls.Add(this.btnHoaDon);
@@ -93,7 +94,7 @@
             //
             // btnTongQuan
             //
-            this.btnTongQuan.BackColor = System.Drawing.Color.White;
+            this.btnTongQuan.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnTongQuan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTongQuan.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnTongQuan.FlatAppearance.BorderSize = 0;
@@ -108,7 +109,7 @@
             //
             // btnCheBien
             //
-            this.btnCheBien.BackColor = System.Drawing.Color.White;
+            this.btnCheBien.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnCheBien.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCheBien.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnCheBien.FlatAppearance.BorderSize = 0;
@@ -123,7 +124,7 @@
             //
             // btnThucDon
             //
-            this.btnThucDon.BackColor = System.Drawing.Color.White;
+            this.btnThucDon.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnThucDon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThucDon.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnThucDon.FlatAppearance.BorderSize = 0;
@@ -138,7 +139,7 @@
             //
             // btnNguyenLieu
             //
-            this.btnNguyenLieu.BackColor = System.Drawing.Color.White;
+            this.btnNguyenLieu.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnNguyenLieu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNguyenLieu.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnNguyenLieu.FlatAppearance.BorderSize = 0;
@@ -153,7 +154,7 @@
             //
             // btnQuanLyBan
             //
-            this.btnQuanLyBan.BackColor = System.Drawing.Color.White;
+            this.btnQuanLyBan.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnQuanLyBan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnQuanLyBan.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnQuanLyBan.FlatAppearance.BorderSize = 0;
@@ -168,7 +169,7 @@
             //
             // btnTaoDon
             //
-            this.btnTaoDon.BackColor = System.Drawing.Color.White;
+            this.btnTaoDon.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnTaoDon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTaoDon.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnTaoDon.FlatAppearance.BorderSize = 0;
@@ -183,7 +184,7 @@
             //
             // btnHoaDon
             //
-            this.btnHoaDon.BackColor = System.Drawing.Color.White;
+            this.btnHoaDon.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnHoaDon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnHoaDon.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnHoaDon.FlatAppearance.BorderSize = 0;
@@ -198,7 +199,7 @@
             //
             // btnTaiKhoan
             //
-            this.btnTaiKhoan.BackColor = System.Drawing.Color.White;
+            this.btnTaiKhoan.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnTaiKhoan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTaiKhoan.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnTaiKhoan.FlatAppearance.BorderSize = 0;
@@ -213,12 +214,12 @@
             //
             // btnDangXuat (nằm đáy sidebar)
             //
-            this.btnDangXuat.BackColor = System.Drawing.Color.White;
+            this.btnDangXuat.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.btnDangXuat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDangXuat.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnDangXuat.FlatAppearance.BorderSize = 0;
             this.btnDangXuat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDangXuat.ForeColor = System.Drawing.Color.Firebrick;
+            this.btnDangXuat.ForeColor = QLNhaHang.Classes.Theme.Danger;
             this.btnDangXuat.Name = "btnDangXuat";
             this.btnDangXuat.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnDangXuat.Size = new System.Drawing.Size(200, 45);
@@ -229,7 +230,7 @@
             //
             // pnlContent
             //
-            this.pnlContent.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlContent.BackColor = QLNhaHang.Classes.Theme.Background;
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(200, 60);
             this.pnlContent.Name = "pnlContent";
@@ -238,7 +239,7 @@
             //
             // pnlFooter
             //
-            this.pnlFooter.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.pnlFooter.BackColor = QLNhaHang.Classes.Theme.BlueBold;
             this.pnlFooter.Controls.Add(this.lblFooter);
             this.pnlFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlFooter.Location = new System.Drawing.Point(0, 690);
@@ -249,7 +250,7 @@
             // lblFooter
             //
             this.lblFooter.AutoSize = true;
-            this.lblFooter.ForeColor = System.Drawing.Color.LightGray;
+            this.lblFooter.ForeColor = QLNhaHang.Classes.Theme.Border;
             this.lblFooter.Location = new System.Drawing.Point(15, 6);
             this.lblFooter.Name = "lblFooter";
             this.lblFooter.Text = "© 2026 Restaurant Management";

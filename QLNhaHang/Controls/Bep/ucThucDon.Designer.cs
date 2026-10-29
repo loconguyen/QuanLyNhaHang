@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using QLNhaHang.Classes;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace QLNhaHang.Controls.Bep
@@ -125,11 +126,11 @@ namespace QLNhaHang.Controls.Bep
             dgvThucDon.AllowUserToDeleteRows = false;
             dgvThucDon.AllowUserToResizeRows = false;
             dgvThucDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvThucDon.BackgroundColor = Color.White;
+            dgvThucDon.BackgroundColor = Theme.Surface;
             dgvThucDon.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(241, 245, 249);
+            dataGridViewCellStyle1.BackColor = Theme.Background;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(241, 245, 249);
+            dataGridViewCellStyle1.SelectionBackColor = Theme.Background;
             dgvThucDon.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvThucDon.ColumnHeadersHeight = 29;
             dgvThucDon.Columns.AddRange(new DataGridViewColumn[] { colTenMon, colTenDanhMuc, colDonGia, colDonViTinh, colMoTa, colTrangThaiMon });
@@ -137,8 +138,8 @@ namespace QLNhaHang.Controls.Bep
             dataGridViewCellStyle3.BackColor = SystemColors.Window;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(30, 41, 59);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = Theme.BlueBold;
+            dataGridViewCellStyle3.SelectionForeColor = Theme.Surface;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvThucDon.DefaultCellStyle = dataGridViewCellStyle3;
             dgvThucDon.Dock = DockStyle.Fill;
@@ -286,6 +287,8 @@ namespace QLNhaHang.Controls.Bep
             AutoScaleMode = AutoScaleMode.Dpi;
             Controls.Add(tblMain);
             Font = new Font("Segoe UI", 10F);
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "ucThucDon";
             Size = new Size(1378, 802);
             Load += ucThucDon_Load;

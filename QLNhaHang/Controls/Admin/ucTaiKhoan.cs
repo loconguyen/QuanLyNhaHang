@@ -1,4 +1,4 @@
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using QLNhaHang.Classes;
 using QLNhaHang.Forms.Main;
 using System.Data;
@@ -113,7 +113,7 @@ namespace QLNhaHang.Controls.Admin
             }
             finally { dangTai = false; }
             ChonDong();
-            lblThongBao.ForeColor = Color.FromArgb(100, 112, 130);
+            lblThongBao.ForeColor = Theme.TextMuted;
             lblThongBao.Text = ketQua.Rows.Count == 0
                 ? "Không có tài khoản phù hợp. Thử đổi bộ lọc hoặc từ khóa."
                 : $"Hiển thị {ketQua.Rows.Count}/{danhSach.Rows.Count} tài khoản. Chọn một dòng để xem và quản lý.";
@@ -148,8 +148,8 @@ namespace QLNhaHang.Controls.Admin
                 : "Mã nhân viên: " + dongDangChon["NhanVienID"] + " · " + dongDangChon["SDT"];
             lblTrangThai.Text = dongDangChon?["TrangThai"].ToString() ?? "—";
             lblTrangThai.ForeColor = lblTrangThai.Text switch {
-                "Hoạt động" => Color.FromArgb(20, 130, 75), "Chờ duyệt" => Color.FromArgb(170, 108, 20),
-                _ => Color.FromArgb(160, 65, 55) };
+                "Hoạt động" => Theme.Green, "Chờ duyệt" => Theme.OrangeText,
+                _ => Theme.Danger };
             if (dongDangChon != null && !dongDangChon.IsNull("RoleID")) cbVaiTro.SelectedValue = dongDangChon["RoleID"];
             else cbVaiTro.SelectedIndex = -1;
         }
@@ -202,7 +202,7 @@ namespace QLNhaHang.Controls.Admin
                 await TaiDanhSach(ma);
                 if (!IsDisposed && danhSach != null)
                 {
-                    lblThongBao.ForeColor = Color.FromArgb(20, 130, 75);
+                    lblThongBao.ForeColor = Theme.Green;
                     lblThongBao.Text = thongBao;
                 }
             }
@@ -224,7 +224,7 @@ namespace QLNhaHang.Controls.Admin
         {
             roleID = 0;
             if (cbVaiTro.SelectedValue is int id) { roleID = id; return true; }
-            lblThongBao.ForeColor = Color.FromArgb(170, 60, 30);
+            lblThongBao.ForeColor = Theme.Danger;
             lblThongBao.Text = "Vui lòng chọn vai trò cần cấp.";
             return false;
         }
@@ -346,7 +346,7 @@ namespace QLNhaHang.Controls.Admin
         }
         private void HienLoi(Exception ex)
         {
-            lblThongBao.ForeColor = Color.FromArgb(170, 60, 30);
+            lblThongBao.ForeColor = Theme.Danger;
             lblThongBao.Text = ex is SqlException sql && sql.Number < 50000
                 ? sql.Number is 2601 or 2627 ? "Tên đăng nhập, số điện thoại hoặc nhân viên đã được sử dụng. Hãy tải lại danh sách."
                 : sql.Number == 1205 ? "Có thao tác đồng thời. Hãy tải lại danh sách và thử lại."

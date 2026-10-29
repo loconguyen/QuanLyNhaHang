@@ -65,7 +65,7 @@ namespace QLNhaHang.Controls.Bep
 
         private void LamMoiMon(bool baoMonMoi)
         {
-            lblThongBao.ForeColor = Color.DimGray;
+            lblThongBao.ForeColor = Theme.TextMuted;
             DataTable dt;
             try
             {
@@ -84,7 +84,7 @@ namespace QLNhaHang.Controls.Bep
 
             if (baoMonMoi && _soChoTruoc >= 0 && cho > _soChoTruoc)
             {
-                lblThongBao.ForeColor = Color.Red;
+                lblThongBao.ForeColor = Theme.Danger;
                 lblThongBao.Text = "Có món mới gửi xuống bếp lúc " + DateTime.Now.ToString("HH:mm:ss");
             }
             _soChoTruoc = cho;

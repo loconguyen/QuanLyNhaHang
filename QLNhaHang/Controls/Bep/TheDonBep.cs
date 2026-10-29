@@ -35,19 +35,19 @@ namespace QLNhaHang.Controls.Bep
     // danh sách món (số lượng, ghi chú, trạng thái, nút thao tác) và nút thao tác cả đơn.
     internal class TheDonBep : Panel
     {
-        public const int Rong = 380;
+        public const int Rong = 420;
 
-        private static readonly Color NenCho = Color.FromArgb(255, 233, 220);
-        private static readonly Color NenDang = Color.FromArgb(220, 235, 255);
-        private static readonly Color NenXong = Color.FromArgb(221, 245, 227);
-        private static readonly Color ChuCho = Color.FromArgb(194, 65, 12);
-        private static readonly Color ChuDang = Color.FromArgb(29, 78, 216);
-        private static readonly Color ChuXong = Color.FromArgb(21, 128, 61);
-        private static readonly Color XanhDuong = Color.FromArgb(37, 99, 235);
-        private static readonly Color XanhLa = Color.FromArgb(22, 163, 74);
-        private static readonly Color MauGhiChu = Color.FromArgb(180, 83, 9);
-        private static readonly Color MauGoiThem = Color.FromArgb(124, 58, 237);   // tím: thẻ "gọi thêm"
-        private static readonly Color MauVien = Color.FromArgb(203, 213, 225);
+        private static readonly Color NenCho = Theme.OrangeSoft;
+        private static readonly Color NenDang = Theme.BlueSoft;
+        private static readonly Color NenXong = Theme.GreenSoft;
+        private static readonly Color ChuCho = Theme.OrangeText;
+        private static readonly Color ChuDang = Theme.Blue;
+        private static readonly Color ChuXong = Theme.Green;
+        private static readonly Color XanhDuong = Theme.Blue;
+        private static readonly Color XanhLa = Theme.Green;
+        private static readonly Color MauGhiChu = Theme.OrangeText;
+        private static readonly Color MauGoiThem = Theme.Purple;   // tím: thẻ "gọi thêm"
+        private static readonly Color MauVien = Theme.Border;
 
         private static readonly Font FBan = new Font("Segoe UI", 12.5F, FontStyle.Bold);
         private static readonly Font FNho = new Font("Segoe UI", 9F);
@@ -74,7 +74,7 @@ namespace QLNhaHang.Controls.Bep
             _donId = donId;
             _vien = lan > 1 ? MauGoiThem : MauVien;
             DoubleBuffered = true;
-            BackColor = Color.White;
+            BackColor = Theme.Surface;
             Margin = new Padding(8);
             Padding = new Padding(1);
 
@@ -116,7 +116,7 @@ namespace QLNhaHang.Controls.Bep
                 Size = new Size(rong, cao),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = nen,
-                ForeColor = Color.White,
+                ForeColor = Theme.Surface,
                 Font = FNut,
                 Cursor = Cursors.Hand,
                 UseVisualStyleBackColor = false
@@ -133,13 +133,15 @@ namespace QLNhaHang.Controls.Bep
             Color chu = dang > 0 ? ChuDang : cho > 0 ? ChuCho : ChuXong;
             string tt = dang > 0 ? "Đang chế biến" : cho > 0 ? "Chờ chế biến" : "Chờ phục vụ";
 
-            var p = new Panel { Size = new Size(Rong - 2, 58), Dock = DockStyle.Top, BackColor = nen };
+            var p = new Panel { Size = new Size(Rong - 2, 100), Dock = DockStyle.Top, BackColor = nen };
             if (goiThem) p.Controls.Add(new Panel { Dock = DockStyle.Top, Height = 4, BackColor = MauGoiThem });
             p.Controls.Add(new Label
             {
                 Text = "Bàn " + soBan + "  ·  " + maDon,
                 Font = FBan,
-                AutoSize = true,
+                AutoSize = false,
+                AutoEllipsis = true,
+                Size = new Size(Rong - 26, 30),
                 Location = new Point(12, 8)
             });
             p.Controls.Add(new Label
@@ -148,20 +150,20 @@ namespace QLNhaHang.Controls.Bep
                     ? "GỌI THÊM LẦN " + (lan - 1) + "  ·  lúc " + gui.ToString("HH:mm  dd/MM")
                     : "Gửi lúc " + gui.ToString("HH:mm  dd/MM"),
                 Font = goiThem ? FNhoDam : FNho,
-                ForeColor = goiThem ? MauGoiThem : Color.DimGray,
+                ForeColor = goiThem ? MauGoiThem : Theme.TextMuted,
                 AutoSize = true,
-                Location = new Point(13, 34)
+                Location = new Point(13, 40)
             });
             var pill = new Label
             {
                 Text = tt,
                 Font = FNhoDam,
                 ForeColor = chu,
-                BackColor = Color.White,
+                BackColor = Theme.Surface,
                 AutoSize = true,
                 Padding = new Padding(10, 3, 10, 3)
             };
-            pill.Location = new Point(Rong - 2 - pill.PreferredSize.Width - 12, 10);
+            pill.Location = new Point(12, 66);
             p.Controls.Add(pill);
             return p;
         }
@@ -180,7 +182,7 @@ namespace QLNhaHang.Controls.Bep
             Color chu = dang ? ChuDang : cho ? ChuCho : ChuXong;
 
             int xPhai = Rong - 2 - 92 - 12;
-            var p = new Panel { Size = new Size(Rong - 2, 62 + (coGc ? 20 : 0)), Dock = DockStyle.Top, BackColor = Color.White };
+            var p = new Panel { Size = new Size(Rong - 2, 86 + (coGc ? 30 : 0)), Dock = DockStyle.Top, BackColor = Theme.Surface };
             p.Controls.Add(new Panel { Dock = DockStyle.Left, Width = 5, BackColor = mau });
             p.Controls.Add(new Label
             {
@@ -188,9 +190,9 @@ namespace QLNhaHang.Controls.Bep
                 Font = FMon,
                 AutoEllipsis = true,
                 Location = new Point(14, 8),
-                Size = new Size(xPhai - 14 - 6, 24)
+                Size = new Size(xPhai - 14 - 10, 32)
             });
-            p.Controls.Add(new Label { Text = tt, Font = FNho, ForeColor = chu, AutoSize = true, Location = new Point(15, 34) });
+            p.Controls.Add(new Label { Text = tt, Font = FNho, ForeColor = chu, AutoSize = true, Location = new Point(15, 44) });
             if (coGc)
                 p.Controls.Add(new Label
                 {
@@ -198,13 +200,13 @@ namespace QLNhaHang.Controls.Bep
                     Font = FGhiChu,
                     ForeColor = MauGhiChu,
                     AutoEllipsis = true,
-                    Location = new Point(15, 56),
-                    Size = new Size(Rong - 2 - 15 - 12, 18)
+                    Location = new Point(15, 82),
+                    Size = new Size(Rong - 2 - 15 - 12, 26)
                 });
 
             if (coQuyen && (cho || dang))
             {
-                var btn = TaoNut(cho ? "Bắt đầu" : "Xong", cho ? XanhDuong : XanhLa, 92, 28);
+                var btn = TaoNut(cho ? "Bắt đầu" : "Xong", cho ? XanhDuong : XanhLa, 92, 34);
                 btn.Location = new Point(xPhai, 6);
                 bool batDau = cho;
                 btn.Click += (s, e) => { if (DoiMon != null) DoiMon(_donId, dongId, ten, batDau); };
@@ -214,14 +216,15 @@ namespace QLNhaHang.Controls.Bep
                 {
                     Text = "Ghi chú",
                     Size = new Size(92, 30),
-                    Location = new Point(xPhai, 36),
+                    Location = new Point(xPhai, 46),
                     FlatStyle = FlatStyle.Flat,
-                    ForeColor = Color.DimGray,
+                    ForeColor = Theme.TextMuted,
                     Font = FNutNho,
                     Cursor = Cursors.Hand,
-                    UseVisualStyleBackColor = true
+                    BackColor = Theme.Surface,
+                    UseVisualStyleBackColor = false
                 };
-                ghi.FlatAppearance.BorderColor = Color.FromArgb(203, 213, 225);
+                ghi.FlatAppearance.BorderColor = Theme.Border;
                 ghi.Click += (s, e) => { if (SuaGhiChu != null) SuaGhiChu(_donId, dongId, ten, gc); };
                 p.Controls.Add(ghi);
             }
@@ -239,7 +242,7 @@ namespace QLNhaHang.Controls.Bep
 
             p.Paint += (s, e) =>
             {
-                using (var pen = new Pen(Color.FromArgb(226, 232, 240)))
+                using (var pen = new Pen(Theme.Divider))
                     e.Graphics.DrawLine(pen, 14, p.Height - 1, p.Width - 12, p.Height - 1);
             };
             return p;
@@ -248,19 +251,19 @@ namespace QLNhaHang.Controls.Bep
         //Chân thẻ: thao tác cả thẻ (chỉ các món thuộc thẻ này)
         private Control TaoChan(List<int> idCho, List<int> idDang)
         {
-            var p = new Panel { Size = new Size(Rong - 2, 48), Dock = DockStyle.Top, BackColor = Color.FromArgb(248, 250, 252) };
+            var p = new Panel { Size = new Size(Rong - 2, 56), Dock = DockStyle.Top, BackColor = Theme.SurfaceMuted };
             int x = 12;
             if (idCho.Count > 0)
             {
-                var b = TaoNut("▶  Bắt đầu tất cả (" + idCho.Count + ")", XanhDuong, 172, 32);
+                var b = TaoNut("▶  Bắt đầu tất cả (" + idCho.Count + ")", XanhDuong, 190, 38);
                 b.Location = new Point(x, 8);
                 b.Click += (s, e) => { if (DoiTatCa != null) DoiTatCa(_donId, idCho, true); };
                 p.Controls.Add(b);
-                x += 180;
+                x += 198;
             }
             if (idDang.Count > 0)
             {
-                var b = TaoNut("✔  Hoàn thành tất cả (" + idDang.Count + ")", XanhLa, 178, 32);
+                var b = TaoNut("✔  Hoàn thành (" + idDang.Count + ")", XanhLa, 196, 38);
                 b.Location = new Point(x, 8);
                 b.Click += (s, e) => { if (DoiTatCa != null) DoiTatCa(_donId, idDang, false); };
                 p.Controls.Add(b);
@@ -306,7 +309,7 @@ namespace QLNhaHang.Controls.Bep
                 true);
 
             Dock = DockStyle.Top;
-            BackColor = Color.FromArgb(255, 247, 237);
+            BackColor = Theme.WarningBackground;
             Height = 0;
             Visible = false;
             Padding = new Padding(0);
@@ -415,22 +418,22 @@ namespace QLNhaHang.Controls.Bep
             switch (c.Loai)
             {
                 case CanhBaoBep.ChoLau:
-                    mau = Color.FromArgb(255, 0, 0);
+                    mau = Theme.Danger;
                     nhan = "CHỜ LÂU";
                     break;
 
                 case CanhBaoBep.NguyenLieuSapHet:
-                    mau = Color.FromArgb(180, 83, 9);
+                    mau = Theme.OrangeText;
                     nhan = "SẮP HẾT";
                     break;
 
                 case CanhBaoBep.NguyenLieuHetHan:
-                    mau = Color.FromArgb(126, 34, 206);
+                    mau = Theme.Purple;
                     nhan = "HẾT HẠN";
                     break;
 
                 default:
-                    mau = Color.Gray;
+                    mau = Theme.TextMuted;
                     nhan = "LƯU Ý";
                     break;
             }
@@ -449,7 +452,7 @@ namespace QLNhaHang.Controls.Bep
                 Location = new Point(12, 3),
                 Size = new Size(104, 22),
                 BackColor = mau,
-                ForeColor = Color.White,
+                ForeColor = Theme.Surface,
                 Font = FNhan,
                 TextAlign = ContentAlignment.MiddleCenter
             };
@@ -461,7 +464,7 @@ namespace QLNhaHang.Controls.Bep
                 Size = new Size(
                     Math.Max(50, dong.Width - 136), 24),
                 Font = FChu,
-                ForeColor = Color.FromArgb(51, 65, 85),
+                ForeColor = Theme.Black,
                 AutoEllipsis = true,
                 TextAlign = ContentAlignment.MiddleLeft
             };
@@ -475,7 +478,7 @@ namespace QLNhaHang.Controls.Bep
 
             dong.Paint += (s, e) =>
             {
-                using (var pen = new Pen(Color.FromArgb(253, 186, 116)))
+                using (var pen = new Pen(Theme.WarningBorder))
                 {
                     e.Graphics.DrawLine(
                         pen, 12, dong.Height - 1,

@@ -91,10 +91,10 @@ namespace QLNhaHang.Forms.Main
         private void Open(Button btn, string title, UserControl? uc = null)
         {
             if (btnActive != null)
-                btnActive.BackColor = Color.White;
+                btnActive.BackColor = Theme.Surface;
 
             btnActive = btn;
-            btnActive.BackColor = Color.FromArgb(220, 230, 245);
+            btnActive.BackColor = Theme.BlueSoft;
 
             lblScreen.Text = title;
             SetContent(uc ?? Placeholder(title));

@@ -1,3 +1,4 @@
+﻿using QLNhaHang.Classes;
 namespace QLNhaHang.Forms.TaiKhoan
 {
     partial class frmTaoTaiKhoan
@@ -36,7 +37,7 @@ namespace QLNhaHang.Forms.TaiKhoan
             lblMoTa.Text = "Dành cho nhân viên đã có hồ sơ và chưa có tài khoản.";
             lblMoTa.Location = new Point(30, 74);
             lblMoTa.Size = new Size(472, 42);
-            lblMoTa.ForeColor = Color.FromArgb(100, 112, 130);
+            lblMoTa.ForeColor = Theme.TextMuted;
             lblNhanVien.Name = "lblNhanVien";
             lblNhanVien.Text = "Nhân viên";
             lblNhanVien.Location = new Point(30, 124);
@@ -96,11 +97,11 @@ namespace QLNhaHang.Forms.TaiKhoan
             lblThongBao.Text = "Đang tải danh sách nhân viên…";
             lblThongBao.Location = new Point(30, 520);
             lblThongBao.Size = new Size(470, 62);
-            lblThongBao.ForeColor = Color.FromArgb(100, 112, 130);
+            lblThongBao.ForeColor = Theme.TextMuted;
             btnTao.Name = "btnTao";
             btnTao.Text = "Cấp tài khoản";
-            btnTao.BackColor = Color.FromArgb(23, 38, 62);
-            btnTao.ForeColor = Color.White;
+            btnTao.BackColor = Theme.BlueBold;
+            btnTao.ForeColor = Theme.Surface;
             btnTao.FlatStyle = FlatStyle.Flat;
             btnTao.FlatAppearance.BorderSize = 0;
             btnTao.Location = new Point(204, 598);
@@ -119,12 +120,14 @@ namespace QLNhaHang.Forms.TaiKhoan
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(530, 668);
-            BackColor = Color.FromArgb(248, 249, 251);
-            ForeColor = Color.FromArgb(23, 38, 62);
+            BackColor = Theme.Background;
+            ForeColor = Theme.BlueBold;
             Font = new Font("Segoe UI", 10F);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "frmTaoTaiKhoan";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Cấp tài khoản nhân viên";

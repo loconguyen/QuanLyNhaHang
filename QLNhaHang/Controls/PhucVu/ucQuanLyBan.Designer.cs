@@ -1,4 +1,5 @@
-﻿namespace QLNhaHang.Controls.PhucVu
+﻿using QLNhaHang.Classes;
+namespace QLNhaHang.Controls.PhucVu
 {
     partial class ucQuanLyBan
     {
@@ -26,7 +27,7 @@
             //
             // pnlTop
             //
-            this.pnlTop.BackColor = System.Drawing.Color.White;
+            this.pnlTop.BackColor = QLNhaHang.Classes.Theme.Surface;
             this.pnlTop.Controls.Add(this.lblTieuDe);
             this.pnlTop.Controls.Add(this.cboLoc);
             this.pnlTop.Controls.Add(this.btnLamMoi);
@@ -44,7 +45,7 @@
             //
             this.lblTieuDe.AutoSize = true;
             this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTieuDe.ForeColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.lblTieuDe.ForeColor = QLNhaHang.Classes.Theme.BlueBold;
             this.lblTieuDe.Location = new System.Drawing.Point(20, 10);
             this.lblTieuDe.Name = "lblTieuDe";
             this.lblTieuDe.Text = "Sơ đồ bàn";
@@ -64,11 +65,11 @@
             // btnLamMoi
             //
             this.btnLamMoi.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.btnLamMoi.BackColor = System.Drawing.Color.FromArgb(24, 38, 66);
+            this.btnLamMoi.BackColor = QLNhaHang.Classes.Theme.BlueBold;
             this.btnLamMoi.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLamMoi.FlatAppearance.BorderSize = 0;
             this.btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLamMoi.ForeColor = System.Drawing.Color.White;
+            this.btnLamMoi.ForeColor = QLNhaHang.Classes.Theme.Surface;
             this.btnLamMoi.Location = new System.Drawing.Point(960, 12);
             this.btnLamMoi.Name = "btnLamMoi";
             this.btnLamMoi.Size = new System.Drawing.Size(95, 30);
@@ -79,28 +80,28 @@
             //
             // Chú thích màu
             //
-            this.lblTrong.BackColor = System.Drawing.Color.FromArgb(200, 230, 201);
+            this.lblTrong.BackColor = QLNhaHang.Classes.Theme.GreenSoft;
             this.lblTrong.Location = new System.Drawing.Point(20, 46);
             this.lblTrong.Name = "lblTrong";
             this.lblTrong.Size = new System.Drawing.Size(110, 24);
             this.lblTrong.Text = "Trống";
             this.lblTrong.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-            this.lblDangPhucVu.BackColor = System.Drawing.Color.FromArgb(255, 224, 178);
+            this.lblDangPhucVu.BackColor = QLNhaHang.Classes.Theme.OrangeSoft;
             this.lblDangPhucVu.Location = new System.Drawing.Point(140, 46);
             this.lblDangPhucVu.Name = "lblDangPhucVu";
             this.lblDangPhucVu.Size = new System.Drawing.Size(110, 24);
             this.lblDangPhucVu.Text = "Đang phục vụ";
             this.lblDangPhucVu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-            this.lblChoDon.BackColor = System.Drawing.Color.FromArgb(255, 249, 196);
+            this.lblChoDon.BackColor = QLNhaHang.Classes.Theme.OrangeSoft;
             this.lblChoDon.Location = new System.Drawing.Point(260, 46);
             this.lblChoDon.Name = "lblChoDon";
             this.lblChoDon.Size = new System.Drawing.Size(110, 24);
             this.lblChoDon.Text = "Chờ dọn";
             this.lblChoDon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-            this.lblBaoTri.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            this.lblBaoTri.BackColor = QLNhaHang.Classes.Theme.Border;
             this.lblBaoTri.Location = new System.Drawing.Point(380, 46);
             this.lblBaoTri.Name = "lblBaoTri";
             this.lblBaoTri.Size = new System.Drawing.Size(110, 24);
@@ -110,7 +111,7 @@
             // flpBan (lưới bàn)
             //
             this.flpBan.AutoScroll = true;
-            this.flpBan.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.flpBan.BackColor = QLNhaHang.Classes.Theme.Background;
             this.flpBan.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpBan.Location = new System.Drawing.Point(0, 80);
             this.flpBan.Name = "flpBan";

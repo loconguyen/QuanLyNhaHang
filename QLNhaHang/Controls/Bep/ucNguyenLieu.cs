@@ -66,9 +66,9 @@ namespace QLNhaHang.Controls.Bep
                 bool sapHet = Dec(rv["SoLuongTon"]) <= Dec(rv["MucCanhBao"]);
                 bool sapHetHan = rv["HanSuDung"] != DBNull.Value && Convert.ToDateTime(rv["HanSuDung"]).Date <= DateTime.Today.AddDays(7);
                 if (sapHet)
-                    row.DefaultCellStyle.BackColor = Color.FromArgb(254, 226, 226);
+                    row.DefaultCellStyle.BackColor = Theme.DangerSoft;
                 else if (sapHetHan)
-                    row.DefaultCellStyle.BackColor = Color.FromArgb(255, 237, 213);
+                    row.DefaultCellStyle.BackColor = Theme.OrangeSoft;
             }
         }
 

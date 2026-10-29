@@ -1,4 +1,5 @@
-﻿namespace QLNhaHang.Controls.PhucVu
+﻿using QLNhaHang.Classes;
+namespace QLNhaHang.Controls.PhucVu
 {
     partial class frmChiTietDon
     {
@@ -40,18 +41,18 @@
             dgvMon.AllowUserToAddRows = false;
             dgvMon.AllowUserToDeleteRows = false;
             dgvMon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvMon.BackgroundColor = Color.White;
+            dgvMon.BackgroundColor = Theme.Surface;
             dgvMon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(24, 38, 66);
+            dataGridViewCellStyle1.BackColor = Theme.BlueBold;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(24, 38, 66);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.ForeColor = Theme.Surface;
+            dataGridViewCellStyle1.SelectionBackColor = Theme.BlueBold;
+            dataGridViewCellStyle1.SelectionForeColor = Theme.Surface;
             dgvMon.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvMon.ColumnHeadersHeight = 34;
             dgvMon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvMon.EnableHeadersVisualStyles = false;
-            dgvMon.GridColor = Color.FromArgb(207, 216, 220);
+            dgvMon.GridColor = Theme.Border;
             dgvMon.Location = new Point(17, 80);
             dgvMon.Margin = new Padding(3, 4, 3, 4);
             dgvMon.Name = "dgvMon";
@@ -68,7 +69,7 @@
             // 
             lblTong.AutoSize = true;
             lblTong.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblTong.ForeColor = Color.FromArgb(24, 38, 66);
+            lblTong.ForeColor = Theme.BlueBold;
             lblTong.Location = new Point(17, 496);
             lblTong.Name = "lblTong";
             lblTong.Size = new Size(215, 25);
@@ -77,11 +78,11 @@
             // 
             // btnThemMon
             // 
-            btnThemMon.BackColor = Color.FromArgb(21, 101, 192);
+            btnThemMon.BackColor = Theme.Blue;
             btnThemMon.Cursor = Cursors.Hand;
             btnThemMon.FlatAppearance.BorderSize = 0;
             btnThemMon.FlatStyle = FlatStyle.Flat;
-            btnThemMon.ForeColor = Color.White;
+            btnThemMon.ForeColor = Theme.Surface;
             btnThemMon.Location = new Point(27, 560);
             btnThemMon.Margin = new Padding(3, 4, 3, 4);
             btnThemMon.Name = "btnThemMon";
@@ -93,11 +94,11 @@
             // 
             // btnChuyenBan
             // 
-            btnChuyenBan.BackColor = Color.FromArgb(106, 27, 154);
+            btnChuyenBan.BackColor = Theme.Purple;
             btnChuyenBan.Cursor = Cursors.Hand;
             btnChuyenBan.FlatAppearance.BorderSize = 0;
             btnChuyenBan.FlatStyle = FlatStyle.Flat;
-            btnChuyenBan.ForeColor = Color.White;
+            btnChuyenBan.ForeColor = Theme.Surface;
             btnChuyenBan.Location = new Point(190, 560);
             btnChuyenBan.Margin = new Padding(3, 4, 3, 4);
             btnChuyenBan.Name = "btnChuyenBan";
@@ -109,11 +110,11 @@
             // 
             // btnDaPhucVu
             // 
-            btnDaPhucVu.BackColor = Color.FromArgb(46, 125, 50);
+            btnDaPhucVu.BackColor = Theme.Green;
             btnDaPhucVu.Cursor = Cursors.Hand;
             btnDaPhucVu.FlatAppearance.BorderSize = 0;
             btnDaPhucVu.FlatStyle = FlatStyle.Flat;
-            btnDaPhucVu.ForeColor = Color.White;
+            btnDaPhucVu.ForeColor = Theme.Surface;
             btnDaPhucVu.Location = new Point(355, 560);
             btnDaPhucVu.Margin = new Padding(3, 4, 3, 4);
             btnDaPhucVu.Name = "btnDaPhucVu";
@@ -125,11 +126,11 @@
             // 
             // btnDonBan
             // 
-            btnDonBan.BackColor = Color.FromArgb(0, 121, 107);
+            btnDonBan.BackColor = Theme.Teal;
             btnDonBan.Cursor = Cursors.Hand;
             btnDonBan.FlatAppearance.BorderSize = 0;
             btnDonBan.FlatStyle = FlatStyle.Flat;
-            btnDonBan.ForeColor = Color.White;
+            btnDonBan.ForeColor = Theme.Surface;
             btnDonBan.Location = new Point(530, 560);
             btnDonBan.Margin = new Padding(3, 4, 3, 4);
             btnDonBan.Name = "btnDonBan";
@@ -141,12 +142,12 @@
             // 
             // btnDong
             // 
-            btnDong.BackColor = Color.FromArgb(96, 125, 139);
+            btnDong.BackColor = Theme.TextMuted;
             btnDong.Cursor = Cursors.Hand;
             btnDong.DialogResult = DialogResult.Cancel;
             btnDong.FlatAppearance.BorderSize = 0;
             btnDong.FlatStyle = FlatStyle.Flat;
-            btnDong.ForeColor = Color.White;
+            btnDong.ForeColor = Theme.Surface;
             btnDong.Location = new Point(783, 560);
             btnDong.Margin = new Padding(3, 4, 3, 4);
             btnDong.Name = "btnDong";
@@ -178,6 +179,8 @@
             Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             MinimizeBox = false;
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "frmChiTietDon";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Chi tiết đơn";

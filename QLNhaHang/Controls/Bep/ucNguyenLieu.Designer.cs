@@ -1,4 +1,5 @@
-﻿namespace QLNhaHang.Controls.Bep
+﻿using QLNhaHang.Classes;
+namespace QLNhaHang.Controls.Bep
 {
     partial class ucNguyenLieu
     {
@@ -99,10 +100,10 @@
             dgvNL.AllowUserToDeleteRows = false;
             dgvNL.AllowUserToResizeRows = false;
             dgvNL.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvNL.BackgroundColor = Color.White;
+            dgvNL.BackgroundColor = Theme.Surface;
             dgvNL.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(241, 245, 249);
+            dataGridViewCellStyle4.BackColor = Theme.Background;
             dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
@@ -115,8 +116,8 @@
             dataGridViewCellStyle6.BackColor = SystemColors.Window;
             dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(30, 41, 59);
-            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = Theme.BlueBold;
+            dataGridViewCellStyle6.SelectionForeColor = Theme.Surface;
             dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
             dgvNL.DefaultCellStyle = dataGridViewCellStyle6;
             dgvNL.Dock = DockStyle.Fill;
@@ -192,10 +193,10 @@
             // 
             // lblChuThich
             // 
-            lblChuThich.BackColor = Color.White;
+            lblChuThich.BackColor = Theme.Surface;
             lblChuThich.Dock = DockStyle.Fill;
             lblChuThich.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblChuThich.ForeColor = Color.DimGray;
+            lblChuThich.ForeColor = Theme.TextMuted;
             lblChuThich.Location = new Point(3, 473);
             lblChuThich.Name = "lblChuThich";
             lblChuThich.Size = new Size(1074, 28);
@@ -255,10 +256,10 @@
             // 
             // btnLuuNL
             // 
-            btnLuuNL.BackColor = Color.SeaGreen;
+            btnLuuNL.BackColor = Theme.Green;
             btnLuuNL.Enabled = false;
             btnLuuNL.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            btnLuuNL.ForeColor = Color.White;
+            btnLuuNL.ForeColor = Theme.Surface;
             btnLuuNL.Location = new Point(891, 38);
             btnLuuNL.Name = "btnLuuNL";
             btnLuuNL.Size = new Size(105, 44);
@@ -332,7 +333,7 @@
             // 
             // txtTenNL
             // 
-            txtTenNL.BackColor = Color.White;
+            txtTenNL.BackColor = Theme.Surface;
             txtTenNL.BorderStyle = BorderStyle.None;
             txtTenNL.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
             txtTenNL.Location = new Point(164, 18);
@@ -358,6 +359,8 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tblMain);
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "ucNguyenLieu";
             Size = new Size(1080, 630);
             Load += ucNguyenLieu_Load;

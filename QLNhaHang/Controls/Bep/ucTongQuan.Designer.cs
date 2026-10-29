@@ -1,4 +1,5 @@
-﻿namespace QLNhaHang.Controls.Bep
+﻿using QLNhaHang.Classes;
+namespace QLNhaHang.Controls.Bep
 {
     partial class ucTongQuan
     {
@@ -114,7 +115,7 @@
             // lblCapNhat
             // 
             lblCapNhat.Dock = DockStyle.Fill;
-            lblCapNhat.ForeColor = Color.DimGray;
+            lblCapNhat.ForeColor = Theme.TextMuted;
             lblCapNhat.Location = new Point(692, 8);
             lblCapNhat.Name = "lblCapNhat";
             lblCapNhat.Size = new Size(675, 40);
@@ -143,7 +144,7 @@
             // 
             // pnlCho
             // 
-            pnlCho.BackColor = Color.White;
+            pnlCho.BackColor = Theme.Surface;
             pnlCho.Controls.Add(lblChoCaption);
             pnlCho.Controls.Add(lblCho);
             pnlCho.Dock = DockStyle.Fill;
@@ -156,7 +157,7 @@
             // lblChoCaption
             // 
             lblChoCaption.Dock = DockStyle.Fill;
-            lblChoCaption.ForeColor = Color.DimGray;
+            lblChoCaption.ForeColor = Theme.TextMuted;
             lblChoCaption.Location = new Point(0, 46);
             lblChoCaption.Name = "lblChoCaption";
             lblChoCaption.Size = new Size(331, 24);
@@ -168,7 +169,7 @@
             // 
             lblCho.Dock = DockStyle.Top;
             lblCho.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblCho.ForeColor = Color.OrangeRed;
+            lblCho.ForeColor = Theme.Orange;
             lblCho.Location = new Point(0, 0);
             lblCho.Name = "lblCho";
             lblCho.Size = new Size(331, 46);
@@ -178,7 +179,7 @@
             // 
             // pnlDang
             // 
-            pnlDang.BackColor = Color.White;
+            pnlDang.BackColor = Theme.Surface;
             pnlDang.Controls.Add(lblDangCaption);
             pnlDang.Controls.Add(lblDang);
             pnlDang.Dock = DockStyle.Fill;
@@ -191,7 +192,7 @@
             // lblDangCaption
             // 
             lblDangCaption.Dock = DockStyle.Fill;
-            lblDangCaption.ForeColor = Color.DimGray;
+            lblDangCaption.ForeColor = Theme.TextMuted;
             lblDangCaption.Location = new Point(0, 46);
             lblDangCaption.Name = "lblDangCaption";
             lblDangCaption.Size = new Size(331, 24);
@@ -203,7 +204,7 @@
             // 
             lblDang.Dock = DockStyle.Top;
             lblDang.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblDang.ForeColor = Color.RoyalBlue;
+            lblDang.ForeColor = Theme.Blue;
             lblDang.Location = new Point(0, 0);
             lblDang.Name = "lblDang";
             lblDang.Size = new Size(331, 46);
@@ -213,7 +214,7 @@
             // 
             // pnlXong
             // 
-            pnlXong.BackColor = Color.White;
+            pnlXong.BackColor = Theme.Surface;
             pnlXong.Controls.Add(lblXongCaption);
             pnlXong.Controls.Add(lblXong);
             pnlXong.Dock = DockStyle.Fill;
@@ -226,7 +227,7 @@
             // lblXongCaption
             // 
             lblXongCaption.Dock = DockStyle.Fill;
-            lblXongCaption.ForeColor = Color.DimGray;
+            lblXongCaption.ForeColor = Theme.TextMuted;
             lblXongCaption.Location = new Point(0, 46);
             lblXongCaption.Name = "lblXongCaption";
             lblXongCaption.Size = new Size(331, 24);
@@ -238,7 +239,7 @@
             // 
             lblXong.Dock = DockStyle.Top;
             lblXong.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblXong.ForeColor = Color.SeaGreen;
+            lblXong.ForeColor = Theme.Green;
             lblXong.Location = new Point(0, 0);
             lblXong.Name = "lblXong";
             lblXong.Size = new Size(331, 46);
@@ -248,7 +249,7 @@
             // 
             // pnlNguyenLieu
             // 
-            pnlNguyenLieu.BackColor = Color.White;
+            pnlNguyenLieu.BackColor = Theme.Surface;
             pnlNguyenLieu.Controls.Add(lblNguyenLieuCaption);
             pnlNguyenLieu.Controls.Add(lblNguyenLieu);
             pnlNguyenLieu.Dock = DockStyle.Fill;
@@ -261,7 +262,7 @@
             // lblNguyenLieuCaption
             // 
             lblNguyenLieuCaption.Dock = DockStyle.Fill;
-            lblNguyenLieuCaption.ForeColor = Color.DimGray;
+            lblNguyenLieuCaption.ForeColor = Theme.TextMuted;
             lblNguyenLieuCaption.Location = new Point(0, 46);
             lblNguyenLieuCaption.Name = "lblNguyenLieuCaption";
             lblNguyenLieuCaption.Size = new Size(331, 24);
@@ -273,7 +274,7 @@
             // 
             lblNguyenLieu.Dock = DockStyle.Top;
             lblNguyenLieu.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            lblNguyenLieu.ForeColor = Color.Firebrick;
+            lblNguyenLieu.ForeColor = Theme.Danger;
             lblNguyenLieu.Location = new Point(0, 0);
             lblNguyenLieu.Name = "lblNguyenLieu";
             lblNguyenLieu.Size = new Size(331, 46);
@@ -309,9 +310,9 @@
             dgvCho.AllowUserToDeleteRows = false;
             dgvCho.AllowUserToResizeRows = false;
             dgvCho.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvCho.BackgroundColor = Color.White;
+            dgvCho.BackgroundColor = Theme.Surface;
             dgvCho.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(241, 245, 249);
+            dataGridViewCellStyle1.BackColor = Theme.Background;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             dgvCho.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCho.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -320,8 +321,8 @@
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(30, 41, 59);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Theme.BlueBold;
+            dataGridViewCellStyle2.SelectionForeColor = Theme.Surface;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvCho.DefaultCellStyle = dataGridViewCellStyle2;
             dgvCho.Dock = DockStyle.Fill;
@@ -390,10 +391,10 @@
             dgvNL.AllowUserToDeleteRows = false;
             dgvNL.AllowUserToResizeRows = false;
             dgvNL.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvNL.BackgroundColor = Color.White;
+            dgvNL.BackgroundColor = Theme.Surface;
             dgvNL.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(241, 245, 249);
+            dataGridViewCellStyle3.BackColor = Theme.Background;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             dgvNL.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvNL.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -402,8 +403,8 @@
             dataGridViewCellStyle5.BackColor = SystemColors.Window;
             dataGridViewCellStyle5.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(30, 41, 59);
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = Theme.BlueBold;
+            dataGridViewCellStyle5.SelectionForeColor = Theme.Surface;
             dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
             dgvNL.DefaultCellStyle = dataGridViewCellStyle5;
             dgvNL.Dock = DockStyle.Fill;
@@ -488,6 +489,8 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             Controls.Add(tblMain);
             Font = new Font("Segoe UI", 10F);
+            BackColor = QLNhaHang.Classes.Theme.Background;
+            ForeColor = QLNhaHang.Classes.Theme.Black;
             Name = "ucTongQuan";
             Size = new Size(1378, 642);
             Load += ucTongQuan_Load;
