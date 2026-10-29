@@ -135,13 +135,13 @@ namespace QLNhaHang.Controls.Admin
             // 
             // btnThem
             // 
-            btnThem.BackColor = Theme.BlueBold;
+            btnThem.BackColor = Color.FromArgb(23, 38, 62);
             btnThem.Cursor = Cursors.Hand;
             btnThem.Dock = DockStyle.Fill;
             btnThem.FlatAppearance.BorderSize = 0;
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnThem.ForeColor = Theme.Surface;
+            btnThem.ForeColor = Color.FromArgb(255, 255, 255);
             btnThem.Location = new Point(1038, 8);
             btnThem.Margin = new Padding(0, 8, 0, 16);
             btnThem.Name = "btnThem";
@@ -175,7 +175,7 @@ namespace QLNhaHang.Controls.Admin
             // pnlTongSo
             // 
             pnlTongSo.AutoSize = true;
-            pnlTongSo.BackColor = Theme.Surface;
+            pnlTongSo.BackColor = Color.FromArgb(255, 255, 255);
             pnlTongSo.Controls.Add(lblTongSo);
             pnlTongSo.Controls.Add(lblNhanTongSo);
             pnlTongSo.Dock = DockStyle.Fill;
@@ -188,7 +188,7 @@ namespace QLNhaHang.Controls.Admin
             // lblTongSo
             // 
             lblTongSo.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblTongSo.ForeColor = Theme.BlueBold;
+            lblTongSo.ForeColor = Color.FromArgb(23, 38, 62);
             lblTongSo.Location = new Point(16, 0);
             lblTongSo.Name = "lblTongSo";
             lblTongSo.Size = new Size(210, 38);
@@ -197,7 +197,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // lblNhanTongSo
             // 
-            lblNhanTongSo.ForeColor = Theme.TextMuted;
+            lblNhanTongSo.ForeColor = Color.FromArgb(100, 116, 139);
             lblNhanTongSo.Location = new Point(18, 39);
             lblNhanTongSo.Name = "lblNhanTongSo";
             lblNhanTongSo.Size = new Size(210, 24);
@@ -206,7 +206,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // pnlChoDuyet
             // 
-            pnlChoDuyet.BackColor = Theme.Surface;
+            pnlChoDuyet.BackColor = Color.FromArgb(255, 255, 255);
             pnlChoDuyet.Controls.Add(lblChoDuyet);
             pnlChoDuyet.Controls.Add(lblNhanChoDuyet);
             pnlChoDuyet.Dock = DockStyle.Fill;
@@ -219,7 +219,7 @@ namespace QLNhaHang.Controls.Admin
             // lblChoDuyet
             // 
             lblChoDuyet.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblChoDuyet.ForeColor = Theme.OrangeText;
+            lblChoDuyet.ForeColor = Color.FromArgb(154, 65, 12);
             lblChoDuyet.Location = new Point(16, 0);
             lblChoDuyet.Name = "lblChoDuyet";
             lblChoDuyet.Size = new Size(210, 38);
@@ -228,7 +228,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // lblNhanChoDuyet
             // 
-            lblNhanChoDuyet.ForeColor = Theme.TextMuted;
+            lblNhanChoDuyet.ForeColor = Color.FromArgb(100, 116, 139);
             lblNhanChoDuyet.Location = new Point(18, 39);
             lblNhanChoDuyet.Name = "lblNhanChoDuyet";
             lblNhanChoDuyet.Size = new Size(210, 24);
@@ -237,7 +237,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // pnlHoatDong
             // 
-            pnlHoatDong.BackColor = Theme.Surface;
+            pnlHoatDong.BackColor = Color.FromArgb(255, 255, 255);
             pnlHoatDong.Controls.Add(lblHoatDong);
             pnlHoatDong.Controls.Add(lblNhanHoatDong);
             pnlHoatDong.Dock = DockStyle.Fill;
@@ -250,7 +250,7 @@ namespace QLNhaHang.Controls.Admin
             // lblHoatDong
             // 
             lblHoatDong.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblHoatDong.ForeColor = Theme.Green;
+            lblHoatDong.ForeColor = Color.FromArgb(21, 128, 61);
             lblHoatDong.Location = new Point(16, 0);
             lblHoatDong.Name = "lblHoatDong";
             lblHoatDong.Size = new Size(210, 38);
@@ -259,7 +259,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // lblNhanHoatDong
             // 
-            lblNhanHoatDong.ForeColor = Theme.TextMuted;
+            lblNhanHoatDong.ForeColor = Color.FromArgb(100, 116, 139);
             lblNhanHoatDong.Location = new Point(18, 39);
             lblNhanHoatDong.Name = "lblNhanHoatDong";
             lblNhanHoatDong.Size = new Size(210, 24);
@@ -268,7 +268,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // pnlBiKhoa
             // 
-            pnlBiKhoa.BackColor = Theme.Surface;
+            pnlBiKhoa.BackColor = Color.FromArgb(255, 255, 255);
             pnlBiKhoa.Controls.Add(lblBiKhoa);
             pnlBiKhoa.Controls.Add(lblNhanBiKhoa);
             pnlBiKhoa.Dock = DockStyle.Fill;
@@ -281,7 +281,7 @@ namespace QLNhaHang.Controls.Admin
             // lblBiKhoa
             // 
             lblBiKhoa.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblBiKhoa.ForeColor = Theme.Danger;
+            lblBiKhoa.ForeColor = Color.FromArgb(185, 48, 48);
             lblBiKhoa.Location = new Point(16, 0);
             lblBiKhoa.Name = "lblBiKhoa";
             lblBiKhoa.Size = new Size(210, 38);
@@ -290,7 +290,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // lblNhanBiKhoa
             // 
-            lblNhanBiKhoa.ForeColor = Theme.TextMuted;
+            lblNhanBiKhoa.ForeColor = Color.FromArgb(100, 116, 139);
             lblNhanBiKhoa.Location = new Point(18, 39);
             lblNhanBiKhoa.Name = "lblNhanBiKhoa";
             lblNhanBiKhoa.Size = new Size(210, 24);
@@ -385,16 +385,16 @@ namespace QLNhaHang.Controls.Admin
             // 
             dgvTaiKhoan.AllowUserToAddRows = false;
             dgvTaiKhoan.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Theme.SurfaceMuted;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 250, 252);
             dgvTaiKhoan.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvTaiKhoan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvTaiKhoan.BackgroundColor = Theme.Surface;
+            dgvTaiKhoan.BackgroundColor = Color.FromArgb(255, 255, 255);
             dgvTaiKhoan.BorderStyle = BorderStyle.None;
             dgvTaiKhoan.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Theme.BlueSoft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(232, 240, 254);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Theme.BlueBold;
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(23, 38, 62);
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
@@ -404,14 +404,14 @@ namespace QLNhaHang.Controls.Admin
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = SystemColors.Window;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Theme.BlueBold;
-            dataGridViewCellStyle3.SelectionBackColor = Theme.BlueSoft;
-            dataGridViewCellStyle3.SelectionForeColor = Theme.BlueBold;
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(16, 18, 15);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(232, 240, 254);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(23, 38, 62);
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvTaiKhoan.DefaultCellStyle = dataGridViewCellStyle3;
             dgvTaiKhoan.Dock = DockStyle.Fill;
             dgvTaiKhoan.EnableHeadersVisualStyles = false;
-            dgvTaiKhoan.GridColor = Theme.Divider;
+            dgvTaiKhoan.GridColor = Color.FromArgb(226, 232, 240);
             dgvTaiKhoan.Location = new Point(0, 0);
             dgvTaiKhoan.Margin = new Padding(0, 0, 16, 0);
             dgvTaiKhoan.MultiSelect = false;
@@ -440,7 +440,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // tabThongTin
             // 
-            tabThongTin.BackColor = Theme.Surface;
+            tabThongTin.BackColor = Color.FromArgb(255, 255, 255);
             tabThongTin.Controls.Add(pnlChiTiet);
             tabThongTin.Location = new Point(4, 37);
             tabThongTin.Name = "tabThongTin";
@@ -451,7 +451,7 @@ namespace QLNhaHang.Controls.Admin
             // pnlChiTiet
             // 
             pnlChiTiet.AutoScroll = true;
-            pnlChiTiet.BackColor = Theme.Surface;
+            pnlChiTiet.BackColor = Color.FromArgb(255, 255, 255);
             pnlChiTiet.Controls.Add(lblNhanChiTiet);
             pnlChiTiet.Controls.Add(lblNguoiDung);
             pnlChiTiet.Controls.Add(lblMaNhanVien);
@@ -496,7 +496,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // lblMaNhanVien
             // 
-            lblMaNhanVien.ForeColor = Theme.TextMuted;
+            lblMaNhanVien.ForeColor = Color.FromArgb(100, 116, 139);
             lblMaNhanVien.Location = new Point(12, 72);
             lblMaNhanVien.Margin = new Padding(0);
             lblMaNhanVien.Name = "lblMaNhanVien";
@@ -561,10 +561,10 @@ namespace QLNhaHang.Controls.Admin
             // 
             // btnDuyet
             // 
-            btnDuyet.BackColor = Theme.BlueBold;
+            btnDuyet.BackColor = Color.FromArgb(23, 38, 62);
             btnDuyet.FlatAppearance.BorderSize = 0;
             btnDuyet.FlatStyle = FlatStyle.Flat;
-            btnDuyet.ForeColor = Theme.Surface;
+            btnDuyet.ForeColor = Color.FromArgb(255, 255, 255);
             btnDuyet.Location = new Point(0, 0);
             btnDuyet.Margin = new Padding(0, 0, 8, 0);
             btnDuyet.Name = "btnDuyet";
@@ -606,7 +606,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // btnKhoa
             // 
-            btnKhoa.ForeColor = Theme.Danger;
+            btnKhoa.ForeColor = Color.FromArgb(185, 48, 48);
             btnKhoa.Location = new Point(140, 0);
             btnKhoa.Margin = new Padding(0);
             btnKhoa.Name = "btnKhoa";
@@ -617,7 +617,7 @@ namespace QLNhaHang.Controls.Admin
             // 
             // tabMatKhau
             // 
-            tabMatKhau.BackColor = Theme.Surface;
+            tabMatKhau.BackColor = Color.FromArgb(255, 255, 255);
             tabMatKhau.Controls.Add(pnlMatKhau);
             tabMatKhau.Location = new Point(4, 34);
             tabMatKhau.Name = "tabMatKhau";
@@ -628,7 +628,7 @@ namespace QLNhaHang.Controls.Admin
             // pnlMatKhau
             // 
             pnlMatKhau.AutoScroll = true;
-            pnlMatKhau.BackColor = Theme.Surface;
+            pnlMatKhau.BackColor = Color.FromArgb(255, 255, 255);
             pnlMatKhau.Controls.Add(lblNhanMatKhau);
             pnlMatKhau.Controls.Add(txtMatKhauMoi);
             pnlMatKhau.Controls.Add(txtXacNhanMatKhau);
@@ -698,7 +698,7 @@ namespace QLNhaHang.Controls.Admin
             // lblThongBao
             // 
             lblThongBao.Dock = DockStyle.Fill;
-            lblThongBao.ForeColor = Theme.TextMuted;
+            lblThongBao.ForeColor = Color.FromArgb(100, 116, 139);
             lblThongBao.Location = new Point(24, 788);
             lblThongBao.Margin = new Padding(0);
             lblThongBao.Name = "lblThongBao";
@@ -711,12 +711,10 @@ namespace QLNhaHang.Controls.Admin
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Theme.Background;
+            BackColor = Color.FromArgb(244, 247, 251);
             Controls.Add(pnlBoCuc);
             Font = new Font("Segoe UI", 10F);
-            ForeColor = Theme.BlueBold;
-            BackColor = QLNhaHang.Classes.Theme.Background;
-            ForeColor = QLNhaHang.Classes.Theme.Black;
+            ForeColor = Color.FromArgb(16, 18, 15);
             Name = "ucTaiKhoan";
             Size = new Size(1280, 850);
             Load += ucTaiKhoan_Load;

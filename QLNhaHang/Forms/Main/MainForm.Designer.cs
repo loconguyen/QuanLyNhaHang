@@ -13,28 +13,28 @@ namespace QLNhaHang.Forms.Main
 
         private void InitializeComponent()
         {
-            this.pnlHeader = new System.Windows.Forms.Panel();
-            this.lblUser = new System.Windows.Forms.Label();
-            this.lblScreen = new System.Windows.Forms.Label();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.pnlSidebar = new System.Windows.Forms.Panel();
-            this.btnDangXuat = new System.Windows.Forms.Button();
-            this.btnTaiKhoan = new System.Windows.Forms.Button();
-            this.btnHoaDon = new System.Windows.Forms.Button();
-            this.btnTaoDon = new System.Windows.Forms.Button();
-            this.btnQuanLyBan = new System.Windows.Forms.Button();
-            this.btnNguyenLieu = new System.Windows.Forms.Button();
-            this.btnThucDon = new System.Windows.Forms.Button();
-            this.btnCheBien = new System.Windows.Forms.Button();
-            this.btnTongQuan = new System.Windows.Forms.Button();
-            this.pnlContent = new System.Windows.Forms.Panel();
-            this.pnlFooter = new System.Windows.Forms.Panel();
-            this.lblFooter = new System.Windows.Forms.Label();
-            this.pnlHeader.SuspendLayout();
-            this.pnlSidebar.SuspendLayout();
-            this.pnlFooter.SuspendLayout();
-            this.SuspendLayout();
-            //
+            pnlHeader = new Panel();
+            lblUser = new Label();
+            lblScreen = new Label();
+            lblTitle = new Label();
+            pnlSidebar = new Panel();
+            btnDangXuat = new Button();
+            btnTaiKhoan = new Button();
+            btnHoaDon = new Button();
+            btnTaoDon = new Button();
+            btnQuanLyBan = new Button();
+            btnNguyenLieu = new Button();
+            btnThucDon = new Button();
+            btnCheBien = new Button();
+            btnTongQuan = new Button();
+            pnlContent = new Panel();
+            pnlFooter = new Panel();
+            lblFooter = new Label();
+            pnlHeader.SuspendLayout();
+            pnlSidebar.SuspendLayout();
+            pnlFooter.SuspendLayout();
+            SuspendLayout();
+            // 
             // pnlHeader
             //
             this.pnlHeader.BackColor = QLNhaHang.Classes.Theme.BlueBold;
@@ -264,8 +264,8 @@ namespace QLNhaHang.Forms.Main
             this.Controls.Add(this.pnlSidebar);
             this.Controls.Add(this.pnlFooter);
             this.Controls.Add(this.pnlHeader);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            this.MaximizeBox = true;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Restaurant Management";

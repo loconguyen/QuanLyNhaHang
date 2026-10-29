@@ -196,6 +196,28 @@ namespace QLNhaHang.Classes
                 " Where NguyenLieuID = " + id;
             return Dp.CapNhapDuLieu(sql) > 0;
         }
+        // Chỉ Admin được thêm nguyên liệu mới. False nếu đã có nguyên liệu cùng tên.
+        // TrangThai tự đặt theo số lượng tồn (khớp CHECK constraint CK_NL_TrangThai).
+        public static bool ThemNguyenLieu(string ten, string donViTinh, decimal soLuongTon, decimal mucCanhBao, DateTime? hanSuDung)
+        {
+            if (Session.Role != "ADMIN")
+                throw new UnauthorizedAccessException("Chỉ Admin được thêm nguyên liệu.");
+            ten = (ten ?? "").Trim();
+            donViTinh = (donViTinh ?? "").Trim();
+            if (ten.Length == 0 || donViTinh.Length == 0)
+                throw new ArgumentException("Tên và đơn vị tính không được để trống.");
+            if (soLuongTon < 0 || mucCanhBao < 0)
+                throw new ArgumentException("Số lượng tồn và mức cảnh báo không được âm.");
+
+            string trangThai = soLuongTon <= 0 ? "Hết hàng" : soLuongTon <= mucCanhBao ? "Sắp hết" : "Còn hàng";
+            string sql =
+                "If Not Exists (Select 1 From NGUYEN_LIEU Where TenNguyenLieu = " + Q(ten) + ") " +
+                "Insert Into NGUYEN_LIEU (TenNguyenLieu, DonViTinh, SoLuongTon, MucCanhBao, HanSuDung, TrangThai) Values (" +
+                Q(ten) + ", " + Q(donViTinh) + ", " + Num(soLuongTon) + ", " + Num(mucCanhBao) + ", " +
+                Ngay(hanSuDung) + ", " + Q(trangThai) + ")";
+            return Dp.CapNhapDuLieu(sql) > 0;
+        }
+        //Cảnh báo cho bếp
         public const int NguongPhut = 15;       // món chờ chế biến quá số phút này thì cảnh báo
         public const int NgayBaoHetHan = 7;     // nguyên liệu còn tối đa số ngày này là báo sắp hết hạn
 

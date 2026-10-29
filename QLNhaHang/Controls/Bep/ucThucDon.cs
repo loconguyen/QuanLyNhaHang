@@ -23,6 +23,7 @@ namespace QLNhaHang.Controls.Bep
         public ucThucDon()
         {
             InitializeComponent();
+            TaoNutQuanTri();
             dgvThucDon.AutoGenerateColumns = false;
             foreach (DataGridViewColumn c in dgvThucDon.Columns) c.SortMode = DataGridViewColumnSortMode.NotSortable;
             cboTrangThai.Items.AddRange(TrangThaiMonAn.TatCa);
@@ -37,6 +38,7 @@ namespace QLNhaHang.Controls.Bep
         {
             if (DangThietKe)
                 return;
+            CapNhatNutQuanTri();
             _daLoad = true;
             TaiAnToan();
         }
@@ -45,6 +47,7 @@ namespace QLNhaHang.Controls.Bep
         {
             if (DangThietKe)
                 return;
+            CapNhatNutQuanTri();
             if (_daLoad && Visible)
             {
                 TaiAnToan();
@@ -73,7 +76,7 @@ namespace QLNhaHang.Controls.Bep
                 if (rv == null) continue;
                 switch (Convert.ToString(rv["TrangThaiMon"]))
                 {
-                    case TrangThaiMonAn.TamHet: row.DefaultCellStyle.BackColor = Theme.Danger; break;
+                    case TrangThaiMonAn.TamHet: row.DefaultCellStyle.BackColor = Theme.DangerSoft; break;
                     case TrangThaiMonAn.NgungBan: row.DefaultCellStyle.BackColor = Theme.Divider; break;
                 }
             }
@@ -168,12 +171,14 @@ namespace QLNhaHang.Controls.Bep
                 txtTenMon.Text = "";
                 cboTrangThai.SelectedIndex = -1;
                 btnLuuTrangThai.Enabled = false;
+                CapNhatNutQuanTri();
                 return;
             }
             _monId = Convert.ToInt32(rv["MonID"]);
             txtTenMon.Text = Convert.ToString(rv["TenMon"]);
             cboTrangThai.SelectedItem = Convert.ToString(rv["TrangThaiMon"]);
             btnLuuTrangThai.Enabled = CoQuyen;
+            CapNhatNutQuanTri();
         }
     }
 }

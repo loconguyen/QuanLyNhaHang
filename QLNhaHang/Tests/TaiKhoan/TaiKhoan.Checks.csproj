@@ -8,15 +8,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
-    <Compile Include="..\..\Classes\QuanLyTaiKhoan.cs" Link="QuanLyTaiKhoan.cs" />
-    <Compile Include="..\..\Classes\DataProcesser.cs" Link="DataProcesser.cs" />
-    <Compile Include="..\..\Classes\BaoMatMatKhau.cs" Link="BaoMatMatKhau.cs" />
-    <Compile Include="..\..\Classes\Session.cs" Link="Session.cs" />
-    <Compile Include="..\..\Classes\Theme.cs" Link="Theme.cs" />
-    <Compile Include="..\..\Controls\Admin\ucTaiKhoan.cs" Link="ucTaiKhoan.cs" />
-    <Compile Include="..\..\Controls\Admin\ucTaiKhoan.BoCuc.cs" Link="ucTaiKhoan.BoCuc.cs" />
-    <Compile Include="..\..\Controls\Admin\ucTaiKhoan.Designer.cs" Link="ucTaiKhoan.Designer.cs" />
-    <Compile Include="..\..\Forms\TaiKhoan\frmTaoTaiKhoan.cs" Link="frmTaoTaiKhoan.cs" />
-    <Compile Include="..\..\Forms\TaiKhoan\frmTaoTaiKhoan.Designer.cs" Link="frmTaoTaiKhoan.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\QLNhaHang.csproj" />
   </ItemGroup>
 </Project>

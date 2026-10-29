@@ -34,7 +34,7 @@ namespace QLNhaHang.Forms.Main
             ApplyRole();
 
             // Mở màn hình đầu tiên mà role được phép
-            Button[] thuTu = { btnTongQuan, btnQuanLyBan, btnHoaDon, btnTaiKhoan };
+            Button[] thuTu = { btnTongQuan, btnCheBien, btnQuanLyBan, btnHoaDon, btnTaiKhoan };
             foreach (Button b in thuTu)
             {
                 if (b.Visible)
@@ -59,7 +59,8 @@ namespace QLNhaHang.Forms.Main
             string r = Session.Role ?? "";
             bool admin = r == "ADMIN";
 
-            btnTongQuan.Visible =
+            btnTongQuan.Visible = admin;
+
                 btnCheBien.Visible =
                 btnThucDon.Visible =
                 btnNguyenLieu.Visible =
@@ -142,7 +143,7 @@ namespace QLNhaHang.Forms.Main
 
         // ===== CÁC NÚT MENU =====
         // Màn nào đã làm xong thì thêm new ucXxx() vào Open(...)
-        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "Tổng quan", new ucTongQuan()); }
+        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "Tổng quan", new QLNhaHang.Controls.Admin.ucTongQuan()); }
         private void btnCheBien_Click(object sender, EventArgs e) { Open(btnCheBien, "Chế biến", new ucCheBien()); }
         private void btnThucDon_Click(object sender, EventArgs e) { Open(btnThucDon, "Thực đơn", new ucThucDon()); }
         private void btnNguyenLieu_Click(object sender, EventArgs e) { Open(btnNguyenLieu, "Nguyên liệu", new ucNguyenLieu()); }

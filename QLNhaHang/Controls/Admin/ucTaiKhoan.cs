@@ -259,15 +259,40 @@ namespace QLNhaHang.Controls.Admin
         }
         private async void btnTuChoi_Click(object? sender, EventArgs e)
         {
-            //if (!LayTaiKhoan(out int ma, out byte[] pb) || !XacNhan("Từ chối yêu cầu đăng ký đang chọn?")) return;
-            //await ThucHien(() => { xuLy.TuChoi(ma, pb); return "Đã từ chối yêu cầu đăng ký."; }, ma);
+            if (!LayTaiKhoan(out int ma)) return;
+            if (Convert.ToString(dongDangChon!["TrangThai"]) != "Chờ duyệt")
+            {
+                HienLoi(new InvalidOperationException("Chỉ được từ chối tài khoản đang chờ duyệt."));
+                return;
+            }
+            if (!XacNhan($"Từ chối yêu cầu đăng ký của '{dongDangChon["TenDangNhap"]}'?")) return;
+            await ThucHien(() =>
+            {
+                xuLy.TuChoi(ma);
+                return "Đã từ chối yêu cầu đăng ký.";
+            }, ma);
         }
         private async void btnLuu_Click(object? sender, EventArgs e)
         {
-            //if (!LayTaiKhoan(out int ma, out byte[] pb) || !LayVaiTro(out int role)) return;
-            //string ten = txtTenDangNhap.Text.Trim();
-            //if (!XacNhan($"Lưu tên đăng nhập '{ten}' và vai trò {cbVaiTro.Text}?")) return;
-            //await ThucHien(() => { xuLy.CapNhat(ma, pb, ten, role); return "Đã lưu tên đăng nhập và vai trò."; }, ma);
+            if (!LayTaiKhoan(out int ma) || !LayVaiTro(out int role)) return;
+            if (dongDangChon!.IsNull("NhanVienID"))
+            {
+                HienLoi(new InvalidOperationException("Chỉ sửa tài khoản đã được duyệt."));
+                return;
+            }
+            string ten = txtTenDangNhap.Text.Trim();
+            if (string.IsNullOrWhiteSpace(ten))
+            {
+                HienLoi(new ArgumentException("Vui lòng nhập tên đăng nhập."));
+                txtTenDangNhap.Focus();
+                return;
+            }
+            if (!XacNhan($"Lưu tên đăng nhập '{ten}' và vai trò {cbVaiTro.Text}?")) return;
+            await ThucHien(() =>
+            {
+                xuLy.CapNhat(ma, ten, role);
+                return "Đã lưu tên đăng nhập và vai trò.";
+            }, ma);
         }
         private async void btnKhoa_Click(object? sender, EventArgs e)
         {

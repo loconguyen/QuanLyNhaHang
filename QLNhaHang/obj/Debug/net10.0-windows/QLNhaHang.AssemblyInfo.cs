@@ -14,10 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QLNhaHang")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c10fcd80934410fc09632d0d38ffd9389e452f3e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7d4fff3cbfd5f37c123916a2a21faad63aaa0f6")]
 [assembly: System.Reflection.AssemblyProductAttribute("QLNhaHang")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QLNhaHang")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("TaiKhoan.Checks")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 
