@@ -13,133 +13,157 @@ namespace QLNhaHang.Controls.PhucVu
 
         private void InitializeComponent()
         {
-            this.pnlTop = new System.Windows.Forms.Panel();
-            this.lblTieuDe = new System.Windows.Forms.Label();
-            this.cboLoc = new System.Windows.Forms.ComboBox();
-            this.btnLamMoi = new System.Windows.Forms.Button();
-            this.lblTrong = new System.Windows.Forms.Label();
-            this.lblDangPhucVu = new System.Windows.Forms.Label();
-            this.lblChoDon = new System.Windows.Forms.Label();
-            this.lblBaoTri = new System.Windows.Forms.Label();
-            this.flpBan = new System.Windows.Forms.FlowLayoutPanel();
-            this.pnlTop.SuspendLayout();
-            this.SuspendLayout();
-            //
+            pnlTop = new Panel();
+            lblTieuDe = new Label();
+            cboLoc = new ComboBox();
+            btnLamMoi = new Button();
+            btnThemBan = new Button();
+            lblTrong = new Label();
+            lblDangPhucVu = new Label();
+            lblChoDon = new Label();
+            flpBan = new FlowLayoutPanel();
+            pnlTop.SuspendLayout();
+            SuspendLayout();
+            // 
             // pnlTop
-            //
-            this.pnlTop.BackColor = QLNhaHang.Classes.Theme.Surface;
-            this.pnlTop.Controls.Add(this.lblTieuDe);
-            this.pnlTop.Controls.Add(this.cboLoc);
-            this.pnlTop.Controls.Add(this.btnLamMoi);
-            this.pnlTop.Controls.Add(this.lblTrong);
-            this.pnlTop.Controls.Add(this.lblDangPhucVu);
-            this.pnlTop.Controls.Add(this.lblChoDon);
-            this.pnlTop.Controls.Add(this.lblBaoTri);
-            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTop.Location = new System.Drawing.Point(0, 0);
-            this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1080, 80);
-            this.pnlTop.TabIndex = 0;
-            //
+            // 
+            pnlTop.BackColor = Color.FromArgb(255, 255, 255);
+            pnlTop.Controls.Add(lblTieuDe);
+            pnlTop.Controls.Add(cboLoc);
+            pnlTop.Controls.Add(btnLamMoi);
+            pnlTop.Controls.Add(btnThemBan);
+            pnlTop.Controls.Add(lblTrong);
+            pnlTop.Controls.Add(lblDangPhucVu);
+            pnlTop.Controls.Add(lblChoDon);
+            pnlTop.Dock = DockStyle.Top;
+            pnlTop.Location = new Point(0, 0);
+            pnlTop.Margin = new Padding(3, 4, 3, 4);
+            pnlTop.Name = "pnlTop";
+            pnlTop.Size = new Size(1234, 107);
+            pnlTop.TabIndex = 0;
+            // 
             // lblTieuDe
-            //
-            this.lblTieuDe.AutoSize = true;
-            this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTieuDe.ForeColor = QLNhaHang.Classes.Theme.BlueBold;
-            this.lblTieuDe.Location = new System.Drawing.Point(20, 10);
-            this.lblTieuDe.Name = "lblTieuDe";
-            this.lblTieuDe.Text = "Sơ đồ bàn";
-            //
+            // 
+            lblTieuDe.AutoSize = true;
+            lblTieuDe.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTieuDe.ForeColor = Color.FromArgb(23, 38, 62);
+            lblTieuDe.Location = new Point(23, 13);
+            lblTieuDe.Name = "lblTieuDe";
+            lblTieuDe.Size = new Size(129, 32);
+            lblTieuDe.TabIndex = 0;
+            lblTieuDe.Text = "Sơ đồ bàn";
+            // 
             // cboLoc
-            //
-            this.cboLoc.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.cboLoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboLoc.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cboLoc.Items.AddRange(new object[] { "Tất cả", "Trống", "Đang phục vụ", "Chờ dọn", "Bảo trì" });
-            this.cboLoc.Location = new System.Drawing.Point(800, 14);
-            this.cboLoc.Name = "cboLoc";
-            this.cboLoc.Size = new System.Drawing.Size(150, 25);
-            this.cboLoc.TabIndex = 0;
-            this.cboLoc.SelectedIndexChanged += new System.EventHandler(this.cboLoc_SelectedIndexChanged);
-            //
+            // 
+            cboLoc.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cboLoc.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboLoc.Font = new Font("Segoe UI", 10F);
+            cboLoc.Items.AddRange(new object[] { "Tất cả", "Trống", "Đang phục vụ", "Chờ dọn" });
+            cboLoc.Location = new Point(914, 19);
+            cboLoc.Margin = new Padding(3, 4, 3, 4);
+            cboLoc.Name = "cboLoc";
+            cboLoc.Size = new Size(171, 31);
+            cboLoc.TabIndex = 0;
+            cboLoc.SelectedIndexChanged += cboLoc_SelectedIndexChanged;
+            // 
             // btnLamMoi
-            //
-            this.btnLamMoi.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            this.btnLamMoi.BackColor = QLNhaHang.Classes.Theme.BlueBold;
-            this.btnLamMoi.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLamMoi.FlatAppearance.BorderSize = 0;
-            this.btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLamMoi.ForeColor = QLNhaHang.Classes.Theme.Surface;
-            this.btnLamMoi.Location = new System.Drawing.Point(960, 12);
-            this.btnLamMoi.Name = "btnLamMoi";
-            this.btnLamMoi.Size = new System.Drawing.Size(95, 30);
-            this.btnLamMoi.TabIndex = 1;
-            this.btnLamMoi.Text = "Làm mới";
-            this.btnLamMoi.UseVisualStyleBackColor = false;
-            this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
-            //
-            // Chú thích màu
-            //
-            this.lblTrong.BackColor = QLNhaHang.Classes.Theme.GreenSoft;
-            this.lblTrong.Location = new System.Drawing.Point(20, 46);
-            this.lblTrong.Name = "lblTrong";
-            this.lblTrong.Size = new System.Drawing.Size(110, 24);
-            this.lblTrong.Text = "Trống";
-            this.lblTrong.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.lblDangPhucVu.BackColor = QLNhaHang.Classes.Theme.OrangeSoft;
-            this.lblDangPhucVu.Location = new System.Drawing.Point(140, 46);
-            this.lblDangPhucVu.Name = "lblDangPhucVu";
-            this.lblDangPhucVu.Size = new System.Drawing.Size(110, 24);
-            this.lblDangPhucVu.Text = "Đang phục vụ";
-            this.lblDangPhucVu.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.lblChoDon.BackColor = QLNhaHang.Classes.Theme.OrangeSoft;
-            this.lblChoDon.Location = new System.Drawing.Point(260, 46);
-            this.lblChoDon.Name = "lblChoDon";
-            this.lblChoDon.Size = new System.Drawing.Size(110, 24);
-            this.lblChoDon.Text = "Chờ dọn";
-            this.lblChoDon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.lblBaoTri.BackColor = QLNhaHang.Classes.Theme.Border;
-            this.lblBaoTri.Location = new System.Drawing.Point(380, 46);
-            this.lblBaoTri.Name = "lblBaoTri";
-            this.lblBaoTri.Size = new System.Drawing.Size(110, 24);
-            this.lblBaoTri.Text = "Bảo trì";
-            this.lblBaoTri.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            //
-            // flpBan (lưới bàn)
-            //
-            this.flpBan.AutoScroll = true;
-            this.flpBan.BackColor = QLNhaHang.Classes.Theme.Background;
-            this.flpBan.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpBan.Location = new System.Drawing.Point(0, 80);
-            this.flpBan.Name = "flpBan";
-            this.flpBan.Padding = new System.Windows.Forms.Padding(15);
-            this.flpBan.Size = new System.Drawing.Size(1080, 550);
-            this.flpBan.TabIndex = 1;
-            //
-            // ucQuanLyBan (thứ tự add: Fill -> Top)
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.flpBan);
-            this.Controls.Add(this.pnlTop);
-            this.Name = "ucQuanLyBan";
-            this.Size = new System.Drawing.Size(1080, 630);
-            this.pnlTop.ResumeLayout(false);
-            this.pnlTop.PerformLayout();
-            this.ResumeLayout(false);
+            // 
+            btnLamMoi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnLamMoi.BackColor = Color.FromArgb(23, 38, 62);
+            btnLamMoi.Cursor = Cursors.Hand;
+            btnLamMoi.FlatAppearance.BorderSize = 0;
+            btnLamMoi.FlatStyle = FlatStyle.Flat;
+            btnLamMoi.ForeColor = Color.FromArgb(255, 255, 255);
+            btnLamMoi.Location = new Point(1097, 16);
+            btnLamMoi.Margin = new Padding(3, 4, 3, 4);
+            btnLamMoi.Name = "btnLamMoi";
+            btnLamMoi.Size = new Size(109, 40);
+            btnLamMoi.TabIndex = 1;
+            btnLamMoi.Text = "Làm mới";
+            btnLamMoi.UseVisualStyleBackColor = false;
+            btnLamMoi.Click += btnLamMoi_Click;
+            // 
+            // btnThemBan
+            // 
+            btnThemBan.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnThemBan.BackColor = Color.FromArgb(21, 128, 61);
+            btnThemBan.Cursor = Cursors.Hand;
+            btnThemBan.FlatAppearance.BorderSize = 0;
+            btnThemBan.FlatStyle = FlatStyle.Flat;
+            btnThemBan.ForeColor = Color.FromArgb(255, 255, 255);
+            btnThemBan.Location = new Point(743, 16);
+            btnThemBan.Margin = new Padding(3, 4, 3, 4);
+            btnThemBan.Name = "btnThemBan";
+            btnThemBan.Size = new Size(149, 40);
+            btnThemBan.TabIndex = 2;
+            btnThemBan.Text = "+ Thêm bàn";
+            btnThemBan.UseVisualStyleBackColor = false;
+            btnThemBan.Click += btnThemBan_Click;
+            // 
+            // lblTrong
+            // 
+            lblTrong.BackColor = Color.FromArgb(221, 245, 227);
+            lblTrong.Location = new Point(23, 61);
+            lblTrong.Name = "lblTrong";
+            lblTrong.Size = new Size(126, 32);
+            lblTrong.TabIndex = 3;
+            lblTrong.Text = "Trống";
+            lblTrong.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblDangPhucVu
+            // 
+            lblDangPhucVu.BackColor = Color.FromArgb(255, 237, 213);
+            lblDangPhucVu.Location = new Point(160, 61);
+            lblDangPhucVu.Name = "lblDangPhucVu";
+            lblDangPhucVu.Size = new Size(126, 32);
+            lblDangPhucVu.TabIndex = 4;
+            lblDangPhucVu.Text = "Đang phục vụ";
+            lblDangPhucVu.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblChoDon
+            // 
+            lblChoDon.BackColor = Color.FromArgb(254, 249, 195);
+            lblChoDon.Location = new Point(297, 61);
+            lblChoDon.Name = "lblChoDon";
+            lblChoDon.Size = new Size(126, 32);
+            lblChoDon.TabIndex = 5;
+            lblChoDon.Text = "Chờ dọn";
+            lblChoDon.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // flpBan
+            // 
+            flpBan.AutoScroll = true;
+            flpBan.BackColor = Color.FromArgb(244, 247, 251);
+            flpBan.Dock = DockStyle.Fill;
+            flpBan.Location = new Point(0, 107);
+            flpBan.Margin = new Padding(3, 4, 3, 4);
+            flpBan.Name = "flpBan";
+            flpBan.Padding = new Padding(17, 20, 17, 20);
+            flpBan.Size = new Size(1234, 733);
+            flpBan.TabIndex = 1;
+            // 
+            // ucQuanLyBan
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(flpBan);
+            Controls.Add(pnlTop);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "ucQuanLyBan";
+            Size = new Size(1234, 840);
+            pnlTop.ResumeLayout(false);
+            pnlTop.PerformLayout();
+            ResumeLayout(false);
         }
 
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.Label lblTieuDe;
         private System.Windows.Forms.ComboBox cboLoc;
         private System.Windows.Forms.Button btnLamMoi;
+        private System.Windows.Forms.Button btnThemBan;
         private System.Windows.Forms.Label lblTrong;
         private System.Windows.Forms.Label lblDangPhucVu;
         private System.Windows.Forms.Label lblChoDon;
-        private System.Windows.Forms.Label lblBaoTri;
         private System.Windows.Forms.FlowLayoutPanel flpBan;
     }
 }

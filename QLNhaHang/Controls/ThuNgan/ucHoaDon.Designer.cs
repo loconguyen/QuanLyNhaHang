@@ -63,9 +63,10 @@ namespace QLNhaHang.Controls.ThuNgan
             lblCap_lblTienMon = new Label();
             lblTienMon = new Label();
             lblCap_lblGiamGia = new Label();
-            lblGiamGia = new Label();
-            lblCap_lblPhuThu = new Label();
-            lblPhuThu = new Label();
+            lblDongGiam = new Label();
+            cboLoaiGiam = new ComboBox();
+            txtGiam = new TextBox();
+            pnlGiamBox = new Panel();
             lblCanCap = new Label();
             lblCan = new Label();
             pnlCan = new Panel();
@@ -108,6 +109,7 @@ namespace QLNhaHang.Controls.ThuNgan
             ((System.ComponentModel.ISupportInitialize)dgvHD).BeginInit();
             pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMon).BeginInit();
+            pnlGiamBox.SuspendLayout();
             pnlCan.SuspendLayout();
             tlpTong.SuspendLayout();
             tlpPT.SuspendLayout();
@@ -715,49 +717,69 @@ namespace QLNhaHang.Controls.ThuNgan
             lblCap_lblGiamGia.ForeColor = Color.FromArgb(35, 52, 73);
             lblCap_lblGiamGia.Location = new Point(3, 26);
             lblCap_lblGiamGia.Name = "lblCap_lblGiamGia";
-            lblCap_lblGiamGia.Size = new Size(262, 26);
+            lblCap_lblGiamGia.Size = new Size(262, 34);
             lblCap_lblGiamGia.TabIndex = 2;
             lblCap_lblGiamGia.Text = "Giảm giá";
             lblCap_lblGiamGia.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // lblGiamGia
+            // cboLoaiGiam
             // 
-            lblGiamGia.Dock = DockStyle.Fill;
-            lblGiamGia.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            lblGiamGia.ForeColor = Color.FromArgb(15, 23, 42);
-            lblGiamGia.Location = new Point(271, 26);
-            lblGiamGia.Name = "lblGiamGia";
-            lblGiamGia.Padding = new Padding(0, 0, 6, 0);
-            lblGiamGia.Size = new Size(262, 26);
-            lblGiamGia.TabIndex = 3;
-            lblGiamGia.Text = "0 đ";
-            lblGiamGia.TextAlign = ContentAlignment.MiddleRight;
-            lblGiamGia.Click += lblGiamGia_Click;
+            cboLoaiGiam.BackColor = Color.FromArgb(255, 255, 255);
+            cboLoaiGiam.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboLoaiGiam.FlatStyle = FlatStyle.Flat;
+            cboLoaiGiam.Font = new Font("Segoe UI", 9F);
+            cboLoaiGiam.Items.AddRange(new object[] { "Tiền", "%" });
+            cboLoaiGiam.Location = new Point(5, 3);
+            cboLoaiGiam.Name = "cboLoaiGiam";
+            cboLoaiGiam.Size = new Size(72, 24);
+            cboLoaiGiam.TabIndex = 2;
+            cboLoaiGiam.SelectedIndexChanged += cboLoaiGiam_SelectedIndexChanged;
             // 
-            // lblCap_lblPhuThu
+            // lblDongGiam
             // 
-            lblCap_lblPhuThu.Dock = DockStyle.Fill;
-            lblCap_lblPhuThu.Font = new Font("Segoe UI", 10.5F);
-            lblCap_lblPhuThu.ForeColor = Color.FromArgb(35, 52, 73);
-            lblCap_lblPhuThu.Location = new Point(3, 52);
-            lblCap_lblPhuThu.Name = "lblCap_lblPhuThu";
-            lblCap_lblPhuThu.Size = new Size(262, 26);
-            lblCap_lblPhuThu.TabIndex = 4;
-            lblCap_lblPhuThu.Text = "Phụ thu";
-            lblCap_lblPhuThu.TextAlign = ContentAlignment.MiddleLeft;
+            lblDongGiam.BackColor = Color.FromArgb(255, 255, 255);
+            lblDongGiam.Dock = DockStyle.Right;
+            lblDongGiam.Font = new Font("Segoe UI", 10.5F);
+            lblDongGiam.ForeColor = Color.FromArgb(100, 116, 139);
+            lblDongGiam.Location = new Point(226, 3);
+            lblDongGiam.Name = "lblDongGiam";
+            lblDongGiam.Size = new Size(28, 24);
+            lblDongGiam.TabIndex = 1;
+            lblDongGiam.Text = "đ";
+            lblDongGiam.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // lblPhuThu
+            // txtGiam
             // 
-            lblPhuThu.Dock = DockStyle.Fill;
-            lblPhuThu.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            lblPhuThu.ForeColor = Color.FromArgb(15, 23, 42);
-            lblPhuThu.Location = new Point(271, 52);
-            lblPhuThu.Name = "lblPhuThu";
-            lblPhuThu.Padding = new Padding(0, 0, 6, 0);
-            lblPhuThu.Size = new Size(262, 26);
-            lblPhuThu.TabIndex = 5;
-            lblPhuThu.Text = "0 đ";
-            lblPhuThu.TextAlign = ContentAlignment.MiddleRight;
+            txtGiam.BackColor = Color.FromArgb(255, 255, 255);
+            txtGiam.BorderStyle = BorderStyle.None;
+            txtGiam.Dock = DockStyle.None;
+            txtGiam.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtGiam.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            txtGiam.ForeColor = Color.FromArgb(15, 23, 42);
+            txtGiam.Location = new Point(82, 3);
+            txtGiam.MaxLength = 15;
+            txtGiam.Name = "txtGiam";
+            txtGiam.Size = new Size(140, 24);
+            txtGiam.TabIndex = 0;
+            txtGiam.TextAlign = HorizontalAlignment.Right;
+            txtGiam.TextChanged += txtGiam_TextChanged;
+            txtGiam.KeyDown += txtGiam_KeyDown;
+            txtGiam.Leave += txtGiam_Leave;
+            // 
+            // pnlGiamBox
+            // 
+            pnlGiamBox.BackColor = Color.FromArgb(255, 255, 255);
+            pnlGiamBox.BorderStyle = BorderStyle.FixedSingle;
+            pnlGiamBox.Controls.Add(txtGiam);
+            pnlGiamBox.Controls.Add(lblDongGiam);
+            pnlGiamBox.Controls.Add(cboLoaiGiam);
+            pnlGiamBox.Dock = DockStyle.Fill;
+            pnlGiamBox.Location = new Point(271, 28);
+            pnlGiamBox.Margin = new Padding(40, 2, 0, 2);
+            pnlGiamBox.Name = "pnlGiamBox";
+            pnlGiamBox.Padding = new Padding(0);
+            pnlGiamBox.Size = new Size(262, 30);
+            pnlGiamBox.TabIndex = 3;
             // 
             // lblCanCap
             // 
@@ -791,11 +813,11 @@ namespace QLNhaHang.Controls.ThuNgan
             pnlCan.Controls.Add(lblCan);
             pnlCan.Controls.Add(lblCanCap);
             pnlCan.Dock = DockStyle.Fill;
-            pnlCan.Location = new Point(0, 84);
+            pnlCan.Location = new Point(0, 66);
             pnlCan.Margin = new Padding(0, 6, 0, 0);
             pnlCan.Name = "pnlCan";
             pnlCan.Size = new Size(536, 36);
-            pnlCan.TabIndex = 6;
+            pnlCan.TabIndex = 4;
             // 
             // tlpTong
             // 
@@ -806,19 +828,16 @@ namespace QLNhaHang.Controls.ThuNgan
             tlpTong.Controls.Add(lblCap_lblTienMon, 0, 0);
             tlpTong.Controls.Add(lblTienMon, 1, 0);
             tlpTong.Controls.Add(lblCap_lblGiamGia, 0, 1);
-            tlpTong.Controls.Add(lblGiamGia, 1, 1);
-            tlpTong.Controls.Add(lblCap_lblPhuThu, 0, 2);
-            tlpTong.Controls.Add(lblPhuThu, 1, 2);
-            tlpTong.Controls.Add(pnlCan, 0, 3);
+            tlpTong.Controls.Add(pnlGiamBox, 1, 1);
+            tlpTong.Controls.Add(pnlCan, 0, 2);
             tlpTong.Dock = DockStyle.Fill;
             tlpTong.Location = new Point(3, 307);
             tlpTong.Name = "tlpTong";
-            tlpTong.RowCount = 4;
+            tlpTong.RowCount = 3;
             tlpTong.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
-            tlpTong.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
-            tlpTong.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            tlpTong.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));
             tlpTong.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpTong.Size = new Size(536, 120);
+            tlpTong.Size = new Size(536, 102);
             tlpTong.TabIndex = 2;
             // 
             // lblPT
@@ -908,7 +927,7 @@ namespace QLNhaHang.Controls.ThuNgan
             pnlPT.Controls.Add(tlpPT);
             pnlPT.Controls.Add(lblPT);
             pnlPT.Dock = DockStyle.Fill;
-            pnlPT.Location = new Point(3, 433);
+            pnlPT.Location = new Point(3, 415);
             pnlPT.Name = "pnlPT";
             pnlPT.Size = new Size(536, 62);
             pnlPT.TabIndex = 3;
@@ -1049,7 +1068,7 @@ namespace QLNhaHang.Controls.ThuNgan
             tlpTien.Controls.Add(pnlDua, 0, 0);
             tlpTien.Controls.Add(pnlThua, 1, 0);
             tlpTien.Dock = DockStyle.Fill;
-            tlpTien.Location = new Point(3, 501);
+            tlpTien.Location = new Point(3, 483);
             tlpTien.Name = "tlpTien";
             tlpTien.RowCount = 1;
             tlpTien.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -1101,7 +1120,7 @@ namespace QLNhaHang.Controls.ThuNgan
             tlpNut.Controls.Add(btnIn, 0, 0);
             tlpNut.Controls.Add(btnXacNhan, 1, 0);
             tlpNut.Dock = DockStyle.Fill;
-            tlpNut.Location = new Point(3, 569);
+            tlpNut.Location = new Point(3, 551);
             tlpNut.Name = "tlpNut";
             tlpNut.RowCount = 1;
             tlpNut.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -1125,7 +1144,7 @@ namespace QLNhaHang.Controls.ThuNgan
             tlpPhai.RowCount = 6;
             tlpPhai.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpPhai.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpPhai.RowStyles.Add(new RowStyle(SizeType.Absolute, 126F));
+            tlpPhai.RowStyles.Add(new RowStyle(SizeType.Absolute, 108F));
             tlpPhai.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
             tlpPhai.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
             tlpPhai.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
@@ -1203,6 +1222,8 @@ namespace QLNhaHang.Controls.ThuNgan
             ((System.ComponentModel.ISupportInitialize)dgvHD).EndInit();
             pnlLeft.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvMon).EndInit();
+            pnlGiamBox.ResumeLayout(false);
+            pnlGiamBox.PerformLayout();
             pnlCan.ResumeLayout(false);
             pnlCan.PerformLayout();
             tlpTong.ResumeLayout(false);
@@ -1269,9 +1290,10 @@ namespace QLNhaHang.Controls.ThuNgan
         private Label lblCap_lblTienMon;
         private Label lblTienMon;
         private Label lblCap_lblGiamGia;
-        private Label lblGiamGia;
-        private Label lblCap_lblPhuThu;
-        private Label lblPhuThu;
+        private Label lblDongGiam;
+        private ComboBox cboLoaiGiam;
+        private TextBox txtGiam;
+        private Panel pnlGiamBox;
         private Label lblCanCap;
         private Label lblCan;
         private Panel pnlCan;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿
+using Microsoft.Data.SqlClient;
 using QLNhaHang.Classes;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,9 @@ namespace QLNhaHang.Controls.PhucVu
         public ucQuanLyBan()
         {
             InitializeComponent();
+
+            // Chỉ Admin được thêm bàn mới
+            btnThemBan.Visible = Session.Role == "ADMIN";
 
             // Không chạy truy vấn khi đang mở trong Designer
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
@@ -157,8 +161,8 @@ namespace QLNhaHang.Controls.PhucVu
             {
                 case "Trống": return Theme.GreenSoft;
                 case "Đang phục vụ": return Theme.OrangeSoft;
-                case "Chờ dọn": return Theme.OrangeSoft;
-                default: return Theme.Border;   // Bảo trì
+                case "Chờ dọn": return Theme.YellowSoft;
+                default: return Theme.Border;
             }
         }
 
@@ -218,7 +222,7 @@ namespace QLNhaHang.Controls.PhucVu
                         break;
 
                     default:
-                        MessageBox.Show($"Bàn {ban.SoBan} đang bảo trì.");
+                        MessageBox.Show($"Bàn {ban.SoBan} có trạng thái không hợp lệ.");
                         break;
                 }
             }
@@ -503,6 +507,137 @@ namespace QLNhaHang.Controls.PhucVu
                 tran.Rollback();
                 throw;
             }
+        }
+
+        // ===== ADMIN THÊM BÀN MỚI =====
+        void btnThemBan_Click(object? sender, EventArgs e)
+        {
+            if (Session.Role != "ADMIN")
+            {
+                MessageBox.Show("Chỉ Admin mới được thêm bàn.", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using var f = new Form
+            {
+                Text = "Thêm bàn mới",
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                ClientSize = new Size(430, 255),
+                Font = new Font("Segoe UI", 10)
+            };
+
+            var lblSoBan = new Label
+            {
+                Text = "Số bàn:",
+                Location = new Point(20, 18),
+                Size = new Size(135, 30),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+            var txtSoBan = new TextBox { Location = new Point(165, 18), Width = 245, MaxLength = 10 };
+
+            var lblSucChua = new Label
+            {
+                Text = "Sức chứa (chỗ):",
+                Location = new Point(20, 63),
+                Size = new Size(135, 30),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+            var numSucChua = new NumericUpDown
+            {
+                Location = new Point(165, 63),
+                Width = 245,
+                Minimum = 1,
+                Maximum = 100,
+                Value = 4
+            };
+
+            var lblViTri = new Label
+            {
+                Text = "Vị trí / Khu vực:",
+                Location = new Point(20, 108),
+                Size = new Size(135, 30),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+            var txtViTri = new TextBox { Location = new Point(165, 108), Width = 245, MaxLength = 100 };
+
+            var btnLuu = new Button
+            {
+                Text = "Thêm bàn",
+                Location = new Point(220, 190),
+                Size = new Size(100, 35),
+                BackColor = Theme.Green,
+                ForeColor = Theme.Surface,
+                FlatStyle = FlatStyle.Flat
+            };
+            btnLuu.FlatAppearance.BorderSize = 0;
+
+            var btnHuy = new Button
+            {
+                Text = "Hủy",
+                Location = new Point(330, 190),
+                Size = new Size(75, 35),
+                DialogResult = DialogResult.Cancel
+            };
+
+            btnLuu.Click += (s, args) =>
+            {
+                string soBan = txtSoBan.Text.Trim();
+                string viTri = txtViTri.Text.Trim();
+
+                if (soBan.Length == 0)
+                {
+                    MessageBox.Show("Vui lòng nhập số bàn.", "Thiếu thông tin",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSoBan.Focus();
+                    return;
+                }
+
+                try
+                {
+                    using var conn = new SqlConnection(ConnStr);
+                    using var cmd = new SqlCommand(@"
+                        INSERT INTO BAN_AN (SoBan, SucChua, TrangThai, ViTri)
+                        VALUES (@soBan, @sucChua, N'Trống', @viTri);", conn);
+
+                    cmd.Parameters.AddWithValue("@soBan", soBan);
+                    cmd.Parameters.AddWithValue("@sucChua", Convert.ToInt32(numSucChua.Value));
+                    cmd.Parameters.AddWithValue("@viTri",
+                        string.IsNullOrWhiteSpace(viTri) ? (object)DBNull.Value : viTri);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show($"Đã thêm bàn {soBan}.", "Thành công",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    f.DialogResult = DialogResult.OK;
+                    f.Close();
+                }
+                catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    MessageBox.Show("Số bàn này đã tồn tại. Vui lòng nhập số bàn khác.",
+                        "Trùng số bàn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Không thể thêm bàn:\n" + ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+
+            f.Controls.AddRange(new Control[]
+            {
+                lblSoBan, txtSoBan, lblSucChua, numSucChua,
+                lblViTri, txtViTri, btnLuu, btnHuy
+            });
+            f.AcceptButton = btnLuu;
+            f.CancelButton = btnHuy;
+
+            if (f.ShowDialog(this) == DialogResult.OK)
+                LoadBan();
         }
 
         // ===== LỌC / LÀM MỚI =====
