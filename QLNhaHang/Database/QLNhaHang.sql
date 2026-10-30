@@ -50,7 +50,7 @@ CREATE TABLE dbo.BAN_AN (
     SucChua INT NOT NULL CHECK (SucChua > 0),
     TrangThai NVARCHAR(30) NOT NULL DEFAULT N'Trống',
     ViTri NVARCHAR(100) NULL,
-    CONSTRAINT CK_Ban_TrangThai CHECK (TrangThai IN (N'Trống', N'Đang phục vụ', N'Chờ dọn', N'Bảo trì'))
+    CONSTRAINT CK_Ban_TrangThai CHECK (TrangThai IN (N'Trống', N'Đang phục vụ', N'Chờ dọn'))
 );
 CREATE TABLE dbo.DANH_MUC_MON (
     DanhMucID INT IDENTITY(1,1) PRIMARY KEY,

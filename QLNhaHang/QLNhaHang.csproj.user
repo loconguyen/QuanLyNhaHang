@@ -49,6 +49,9 @@
     <Compile Update="Forms\Main\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\TaiKhoan\frmChiTietNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\TaiKhoan\frmTaoTaiKhoan.cs">
       <SubType>Form</SubType>
     </Compile>

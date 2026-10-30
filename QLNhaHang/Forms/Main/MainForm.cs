@@ -61,10 +61,10 @@ namespace QLNhaHang.Forms.Main
 
             btnTongQuan.Visible = admin;
 
-                btnCheBien.Visible =
-                btnThucDon.Visible =
-                btnNguyenLieu.Visible =
-                (r == "BEP" || admin);
+            btnCheBien.Visible =
+            btnThucDon.Visible =
+            btnNguyenLieu.Visible =
+            (r == "BEP" || admin);
 
             btnQuanLyBan.Visible =
                 btnTaoDon.Visible =
@@ -109,7 +109,7 @@ namespace QLNhaHang.Forms.Main
                 return;
             }
 
-        // ===== GIAO DIỆN TẠM CHO MÀN CHƯA LÀM =====
+            // ===== GIAO DIỆN TẠM CHO MÀN CHƯA LÀM =====
             BeginInvoke(new Action(() =>
             {
                 lblScreen.Text = "Duyệt tài khoản";
@@ -123,7 +123,7 @@ namespace QLNhaHang.Forms.Main
         {
             BeginInvoke(new Action(() =>
             {
-                Open(btnTaiKhoan, "Tài khoản", new ucTaiKhoan());
+                Open(btnTaiKhoan, "", new ucTaiKhoan());
             }));
         }
 
@@ -143,10 +143,10 @@ namespace QLNhaHang.Forms.Main
 
         // ===== CÁC NÚT MENU =====
         // Màn nào đã làm xong thì thêm new ucXxx() vào Open(...)
-        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "Tổng quan", new QLNhaHang.Controls.Admin.ucTongQuan()); }
-        private void btnCheBien_Click(object sender, EventArgs e) { Open(btnCheBien, "Chế biến", new ucCheBien()); }
-        private void btnThucDon_Click(object sender, EventArgs e) { Open(btnThucDon, "Thực đơn", new ucThucDon()); }
-        private void btnNguyenLieu_Click(object sender, EventArgs e) { Open(btnNguyenLieu, "Nguyên liệu", new ucNguyenLieu()); }
+        private void btnTongQuan_Click(object sender, EventArgs e) { Open(btnTongQuan, "", new QLNhaHang.Controls.Admin.ucTongQuan()); }
+        private void btnCheBien_Click(object sender, EventArgs e) { Open(btnCheBien, "", new ucCheBien()); }
+        private void btnThucDon_Click(object sender, EventArgs e) { Open(btnThucDon, "", new ucThucDon()); }
+        private void btnNguyenLieu_Click(object sender, EventArgs e) { Open(btnNguyenLieu, "", new ucNguyenLieu()); }
 
         // --- Phục vụ ---
         private void btnQuanLyBan_Click(object sender, EventArgs e)
@@ -156,24 +156,28 @@ namespace QLNhaHang.Forms.Main
             // Bấm bàn Trống (tạo đơn mới) hoặc nút Thêm món: sang thẳng màn Tạo đơn của đơn đó
             uc.MoDon += (banId, donId) =>
                 BeginInvoke(new Action(() =>
-                    Open(btnTaoDon, "Tạo đơn", new ucTaoDon(banId, donId))));
+                    Open(btnTaoDon, "", new ucTaoDon(banId, donId))));
 
-            Open(btnQuanLyBan, "Quản lý bàn", uc);
+            Open(btnQuanLyBan, "", uc);
         }
 
         private void btnTaoDon_Click(object sender, EventArgs e)
         {
-            Open(btnTaoDon, "Tạo đơn", new ucTaoDon());   // danh sách đơn đang xử lý
+            Open(btnTaoDon, "", new ucTaoDon());   // danh sách đơn đang xử lý
         }
 
         // --- Thu ngân ---
         private void btnHoaDon_Click(object sender, EventArgs e)
         {
-            Open(btnHoaDon, "Hóa đơn", new ucHoaDon());
+            Open(btnHoaDon, "", new ucHoaDon());
         }
 
         // --- Admin ---
-        private void btnTaiKhoan_Click(object sender, EventArgs e) { Open(btnTaiKhoan, "Tài khoản", new ucTaiKhoan()); }
+        private void btnTaiKhoan_Click(object sender, EventArgs e) { Open(btnTaiKhoan, "", new ucTaiKhoan()); }
 
+        private void pnlContent_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

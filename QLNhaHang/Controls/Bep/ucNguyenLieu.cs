@@ -24,6 +24,13 @@ namespace QLNhaHang.Controls.Bep
         public ucNguyenLieu()
         {
             InitializeComponent();
+            dgvNL.DefaultCellStyle.BackColor = Theme.Surface;
+            dgvNL.DefaultCellStyle.ForeColor = Theme.BlueBold;
+            dgvNL.DefaultCellStyle.SelectionBackColor = Theme.BlueSoft;
+            dgvNL.DefaultCellStyle.SelectionForeColor = Theme.BlueBold;
+            dgvNL.AlternatingRowsDefaultCellStyle.BackColor = Theme.SurfaceMuted;
+            dgvNL.GridColor = Theme.Divider;
+            dgvNL.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvNL.AutoGenerateColumns = false;
             foreach (DataGridViewColumn c in dgvNL.Columns) c.SortMode = DataGridViewColumnSortMode.NotSortable;
             cboDvt = new ComboBox
@@ -105,10 +112,16 @@ namespace QLNhaHang.Controls.Bep
                     continue;
                 bool sapHet = Dec(rv["SoLuongTon"]) <= Dec(rv["MucCanhBao"]);
                 bool sapHetHan = rv["HanSuDung"] != DBNull.Value && Convert.ToDateTime(rv["HanSuDung"]).Date <= DateTime.Today.AddDays(7);
-                if (sapHet)
-                    row.DefaultCellStyle.BackColor = Theme.DangerSoft;
-                else if (sapHetHan)
-                    row.DefaultCellStyle.BackColor = Theme.OrangeSoft;
+                row.DefaultCellStyle.BackColor = Color.Empty;
+                var trangThai = row.Cells[colTrangThai.Index].Style;
+                trangThai.BackColor = sapHet ? Theme.DangerSoft : Color.Empty;
+                trangThai.ForeColor = sapHet ? Theme.Danger : Theme.BlueBold;
+                trangThai.SelectionForeColor = sapHet ? Theme.Danger : Theme.BlueBold;
+
+                var hanSuDung = row.Cells[colHanSuDung.Index].Style;
+                hanSuDung.BackColor = sapHetHan ? Theme.OrangeSoft : Color.Empty;
+                hanSuDung.ForeColor = sapHetHan ? Theme.OrangeText : Theme.BlueBold;
+                hanSuDung.SelectionForeColor = sapHetHan ? Theme.OrangeText : Theme.BlueBold;
             }
         }
 

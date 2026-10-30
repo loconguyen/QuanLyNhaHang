@@ -28,8 +28,7 @@ WHERE h.TrangThaiThanhToan = N'Đã thanh toán'
 SELECT ISNULL((SELECT SUM(ThanhTien) FROM #DaThu),0) AS DoanhThu,
  (SELECT COUNT(*) FROM dbo.DON_HANG WHERE ThoiGianTao>=@tu AND ThoiGianTao<@den) AS SoDon,
  ISNULL((SELECT SUM(CAST(c.SoLuong AS BIGINT)) FROM dbo.CHI_TIET_DON_HANG c
- JOIN #DaThu t ON t.DonHangID=c.DonHangID WHERE c.TrangThaiMon<>N'Đã hủy'),0) AS SoMon,
- (SELECT COUNT(*) FROM dbo.DON_HANG WHERE ThoiGianTao>=@tu AND ThoiGianTao<@den AND TrangThaiDon=N'Đã hủy') AS DonHuy;
+ JOIN #DaThu t ON t.DonHangID=c.DonHangID WHERE c.TrangThaiMon<>N'Đã hủy'),0) AS SoMon;
 
 ;WITH Tien AS (SELECT CAST(NgayThu AS DATE) AS Ngay, SUM(ThanhTien) AS Tien FROM #DaThu GROUP BY CAST(NgayThu AS DATE)),
  Don AS (SELECT CAST(ThoiGianTao AS DATE) AS Ngay,COUNT(*) AS SoDon FROM dbo.DON_HANG

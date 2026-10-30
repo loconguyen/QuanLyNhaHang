@@ -229,6 +229,25 @@ namespace QLNhaHang.Classes
             return DocBang(lenh);
         });
 
+        public DataRow? LayChiTietNhanVien(int taiKhoanID) => DocQuanTri((kn, gd, maAdmin) =>
+        {
+            using var lenh = new SqlCommand(@"
+                SELECT tk.TaiKhoanID, tk.TenDangNhap, tk.TrangThai AS TrangThaiTaiKhoan,
+                       tk.NgayDangKy, tk.NhanVienID,
+                       COALESCE(nv.HoTen, tk.HoTenDangKy) AS HoTen,
+                       COALESCE(nv.SDT, tk.SDTDangKy) AS SDT,
+                       nv.NgaySinh, nv.GioiTinh, nv.Email, nv.DiaChi,
+                       nv.ChucVu, nv.NgayVaoLam, nv.TrangThai AS TrangThaiNhanVien,
+                       vt.TenVaiTro
+                FROM dbo.TAI_KHOAN tk
+                LEFT JOIN dbo.NHAN_VIEN nv ON nv.NhanVienID = tk.NhanVienID
+                LEFT JOIN dbo.VAI_TRO vt ON vt.RoleID = tk.RoleID
+                WHERE tk.TaiKhoanID = @id;", kn, gd);
+            lenh.Parameters.Add("@id", SqlDbType.Int).Value = taiKhoanID;
+            DataTable bang = DocBang(lenh);
+            return bang.Rows.Count == 0 ? null : bang.Rows[0];
+        });
+
         public DataTable LayVaiTro() => DocQuanTri((kn, gd, maAdmin) =>
         {
             // KHO chưa có màn hình riêng trong MainForm nên không cấp qua màn hình này.

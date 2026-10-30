@@ -12,10 +12,10 @@ namespace QLNhaHang.Controls.Admin
         private readonly Button xem = new();
         private readonly ComboBox khoangNgay = new();
         private readonly Label thongBao = new();
-        private readonly Label[] giaTri = new Label[4];
+        private readonly Label[] giaTri = new Label[3];
         private readonly BieuDo doanhThu = new(0), topMon = new(1), thanhToan = new(2);
         private readonly DataGridView donMoi = new();
-        private readonly Label[] soBan = new Label[4];
+        private readonly Label[] soBan = new Label[3];
         private bool dangTai, dangChon;
         private static readonly CultureInfo Vi = CultureInfo.GetCultureInfo("vi-VN");
 
@@ -100,12 +100,12 @@ namespace QLNhaHang.Controls.Admin
             foreach (var date in new[] { tuNgay, denNgay }) date.ValueChanged += (_, _) => { if (!dangChon) khoangNgay.SelectedIndex = 3; };
             page.Controls.Add(filter, 0, 1);
 
-            var metrics = Luoi(4, 25, 25, 25, 25);
-            string[] titles = { "Doanh thu", "Tổng số đơn", "Số món đã bán", "Đơn bị hủy" };
-            string[] notes = { "Hóa đơn đã thanh toán", "Đơn tạo trong khoảng chọn", "Món thuộc hóa đơn đã thu", "Đơn hủy trong khoảng chọn" };
-            Color[] colors = { Theme.Green, Theme.Blue, Theme.Orange, Theme.Danger };
-            string[] icons = { "₫", "≡", "♨", "×" };
-            for (int i = 0; i < 4; i++)
+            var metrics = Luoi(3, 33.333F, 33.333F, 33.334F);
+            string[] titles = { "Doanh thu", "Tổng số đơn", "Số món đã bán" };
+            string[] notes = { "Hóa đơn đã thanh toán", "Đơn tạo trong khoảng chọn", "Món thuộc hóa đơn đã thu" };
+            Color[] colors = { Theme.Green, Theme.Blue, Theme.Orange };
+            string[] icons = { "₫", "≡", "♨" };
+            for (int i = 0; i < giaTri.Length; i++)
             {
                 var card = new Panel { Dock = DockStyle.Fill, BackColor = Color.White, Margin = new Padding(0, 0, 12, 12), Padding = new Padding(12) };
                 var stripe = new Panel { Dock = DockStyle.Left, Width = 4, BackColor = colors[i] }; card.Controls.Add(stripe);
@@ -149,12 +149,12 @@ namespace QLNhaHang.Controls.Admin
             bottom.Controls.Add(The("10 đơn gần đây · Trong khoảng ngày đã chọn", donMoi), 0, 0);
             var right = Luoi(2, 55, 45);
             right.Controls.Add(The("Cơ cấu thanh toán", thanhToan), 0, 0);
-            var tables = new TableLayoutPanel { ColumnCount = 1, RowCount = 4, Dock = DockStyle.Fill }; tables.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            string[] states = { "Trống", "Đang phục vụ", "Chờ dọn", "Bảo trì" };
-            Color[] stateColors = { Theme.Green, Theme.Blue, Theme.Orange, Theme.Danger };
-            for (int i = 0; i < 4; i++)
+            var tables = new TableLayoutPanel { ColumnCount = 1, RowCount = 3, Dock = DockStyle.Fill }; tables.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            string[] states = { "Trống", "Đang phục vụ", "Chờ dọn" };
+            Color[] stateColors = { Theme.Green, Theme.Blue, Theme.Orange };
+            for (int i = 0; i < states.Length; i++)
             {
-                tables.RowStyles.Add(new RowStyle(SizeType.Percent, 25));
+                tables.RowStyles.Add(new RowStyle(SizeType.Percent, 100F / states.Length));
                 var row = new Panel { Dock = DockStyle.Fill, BackColor = Theme.SurfaceMuted, Margin = new Padding(0, 0, 0, 7), Padding = new Padding(8, 4, 8, 4) };
                 var label = Nhan(states[i], 8); label.AutoSize = false; label.Dock = DockStyle.Fill; label.TextAlign = ContentAlignment.MiddleLeft; label.Margin = Padding.Empty; row.Controls.Add(label);
                 soBan[i] = Nhan("—", 11, true); soBan[i].AutoSize = false; soBan[i].Dock = DockStyle.Right; soBan[i].Width = 32; soBan[i].TextAlign = ContentAlignment.MiddleCenter; soBan[i].Margin = Padding.Empty; soBan[i].ForeColor = stateColors[i]; row.Controls.Add(soBan[i]); tables.Controls.Add(row, 0, i);
@@ -199,7 +199,6 @@ namespace QLNhaHang.Controls.Admin
                 giaTri[0].Text = Convert.ToDecimal(sum["DoanhThu"]).ToString("N0", Vi) + " ₫";
                 giaTri[1].Text = Convert.ToInt64(sum["SoDon"]).ToString("N0", Vi);
                 giaTri[2].Text = Convert.ToInt64(sum["SoMon"]).ToString("N0", Vi);
-                giaTri[3].Text = Convert.ToInt64(sum["DonHuy"]).ToString("N0", Vi);
                 // Fill missing dates with zero; group long ranges to keep the chart legible.
                 int days = (to - from).Days + 1;
                 int step = Math.Max(1, (int)Math.Ceiling(days / 14d));
@@ -215,7 +214,7 @@ namespace QLNhaHang.Controls.Admin
                 topMon.SetData(data.Tables["TopMon"]!.AsEnumerable().Select(r => (r.Field<string>("TenMon")!, Convert.ToDecimal(r["SoLuong"]), 0m)).ToList());
                 thanhToan.SetData(data.Tables["ThanhToan"]!.AsEnumerable().Select(r => (r.Field<string>("PhuongThuc")!, Convert.ToDecimal(r["Tien"]), 0m)).ToList());
                 var old = donMoi.DataSource as DataTable; donMoi.DataSource = data.Tables["DonMoi"]!.Copy(); old?.Dispose();
-                string[] states = { "Trống", "Đang phục vụ", "Chờ dọn", "Bảo trì" };
+                string[] states = { "Trống", "Đang phục vụ", "Chờ dọn" };
                 for (int i = 0; i < states.Length; i++) soBan[i].Text = data.Tables["Ban"]!.AsEnumerable().Where(r => r.Field<string>("TrangThai") == states[i]).Sum(r => Convert.ToInt32(r["SoBan"])).ToString();
                 thongBao.ForeColor = Theme.TextMuted;
                 thongBao.Text = $"Cập nhật {DateTime.Now:HH:mm:ss}  ·  {from:dd/MM/yyyy} – {to:dd/MM/yyyy}  ·  Doanh thu theo ngày thu tiền; trạng thái bàn là hiện tại.";

@@ -20,6 +20,7 @@ namespace QLNhaHang.Controls.Admin
             ThietLapBoCuc();
 
             dgvTaiKhoan.AutoGenerateColumns = false;
+            dgvTaiKhoan.CellDoubleClick += dgvTaiKhoan_CellDoubleClick;
 
             cbLocTrangThai.SelectedIndex = 0;
             cbLocVaiTro.SelectedIndex = 0;
@@ -127,6 +128,38 @@ namespace QLNhaHang.Controls.Admin
         private void dgvTaiKhoan_SelectionChanged(object? sender, EventArgs e)
         {
             if (!dangTai) ChonDong();
+        }
+
+        private async void dgvTaiKhoan_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || dangTai || dangXuLy || Session.Role != "ADMIN") return;
+            if (dgvTaiKhoan.Rows[e.RowIndex].DataBoundItem is not DataRowView dong) return;
+            int ma = Convert.ToInt32(dong["TaiKhoanID"]);
+            dangXuLy = true;
+            UseWaitCursor = true;
+            CapNhatNut();
+            try
+            {
+                DataRow? thongTin = await Task.Run(() => xuLy.LayChiTietNhanVien(ma));
+                if (IsDisposed) return;
+                if (thongTin == null)
+                {
+                    HienLoi(new InvalidOperationException("Tài khoản không còn tồn tại. Vui lòng tải lại danh sách."));
+                    return;
+                }
+                UseWaitCursor = false;
+                using var chiTiet = new QLNhaHang.Forms.TaiKhoan.frmChiTietNhanVien(thongTin);
+                chiTiet.ShowDialog(FindForm());
+            }
+            catch (Exception ex) when (ex is SqlException || ex is InvalidOperationException)
+            {
+                if (!IsDisposed) HienLoi(ex);
+            }
+            finally
+            {
+                dangXuLy = false;
+                if (!IsDisposed) { UseWaitCursor = false; CapNhatNut(); }
+            }
         }
 
         private void ChonDong()
