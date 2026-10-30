@@ -40,6 +40,7 @@ namespace QLNhaHang.Classes
         public static readonly Color PurpleSoft = Color.FromArgb(240, 231, 250);
         public static readonly Color Teal = Color.FromArgb(0, 121, 107);
         public static readonly Color TealSoft = Color.FromArgb(218, 242, 239);
+        public static readonly Color YellowSoft = Color.FromArgb(254, 249, 195);
         // font
 
         public static readonly Font H1 = new("Segoe UI", 25, FontStyle.Bold);
