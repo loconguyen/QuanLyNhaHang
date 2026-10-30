@@ -73,24 +73,24 @@ namespace QLNhaHang.Controls.Bep
             tblMain.Controls.Add(pnlEdit, 0, 3);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
-            tblMain.Margin = new Padding(8);
+            tblMain.Margin = new Padding(10, 10, 10, 10);
             tblMain.Name = "tblMain";
             tblMain.RowCount = 4;
             tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tblMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-            tblMain.Size = new Size(1080, 630);
+            tblMain.Size = new Size(1350, 788);
             tblMain.TabIndex = 0;
             // 
             // lblTitle
             // 
             lblTitle.Dock = DockStyle.Top;
             lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblTitle.Location = new Point(8, 0);
-            lblTitle.Margin = new Padding(8, 0, 0, 0);
+            lblTitle.Location = new Point(10, 0);
+            lblTitle.Margin = new Padding(10, 0, 0, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(1072, 40);
+            lblTitle.Size = new Size(1340, 50);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Nguyên liệu";
             lblTitle.TextAlign = ContentAlignment.MiddleLeft;
@@ -101,10 +101,10 @@ namespace QLNhaHang.Controls.Bep
             dgvNL.AllowUserToDeleteRows = false;
             dgvNL.AllowUserToResizeRows = false;
             dgvNL.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvNL.BackgroundColor = Theme.Surface;
+            dgvNL.BackgroundColor = Color.FromArgb(255, 255, 255);
             dgvNL.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Theme.Background;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(244, 247, 251);
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
@@ -116,21 +116,22 @@ namespace QLNhaHang.Controls.Bep
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = SystemColors.Window;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = Theme.BlueBold;
-            dataGridViewCellStyle3.SelectionForeColor = Theme.Surface;
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(23, 38, 62);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(23, 38, 62);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(255, 255, 255);
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvNL.DefaultCellStyle = dataGridViewCellStyle3;
             dgvNL.Dock = DockStyle.Fill;
             dgvNL.EnableHeadersVisualStyles = false;
-            dgvNL.Location = new Point(3, 46);
+            dgvNL.Location = new Point(4, 57);
+            dgvNL.Margin = new Padding(4, 4, 4, 4);
             dgvNL.MultiSelect = false;
             dgvNL.Name = "dgvNL";
             dgvNL.ReadOnly = true;
             dgvNL.RowHeadersVisible = false;
             dgvNL.RowHeadersWidth = 51;
             dgvNL.RowTemplate.Height = 31;
-            dgvNL.Size = new Size(1074, 424);
+            dgvNL.Size = new Size(1342, 529);
             dgvNL.TabIndex = 1;
             dgvNL.DataBindingComplete += dgvNL_DataBindingComplete;
             dgvNL.SelectionChanged += dgvNL_SelectionChanged;
@@ -194,18 +195,21 @@ namespace QLNhaHang.Controls.Bep
             // 
             // lblChuThich
             // 
-            lblChuThich.BackColor = Theme.Surface;
+            lblChuThich.BackColor = Color.FromArgb(255, 255, 255);
             lblChuThich.Dock = DockStyle.Fill;
             lblChuThich.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblChuThich.ForeColor = Theme.TextMuted;
-            lblChuThich.Location = new Point(3, 473);
+            lblChuThich.ForeColor = Color.FromArgb(100, 116, 139);
+            lblChuThich.Location = new Point(4, 590);
+            lblChuThich.Margin = new Padding(4, 0, 4, 0);
             lblChuThich.Name = "lblChuThich";
-            lblChuThich.Size = new Size(1074, 28);
+            lblChuThich.Size = new Size(1342, 35);
             lblChuThich.TabIndex = 2;
             lblChuThich.Text = "Đỏ: tồn kho ≤ mức cảnh báo      Cam: hết hạn hoặc hạn dùng trong 7 ngày tới";
             // 
             // pnlEdit
             // 
+            pnlEdit.AutoScroll = true;
+            pnlEdit.AutoScrollMinSize = new Size(1050, 0);
             pnlEdit.BackColor = SystemColors.Control;
             pnlEdit.Controls.Add(btnThemNL);
             pnlEdit.Controls.Add(lblDvtCanhBao);
@@ -221,11 +225,10 @@ namespace QLNhaHang.Controls.Bep
             pnlEdit.Controls.Add(txtTenNL);
             pnlEdit.Controls.Add(lblTenNL);
             pnlEdit.Dock = DockStyle.Fill;
-            pnlEdit.Location = new Point(3, 504);
+            pnlEdit.Location = new Point(4, 629);
+            pnlEdit.Margin = new Padding(4, 4, 4, 4);
             pnlEdit.Name = "pnlEdit";
-            pnlEdit.AutoScroll = true;
-            pnlEdit.AutoScrollMinSize = new Size(1050, 0);
-            pnlEdit.Size = new Size(1074, 123);
+            pnlEdit.Size = new Size(1342, 155);
             pnlEdit.TabIndex = 3;
             // 
             // btnThemNL
@@ -233,11 +236,12 @@ namespace QLNhaHang.Controls.Bep
             btnThemNL.BackColor = Color.FromArgb(37, 99, 235);
             btnThemNL.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
             btnThemNL.ForeColor = Color.White;
-            btnThemNL.Location = new Point(935, 38);
+            btnThemNL.Location = new Point(1169, 48);
+            btnThemNL.Margin = new Padding(4, 4, 4, 4);
             btnThemNL.Name = "btnThemNL";
-            btnThemNL.Size = new Size(105, 44);
+            btnThemNL.Size = new Size(230, 55);
             btnThemNL.TabIndex = 12;
-            btnThemNL.Text = "Thêm NL";
+            btnThemNL.Text = "Thêm nguyên liệu";
             btnThemNL.UseVisualStyleBackColor = false;
             btnThemNL.Click += btnThemNL_Click;
             // 
@@ -245,10 +249,10 @@ namespace QLNhaHang.Controls.Bep
             // 
             lblDvtCanhBao.AutoSize = true;
             lblDvtCanhBao.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblDvtCanhBao.Location = new Point(740, 21);
-            lblDvtCanhBao.Margin = new Padding(0, 6, 0, 0);
+            lblDvtCanhBao.Location = new Point(925, 26);
+            lblDvtCanhBao.Margin = new Padding(0, 8, 0, 0);
             lblDvtCanhBao.Name = "lblDvtCanhBao";
-            lblDvtCanhBao.Size = new Size(44, 23);
+            lblDvtCanhBao.Size = new Size(54, 30);
             lblDvtCanhBao.TabIndex = 11;
             lblDvtCanhBao.Text = "ĐVT";
             // 
@@ -256,30 +260,32 @@ namespace QLNhaHang.Controls.Bep
             // 
             lblDvtTon.AutoSize = true;
             lblDvtTon.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblDvtTon.Location = new Point(359, 77);
-            lblDvtTon.Margin = new Padding(0, 6, 0, 0);
+            lblDvtTon.Location = new Point(449, 96);
+            lblDvtTon.Margin = new Padding(0, 8, 0, 0);
             lblDvtTon.Name = "lblDvtTon";
-            lblDvtTon.Size = new Size(44, 23);
+            lblDvtTon.Size = new Size(54, 30);
             lblDvtTon.TabIndex = 10;
             lblDvtTon.Text = "ĐVT";
             // 
             // lblDonVi
             // 
             lblDonVi.AutoSize = true;
-            lblDonVi.Location = new Point(363, 78);
+            lblDonVi.Location = new Point(454, 98);
+            lblDonVi.Margin = new Padding(4, 0, 4, 0);
             lblDonVi.Name = "lblDonVi";
-            lblDonVi.Size = new Size(0, 20);
+            lblDonVi.Size = new Size(0, 25);
             lblDonVi.TabIndex = 9;
             // 
             // btnLuuNL
             // 
-            btnLuuNL.BackColor = Theme.Green;
+            btnLuuNL.BackColor = Color.FromArgb(21, 128, 61);
             btnLuuNL.Enabled = false;
             btnLuuNL.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            btnLuuNL.ForeColor = Theme.Surface;
-            btnLuuNL.Location = new Point(814, 38);
+            btnLuuNL.ForeColor = Color.FromArgb(255, 255, 255);
+            btnLuuNL.Location = new Point(1018, 48);
+            btnLuuNL.Margin = new Padding(4, 4, 4, 4);
             btnLuuNL.Name = "btnLuuNL";
-            btnLuuNL.Size = new Size(105, 44);
+            btnLuuNL.Size = new Size(131, 55);
             btnLuuNL.TabIndex = 8;
             btnLuuNL.Text = "Lưu";
             btnLuuNL.UseVisualStyleBackColor = false;
@@ -289,20 +295,21 @@ namespace QLNhaHang.Controls.Bep
             // 
             dtpHan.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
             dtpHan.Format = DateTimePickerFormat.Short;
-            dtpHan.Location = new Point(558, 68);
+            dtpHan.Location = new Point(698, 85);
+            dtpHan.Margin = new Padding(4, 4, 4, 4);
             dtpHan.Name = "dtpHan";
             dtpHan.ShowCheckBox = true;
-            dtpHan.Size = new Size(226, 30);
+            dtpHan.Size = new Size(282, 35);
             dtpHan.TabIndex = 7;
             // 
             // lblHan
             // 
             lblHan.AutoSize = true;
             lblHan.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblHan.Location = new Point(424, 75);
-            lblHan.Margin = new Padding(10, 6, 4, 0);
+            lblHan.Location = new Point(530, 94);
+            lblHan.Margin = new Padding(12, 8, 5, 0);
             lblHan.Name = "lblHan";
-            lblHan.Size = new Size(94, 23);
+            lblHan.Size = new Size(117, 30);
             lblHan.TabIndex = 6;
             lblHan.Text = "Hạn dùng:";
             // 
@@ -310,20 +317,21 @@ namespace QLNhaHang.Controls.Bep
             // 
             nudCanhBao.DecimalPlaces = 2;
             nudCanhBao.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            nudCanhBao.Location = new Point(558, 19);
+            nudCanhBao.Location = new Point(698, 24);
+            nudCanhBao.Margin = new Padding(4, 4, 4, 4);
             nudCanhBao.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
             nudCanhBao.Name = "nudCanhBao";
-            nudCanhBao.Size = new Size(168, 30);
+            nudCanhBao.Size = new Size(210, 35);
             nudCanhBao.TabIndex = 5;
             // 
             // lblCanhBao
             // 
             lblCanhBao.AutoSize = true;
             lblCanhBao.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblCanhBao.Location = new Point(424, 21);
-            lblCanhBao.Margin = new Padding(10, 6, 4, 0);
+            lblCanhBao.Location = new Point(530, 26);
+            lblCanhBao.Margin = new Padding(12, 8, 5, 0);
             lblCanhBao.Name = "lblCanhBao";
-            lblCanhBao.Size = new Size(127, 23);
+            lblCanhBao.Size = new Size(159, 30);
             lblCanhBao.TabIndex = 4;
             lblCanhBao.Text = "Mức cảnh báo:";
             // 
@@ -331,55 +339,58 @@ namespace QLNhaHang.Controls.Bep
             // 
             nudTon.DecimalPlaces = 2;
             nudTon.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            nudTon.Location = new Point(169, 74);
+            nudTon.Location = new Point(211, 92);
+            nudTon.Margin = new Padding(4, 4, 4, 4);
             nudTon.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
             nudTon.Name = "nudTon";
-            nudTon.Size = new Size(176, 30);
+            nudTon.Size = new Size(220, 35);
             nudTon.TabIndex = 3;
             // 
             // lblTon
             // 
             lblTon.AutoSize = true;
             lblTon.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblTon.Location = new Point(35, 77);
-            lblTon.Margin = new Padding(10, 6, 4, 0);
+            lblTon.Location = new Point(44, 96);
+            lblTon.Margin = new Padding(12, 8, 5, 0);
             lblTon.Name = "lblTon";
-            lblTon.Size = new Size(45, 23);
+            lblTon.Size = new Size(57, 30);
             lblTon.TabIndex = 2;
             lblTon.Text = "Tồn:";
             // 
             // txtTenNL
             // 
-            txtTenNL.BackColor = Theme.Surface;
+            txtTenNL.BackColor = Color.FromArgb(255, 255, 255);
             txtTenNL.BorderStyle = BorderStyle.None;
             txtTenNL.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            txtTenNL.Location = new Point(164, 18);
+            txtTenNL.Location = new Point(205, 22);
+            txtTenNL.Margin = new Padding(4, 4, 4, 4);
             txtTenNL.Multiline = true;
             txtTenNL.Name = "txtTenNL";
             txtTenNL.ReadOnly = true;
-            txtTenNL.Size = new Size(234, 30);
+            txtTenNL.Size = new Size(292, 38);
             txtTenNL.TabIndex = 1;
             // 
             // lblTenNL
             // 
             lblTenNL.AutoSize = true;
             lblTenNL.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblTenNL.Location = new Point(35, 21);
-            lblTenNL.Margin = new Padding(0, 6, 4, 0);
+            lblTenNL.Location = new Point(44, 26);
+            lblTenNL.Margin = new Padding(0, 8, 5, 0);
             lblTenNL.Name = "lblTenNL";
-            lblTenNL.Size = new Size(111, 23);
+            lblTenNL.Size = new Size(139, 30);
             lblTenNL.TabIndex = 0;
             lblTenNL.Text = "Nguyên liệu:";
             // 
             // ucNguyenLieu
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(244, 247, 251);
             Controls.Add(tblMain);
-            BackColor = Theme.Background;
-            ForeColor = Theme.BlueBold;
+            ForeColor = Color.FromArgb(23, 38, 62);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "ucNguyenLieu";
-            Size = new Size(1080, 630);
+            Size = new Size(1350, 788);
             Load += ucNguyenLieu_Load;
             VisibleChanged += ucNguyenLieu_VisibleChanged;
             tblMain.ResumeLayout(false);

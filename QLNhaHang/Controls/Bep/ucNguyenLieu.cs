@@ -41,22 +41,16 @@ namespace QLNhaHang.Controls.Bep
             _tenChiDoc = txtTenNL.ReadOnly;
             _chuLuu = btnLuuNL.Text;
             _chuThem = btnThemNL.Text;
-            btnThemNL.Enabled = CoQuyenThem;
         }
         private bool DangThietKe
         {
             get { return DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime; }
-        }
-        private static bool CoQuyenThem
-        {
-            get { return Session.Role == "ADMIN"; }
         }
         private void ucNguyenLieu_Load(object sender, EventArgs e)
         {
             if (DangThietKe)
                 return;
             _daLoad = true;
-            btnThemNL.Enabled = CoQuyenThem;
             TaiAnToan();
         }
 
@@ -64,7 +58,6 @@ namespace QLNhaHang.Controls.Bep
         {
             if (DangThietKe)
                 return;
-            btnThemNL.Enabled = CoQuyenThem;
             if (_daLoad && Visible && !_dangThem)
             {
                 TaiAnToan();
@@ -80,7 +73,29 @@ namespace QLNhaHang.Controls.Bep
         {
             return o == null || o == DBNull.Value ? 0m : Convert.ToDecimal(o);
         }
+        private static void DatSo(NumericUpDown n, decimal v)
+        {
+            n.Value = v == n.Maximum ? n.Minimum : n.Maximum;
+            n.Value = v;
+        }
 
+        private static bool ChuaNhap(NumericUpDown n)
+        {
+            return n.Text.Trim().Length == 0;
+        }
+        // Trả về true nếu hợp lệ (tồn > mức cảnh báo); ngược lại báo lỗi và đưa con trỏ về ô Tồn
+        private bool TonHopLe()
+        {
+            if (nudTon.Value > nudCanhBao.Value) return true;
+
+            MessageBox.Show(
+                "Số lượng tồn (" + nudTon.Value.ToString("0.##") + ") phải lớn hơn mức cảnh báo (" +
+                nudCanhBao.Value.ToString("0.##") + ").\nHãy nhập lại tồn hoặc giảm mức cảnh báo.",
+                "Dữ liệu không hợp lệ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            nudTon.Focus();
+            nudTon.Select(0, nudTon.Text.Length);
+            return false;
+        }
         private void dgvNL_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             foreach (DataGridViewRow row in dgvNL.Rows)
@@ -178,6 +193,7 @@ namespace QLNhaHang.Controls.Bep
                 return;
             }
             if (_nlId < 0) return;
+            if (!TonHopLe()) return;
             try
             {
                 bool ok = BepRepository.CapNhatNguyenLieu(_nlId, nudTon.Value, nudCanhBao.Value,
@@ -194,17 +210,11 @@ namespace QLNhaHang.Controls.Bep
 
         private void btnThemNL_Click(object sender, EventArgs e)
         {
-            if (!CoQuyenThem) return;
             if (!_dangThem) BatDauThem();
             else XacNhanThem();
         }
         private void BatDauThem()
         {
-            if (!CoQuyenThem)
-            {
-                MessageBox.Show("Bạn không có quyền thêm nguyên liệu.");
-                return;
-            }
             _dangThem = true;
             _nlId = -1;
 
@@ -228,6 +238,8 @@ namespace QLNhaHang.Controls.Bep
         private void KetThucThem()
         {
             _dangThem = false;
+            DatSo(nudTon, 0);
+            DatSo(nudCanhBao, 0);
             dgvNL.Enabled = true;
             txtTenNL.ReadOnly = _tenChiDoc;
             cboDvt.Visible = false;
@@ -239,44 +251,24 @@ namespace QLNhaHang.Controls.Bep
         private void XacNhanThem()
         {
             string ten = txtTenNL.Text.Trim(), dvt = cboDvt.Text.Trim();
-            if (ten.Length == 0)
-            {
-                MessageBox.Show("Hãy nhập tên nguyên liệu.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtTenNL.Focus();
-                return;
-            }
-            if (dvt.Length == 0)
-            {
-                MessageBox.Show("Hãy nhập hoặc chọn đơn vị tính.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cboDvt.Focus();
-                return;
-            }
 
-            DateTime? han = dtpHan.Checked ? (DateTime?)dtpHan.Value.Date : null;
-            if (han.HasValue && han.Value < DateTime.Today &&
-                MessageBox.Show("Hạn sử dụng đã qua. Vẫn thêm nguyên liệu này?", "Xác nhận",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                return;
+            var thieu = new List<string>();
+            Control oDau = null;
+            if (ten.Length == 0) { thieu.Add("Tên nguyên liệu"); if (oDau == null) oDau = txtTenNL; }
+            if (dvt.Length == 0) { thieu.Add("Đơn vị tính"); if (oDau == null) oDau = cboDvt; }
+            if (ChuaNhap(nudTon)) { thieu.Add("Tồn"); if (oDau == null) oDau = nudTon; }
+            if (ChuaNhap(nudCanhBao)) { thieu.Add("Mức cảnh báo"); if (oDau == null) oDau = nudCanhBao; }
+            if (!dtpHan.Checked) { thieu.Add("Hạn dùng"); if (oDau == null) oDau = dtpHan; }
 
-            try
+            if (thieu.Count > 0)
             {
-                if (!BepRepository.ThemNguyenLieu(ten, dvt, nudTon.Value, nudCanhBao.Value, han))
-                {
-                    MessageBox.Show("Nguyên liệu \"" + ten + "\" đã có trong danh sách. Hãy chọn dòng đó và sửa số lượng.",
-                        "Trùng tên", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Bạn chưa nhập:\n- " + string.Join("\n- ", thieu.ToArray()),
+                    "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                oDau.Focus();
                 return;
             }
+            if (!TonHopLe()) return;
 
-            KetThucThem();
-            TaiNguyenLieu();
-            ChonTheoTen(ten);
-            MessageBox.Show("Đã thêm nguyên liệu: " + ten, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void ChonTheoTen(string ten)

@@ -196,19 +196,18 @@ namespace QLNhaHang.Classes
                 " Where NguyenLieuID = " + id;
             return Dp.CapNhapDuLieu(sql) > 0;
         }
-        // Chỉ Admin được thêm nguyên liệu mới. False nếu đã có nguyên liệu cùng tên.
+        // Thêm nguyên liệu mới. False nếu đã có nguyên liệu cùng tên.
         // TrangThai tự đặt theo số lượng tồn (khớp CHECK constraint CK_NL_TrangThai).
         public static bool ThemNguyenLieu(string ten, string donViTinh, decimal soLuongTon, decimal mucCanhBao, DateTime? hanSuDung)
         {
-            if (Session.Role != "ADMIN")
-                throw new UnauthorizedAccessException("Chỉ Admin được thêm nguyên liệu.");
             ten = (ten ?? "").Trim();
             donViTinh = (donViTinh ?? "").Trim();
             if (ten.Length == 0 || donViTinh.Length == 0)
                 throw new ArgumentException("Tên và đơn vị tính không được để trống.");
             if (soLuongTon < 0 || mucCanhBao < 0)
                 throw new ArgumentException("Số lượng tồn và mức cảnh báo không được âm.");
-
+            if (soLuongTon <= mucCanhBao)
+                throw new ArgumentException("Số lượng tồn phải lớn hơn mức cảnh báo.");
             string trangThai = soLuongTon <= 0 ? "Hết hàng" : soLuongTon <= mucCanhBao ? "Sắp hết" : "Còn hàng";
             string sql =
                 "If Not Exists (Select 1 From NGUYEN_LIEU Where TenNguyenLieu = " + Q(ten) + ") " +
