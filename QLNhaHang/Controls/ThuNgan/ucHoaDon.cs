@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic;
 using QLNhaHang.Classes;
 using System.ComponentModel;
 using System.Data;
@@ -53,8 +52,8 @@ namespace QLNhaHang.Controls.ThuNgan
         {
             public int Id, DonHangId, BanId;
             public string SoBan = "", TrangThai = "";
-            public DateTime Gio;            // giờ vào (giờ tạo đơn)
-            public DateTime? NgayTT;        // giờ thanh toán
+            public DateTime Gio;
+            public DateTime? NgayTT;
             public decimal Tong, Giam, Thanh;
             public string? Pttt;
         }
@@ -62,8 +61,8 @@ namespace QLNhaHang.Controls.ThuNgan
         Button[] tabBtns = Array.Empty<Button>();
         Button[] ptBtns = Array.Empty<Button>();
 
-        int _tab = 0;                       // 0..1 = tab, -1 = tất cả
-        bool _ready, _loading, _sync, _formatting;
+        int _tab = 0;
+        bool _ready, _loading, _sync, _formatting, _fmtGiam;
         HoaDonRow? _cur;
         DataTable _items = new();
         string _pttt = PT_TIENMAT;
@@ -80,7 +79,7 @@ namespace QLNhaHang.Controls.ThuNgan
 
             StyleGrid(dgvHD);
             StyleGrid(dgvMon);
-            dgvHD.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;   // cho tiêu đề xuống dòng
+            dgvHD.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dgvHD.DefaultCellStyle.Padding = new Padding(6, 0, 6, 0);
             dgvHD.ColumnHeadersDefaultCellStyle.Padding = new Padding(6, 0, 6, 0);
 
@@ -90,7 +89,6 @@ namespace QLNhaHang.Controls.ThuNgan
             colTong.FillWeight = 21; colTong.MinimumWidth = 115;
             colTT.FillWeight = 30; colTT.MinimumWidth = 165;
 
-            // Căn cột tiền sang phải (cả tiêu đề lẫn ô) để thẳng hàng với nhau
             colTong.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
             colTong.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             mSL.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -100,19 +98,17 @@ namespace QLNhaHang.Controls.ThuNgan
             mTien.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
             mTien.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
-            lblGiamGia.ForeColor = cBlue;
-            new ToolTip().SetToolTip(lblGiamGia, "Bấm để nhập số tiền giảm giá");
+            cboLoaiGiam.SelectedIndex = 0;
+            new ToolTip().SetToolTip(txtGiam, "Nhập số tiền giảm hoặc phần trăm giảm giá; nhấn Enter hoặc rời ô để lưu");
 
-            cboTrangThai.SelectedIndex = 1;         // Chờ thanh toán
+            cboTrangThai.SelectedIndex = 1;
             CapNhatTab();
             ChonPhuongThuc(PT_TIENMAT);
         }
 
-        // Chặn form cha phóng to control và các control con
         protected override bool ScaleChildren => false;
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified) { }
 
-        // ---------- Font theo pixel ----------
         static Font F(float pt, FontStyle st = FontStyle.Regular, string family = "Segoe UI")
             => new Font(family, pt * DesignDpi / 72f, st, GraphicsUnit.Pixel);
 
@@ -130,7 +126,7 @@ namespace QLNhaHang.Controls.ThuNgan
         }
 
         // =====================================================================
-        //  SỰ KIỆN (được gắn trong Designer)
+        // SỰ KIỆN
         // =====================================================================
         private void ucHoaDon_Load(object? sender, EventArgs e)
         {
@@ -141,13 +137,12 @@ namespace QLNhaHang.Controls.ThuNgan
         }
 
         private void txtTim_TextChanged(object? sender, EventArgs e) => LoadDanhSach();
-
         private void dtpNgay_ValueChanged(object? sender, EventArgs e) => LoadDanhSach();
 
         private void cboTrangThai_SelectedIndexChanged(object? sender, EventArgs e)
         {
             if (_sync) return;
-            _tab = cboTrangThai.SelectedIndex - 1;      // -1 = Tất cả trạng thái
+            _tab = cboTrangThai.SelectedIndex - 1;
             CapNhatTab();
             LoadDanhSach();
         }
@@ -168,7 +163,6 @@ namespace QLNhaHang.Controls.ThuNgan
             LoadDanhSach();
         }
 
-        // Gạch xanh dưới tab đang chọn
         private void btnTab_Paint(object? sender, PaintEventArgs e)
         {
             if (sender is not Button b) return;
@@ -187,8 +181,6 @@ namespace QLNhaHang.Controls.ThuNgan
 
         private void dgvMon_SelectionChanged(object? sender, EventArgs e) => dgvMon.ClearSelection();
 
-        private void lblGiamGia_Click(object? sender, EventArgs e) => SuaGiamGia();
-
         private void btnPhuongThuc_Click(object? sender, EventArgs e)
         {
             int idx = Array.IndexOf(ptBtns, sender);
@@ -206,9 +198,78 @@ namespace QLNhaHang.Controls.ThuNgan
             TinhTienThua();
         }
 
+        // Nhập giảm giá theo số tiền hoặc phần trăm tổng tiền món.
+        private void txtGiam_TextChanged(object? sender, EventArgs e)
+        {
+            if (_fmtGiam) return;
+
+            _fmtGiam = true;
+            decimal nhap = ParseMoney(txtGiam.Text);
+            decimal toiDa = cboLoaiGiam.SelectedIndex == 1 ? 100m : (_cur?.Tong ?? 0m);
+            if (nhap > toiDa) nhap = toiDa;
+            txtGiam.Text = txtGiam.Text.Length == 0 ? "" : nhap.ToString("N0", Vi);
+            txtGiam.SelectionStart = txtGiam.Text.Length;
+            _fmtGiam = false;
+
+            if (_cur == null || _cur.TrangThai != TT_CHO) return;
+
+            _cur.Giam = cboLoaiGiam.SelectedIndex == 1
+                ? Math.Round(_cur.Tong * nhap / 100m, 0, MidpointRounding.AwayFromZero)
+                : nhap;
+            _cur.Thanh = _cur.Tong - _cur.Giam;
+            lblCan.Text = Money(_cur.Thanh);
+
+            if (_pttt != PT_TIENMAT)
+            {
+                _formatting = true;
+                txtDua.Text = Money0(_cur.Thanh);
+                _formatting = false;
+            }
+            TinhTienThua();
+        }
+
+        // Đổi kiểu giảm giá: xóa giá trị nhập cũ để tránh hiểu nhầm tiền thành phần trăm (hoặc ngược lại).
+        private void cboLoaiGiam_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (!_ready)
+            {
+                lblDongGiam.Text = cboLoaiGiam.SelectedIndex == 1 ? "%" : "đ";
+                return;
+            }
+
+            lblDongGiam.Text = cboLoaiGiam.SelectedIndex == 1 ? "%" : "đ";
+            _fmtGiam = true;
+            txtGiam.Clear();
+            _fmtGiam = false;
+
+            if (_cur != null && _cur.TrangThai == TT_CHO)
+            {
+                _cur.Giam = 0;
+                _cur.Thanh = _cur.Tong;
+                lblCan.Text = Money(_cur.Thanh);
+                if (_pttt != PT_TIENMAT)
+                {
+                    _formatting = true;
+                    txtDua.Text = Money0(_cur.Thanh);
+                    _formatting = false;
+                }
+                TinhTienThua();
+                LuuGiamGia();
+            }
+        }
+
+        private void txtGiam_Leave(object? sender, EventArgs e) => LuuGiamGia();
+
+        private void txtGiam_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter) return;
+            e.SuppressKeyPress = true;
+            LuuGiamGia();
+            if (txtDua.Enabled) txtDua.Focus();
+        }
+
         private void btnIn_Click(object? sender, EventArgs e) => InTamTinh();
 
-        // Vẽ cột Trạng thái dạng "pill" màu
         private void dgvHD_CellPainting(object? sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex != colTT.Index) return;
@@ -238,7 +299,7 @@ namespace QLNhaHang.Controls.ThuNgan
         }
 
         // =====================================================================
-        //  TRUY VẤN
+        // TRUY VẤN
         // =====================================================================
         static DataTable Query(string sql, params SqlParameter[] ps)
         {
@@ -265,8 +326,6 @@ namespace QLNhaHang.Controls.ThuNgan
 
         DateTime? NgayLoc => dtpNgay.Checked ? dtpNgay.Value.Date : null;
 
-        // Đơn có thêm / bớt món sau khi lập hóa đơn thì tổng tiền hóa đơn CHƯA THANH TOÁN
-        // phải tính lại theo các món hiện có (bỏ món đã hủy). Hóa đơn đã thanh toán giữ nguyên.
         static void DongBoTongTien()
         {
             Exec(@"
@@ -346,7 +405,6 @@ namespace QLNhaHang.Controls.ThuNgan
                         TrangThai = Convert.ToString(r["TrangThaiThanhToan"]) ?? ""
                     };
 
-                    // Chờ thanh toán -> giờ vào (giờ tạo đơn); đã thanh toán -> giờ thanh toán
                     string gio = (h.TrangThai == TT_DA && h.NgayTT != null)
                         ? h.NgayTT.Value.ToString("HH:mm dd/MM")
                         : h.Gio.ToString("HH:mm dd/MM");
@@ -398,8 +456,6 @@ namespace QLNhaHang.Controls.ThuNgan
             lblThuNay.Text = Money(Convert.ToDecimal(thu.Rows[0][0]));
         }
 
-        // Đơn đang xử lý mà MỌI món đã phục vụ hoặc hủy (và có ít nhất một món) thì tự lập
-        // hóa đơn CHƯA THANH TOÁN. Không cần Phục vụ bấm yêu cầu.
         void TaoHoaDonTuDong()
         {
             if (Session.NhanVienID <= 0) return;
@@ -419,12 +475,11 @@ namespace QLNhaHang.Controls.ThuNgan
             }
             catch
             {
-                // Không chặn màn hình nếu có lỗi nhỏ khi lập hóa đơn tự động
             }
         }
 
         // =====================================================================
-        //  CHI TIẾT HÓA ĐƠN
+        // CHI TIẾT HÓA ĐƠN
         // =====================================================================
         void HienChiTiet()
         {
@@ -434,7 +489,8 @@ namespace QLNhaHang.Controls.ThuNgan
             if (_cur == null)
             {
                 lblCT.Text = "Chi tiết hóa đơn";
-                lblTienMon.Text = lblGiamGia.Text = lblPhuThu.Text = lblCan.Text = Money(0);
+                lblTienMon.Text = lblCan.Text = Money(0);
+                _fmtGiam = true; txtGiam.Text = ""; _fmtGiam = false;
                 _formatting = true; txtDua.Text = ""; _formatting = false;
                 txtThua.Text = "";
                 CapNhatTrangThaiNut();
@@ -445,7 +501,6 @@ namespace QLNhaHang.Controls.ThuNgan
 
             try
             {
-                // Gộp các lần gọi cùng một món (cùng đơn giá) thành một dòng
                 _items = Query(@"
                     select ma.TenMon,
                            sum(ct.SoLuong) as SoLuong,
@@ -467,8 +522,12 @@ namespace QLNhaHang.Controls.ThuNgan
             }
 
             lblTienMon.Text = Money(_cur.Tong);
-            lblGiamGia.Text = Money(_cur.Giam);
-            lblPhuThu.Text = Money(0);
+            // CSDL lưu số tiền giảm thực tế, vì vậy khi mở hóa đơn luôn hiển thị ở chế độ tiền.
+            if (cboLoaiGiam.SelectedIndex != 0) cboLoaiGiam.SelectedIndex = 0;
+            lblDongGiam.Text = "đ";
+            _fmtGiam = true;
+            txtGiam.Text = _cur.Giam > 0 ? Money0(_cur.Giam) : "";
+            _fmtGiam = false;
             lblCan.Text = Money(_cur.Thanh);
 
             bool choTT = _cur.TrangThai == TT_CHO;
@@ -489,7 +548,6 @@ namespace QLNhaHang.Controls.ThuNgan
                 tabBtns[i].Invalidate();
             }
 
-            // Tiêu đề cột giờ đổi theo tab đang xem
             colGio.HeaderText = _tab == 0 ? "Giờ vào"
                               : _tab == 1 ? "Giờ thanh toán"
                               : "Thời gian";
@@ -499,8 +557,14 @@ namespace QLNhaHang.Controls.ThuNgan
         {
             bool choTT = _cur != null && _cur.TrangThai == TT_CHO;
             foreach (var b in ptBtns) b.Enabled = choTT;
-            lblGiamGia.Cursor = choTT ? Cursors.Hand : Cursors.Default;
-            lblGiamGia.ForeColor = choTT ? cBlue : cText;
+
+            txtGiam.Enabled = choTT;
+            cboLoaiGiam.Enabled = choTT;
+            txtGiam.BackColor = choTT ? Theme.Surface : cHeader;
+            pnlGiamBox.BackColor = choTT ? Theme.Surface : cHeader;
+            cboLoaiGiam.BackColor = choTT ? Theme.Surface : cHeader;
+            lblDongGiam.BackColor = pnlGiamBox.BackColor;
+
             txtDua.Enabled = choTT && _pttt == PT_TIENMAT;
             btnXacNhan.Enabled = choTT;
             btnXacNhan.BackColor = choTT ? cBlue : Theme.TextMuted;
@@ -524,7 +588,6 @@ namespace QLNhaHang.Controls.ThuNgan
             txtDua.Enabled = choTT && name == PT_TIENMAT;
             if (choTT && name != PT_TIENMAT)
             {
-                // Chuyển khoản / thẻ: khách trả đúng số tiền
                 _formatting = true;
                 txtDua.Text = Money0(_cur!.Thanh);
                 _formatting = false;
@@ -541,37 +604,38 @@ namespace QLNhaHang.Controls.ThuNgan
         }
 
         // =====================================================================
-        //  GIẢM GIÁ / THANH TOÁN / IN
+        // GIẢM GIÁ / THANH TOÁN / IN
         // =====================================================================
-        void SuaGiamGia()
+        void LuuGiamGia()
         {
             if (_cur == null || _cur.TrangThai != TT_CHO) return;
-
-            string nhap = Interaction.InputBox(
-                "Nhập số tiền giảm giá (đ).\nTiền món: " + Money(_cur.Tong),
-                "Giảm giá hóa đơn " + Ma(_cur.Id),
-                _cur.Giam.ToString("0", CultureInfo.InvariantCulture));
-            if (string.IsNullOrWhiteSpace(nhap)) return;
-
-            decimal giam = ParseMoney(nhap);
-            if (giam < 0 || giam > _cur.Tong)
-            {
-                MessageBox.Show("Giảm giá phải từ 0 đến tiền món (" + Money(_cur.Tong) + ").",
-                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
             try
             {
                 int n = Exec(@"update HOA_DON set GiamGia = @g
-                               where HoaDonID = @id and TrangThaiThanhToan = N'Chưa thanh toán'",
-                    P("@g", giam, SqlDbType.Decimal), P("@id", _cur.Id, SqlDbType.Int));
-                if (n == 0) MessageBox.Show("Không sửa được: hóa đơn đã được xử lý.");
-                LoadDanhSach();
+                               where HoaDonID = @id
+                                 and TrangThaiThanhToan = N'Chưa thanh toán'
+                                 and @g <= TongTien",
+                    P("@g", _cur.Giam, SqlDbType.Decimal), P("@id", _cur.Id, SqlDbType.Int));
+
+                if (n == 0)
+                {
+                    MessageBox.Show("Không lưu được giảm giá: hóa đơn đã được xử lý hoặc tiền món đã thay đổi.",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    LoadDanhSach();
+                    return;
+                }
+
+                foreach (DataGridViewRow row in dgvHD.Rows)
+                    if (ReferenceEquals(row.Tag, _cur))
+                    {
+                        row.Cells[colTong.Index].Value = Money(_cur.Thanh);
+                        break;
+                    }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi sửa giảm giá:\n" + ex.Message, "Lỗi",
+                MessageBox.Show("Lỗi lưu giảm giá:\n" + ex.Message, "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -591,13 +655,11 @@ namespace QLNhaHang.Controls.ThuNgan
 
             try
             {
-                // Tính lại tổng tiền theo TẤT CẢ món đã gọi (không bỏ món chưa ra);
-                // nếu khác số đang hiển thị thì báo để kiểm tra lại
                 DongBoTongTien();
                 DataTable moi = Query(
-                    "select ThanhTien from HOA_DON where HoaDonID = @id",
+                    "select TongTien from HOA_DON where HoaDonID = @id",
                     P("@id", _cur.Id, SqlDbType.Int));
-                if (moi.Rows.Count > 0 && Convert.ToDecimal(moi.Rows[0]["ThanhTien"]) != _cur.Thanh)
+                if (moi.Rows.Count > 0 && Convert.ToDecimal(moi.Rows[0]["TongTien"]) != _cur.Tong)
                 {
                     MessageBox.Show("Đơn vừa thay đổi món nên số tiền đã được cập nhật.\n" +
                                     "Vui lòng kiểm tra lại rồi xác nhận thanh toán.",
@@ -624,6 +686,8 @@ namespace QLNhaHang.Controls.ThuNgan
 
             var xn = MessageBox.Show(
                 $"Hóa đơn: {Ma(_cur.Id)}  •  Bàn {_cur.SoBan}\n" +
+                $"Tiền món: {Money(_cur.Tong)}\n" +
+                $"Giảm giá: {Money(_cur.Giam)}\n" +
                 $"Cần thanh toán: {Money(can)}\n" +
                 $"Phương thức: {_pttt}\n\nXác nhận thanh toán?",
                 "Xác nhận thanh toán", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -638,11 +702,13 @@ namespace QLNhaHang.Controls.ThuNgan
                 int n;
                 using (var c1 = new SqlCommand(@"
                     update HOA_DON
-                    set PhuongThucThanhToan = @pt,
+                    set GiamGia = @g,
+                        PhuongThucThanhToan = @pt,
                         TrangThaiThanhToan = N'Đã thanh toán',
                         NgayThanhToan = sysdatetime()
                     where HoaDonID = @id and TrangThaiThanhToan = N'Chưa thanh toán'", cn, tx))
                 {
+                    c1.Parameters.Add(P("@g", _cur.Giam, SqlDbType.Decimal));
                     c1.Parameters.Add(P("@pt", _pttt, SqlDbType.NVarChar));
                     c1.Parameters.Add(P("@id", _cur.Id, SqlDbType.Int));
                     n = c1.ExecuteNonQuery();
@@ -688,7 +754,7 @@ namespace QLNhaHang.Controls.ThuNgan
             var items = _items;
 
             var pd = new PrintDocument();
-            pd.DefaultPageSettings.PaperSize = new PaperSize("Bill", 315, 800);   // ~80mm
+            pd.DefaultPageSettings.PaperSize = new PaperSize("Bill", 315, 800);
             pd.DefaultPageSettings.Margins = new Margins(10, 10, 10, 10);
             pd.PrintPage += (s, e) =>
             {
@@ -722,8 +788,7 @@ namespace QLNhaHang.Controls.ThuNgan
                     y += 22;
                 }
                 Dong("Tiền món", Money(h.Tong), fN);
-                Dong("Giảm giá", Money(h.Giam), fN);
-                Dong("Phụ thu", Money(0), fN);
+                Dong("Giảm giá", h.Giam > 0 ? "-" + Money(h.Giam) : Money(0), fN);
                 Dong("CẦN THANH TOÁN", Money(h.Thanh), fB);
                 y += 8;
                 g.DrawString("Cảm ơn quý khách!", fN, Brushes.Black, new RectangleF(x, y, w, 18), center);
@@ -741,7 +806,7 @@ namespace QLNhaHang.Controls.ThuNgan
         }
 
         // =====================================================================
-        //  TIỆN ÍCH
+        // TIỆN ÍCH
         // =====================================================================
         static string Ma(int id) => "HD" + id.ToString("0000");
         static string Money(decimal v) => v.ToString("N0", Vi) + " đ";
@@ -756,7 +821,6 @@ namespace QLNhaHang.Controls.ThuNgan
             return decimal.Parse(d, CultureInfo.InvariantCulture);
         }
 
-        // Màu/font header + dòng chọn của 2 bảng (phần Designer không đặt được gọn)
         static void StyleGrid(DataGridView g)
         {
             g.ColumnHeadersDefaultCellStyle.BackColor = cHeader;
@@ -765,7 +829,7 @@ namespace QLNhaHang.Controls.ThuNgan
             g.ColumnHeadersDefaultCellStyle.SelectionForeColor = cText;
             g.ColumnHeadersDefaultCellStyle.Font = F(10.5F, FontStyle.Bold);
             g.ColumnHeadersDefaultCellStyle.Padding = new Padding(8, 0, 8, 0);
-            g.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;   // [SỬA] header không xuống dòng
+            g.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             g.DefaultCellStyle.BackColor = Theme.Surface;
             g.DefaultCellStyle.ForeColor = cText;
             g.DefaultCellStyle.SelectionBackColor = Theme.BlueSoft;
